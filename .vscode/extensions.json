@@ -1,0 +1,10 @@
+{
+    "recommendations": [
+        "redhat.ansible",
+        "samuelcolvin.jinjahtml",
+        "vivaxy.vscode-conventional-commits",
+        "editorconfig.editorconfig",
+        "redhat.vscode-yaml",
+        "skellock.just"
+    ]
+}

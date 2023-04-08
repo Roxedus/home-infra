@@ -1,0 +1,14 @@
+{
+  "yaml.schemas": {
+    "https://json.schemastore.org/github-workflow": [
+      ".github/worflows/*.ya?ml"
+    ],
+    "https://raw.githubusercontent.com/ansible/ansible-lint/main/src/ansiblelint/schemas/ansible.json#/$defs/tasks": [
+      "ansible/roles/**/tasks/*.ya?ml"
+    ],
+    "https://raw.githubusercontent.com/ansible/ansible-lint/main/src/ansiblelint/schemas/ansible.json#/$defs/playbook": [
+      "ansible/run.ya?ml"
+    ]
+  },
+  "ansible.python.activationScript": "ansible/.venv/bin/activate"
+}
