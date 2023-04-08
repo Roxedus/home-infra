@@ -1,0 +1,15 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/ansible/ansible-lint/main/src/ansiblelint/schemas/requirements.json
+
+roles:
+  - name: geerlingguy.docker
+    version: 6.0.1
+  - name: geerlingguy.nfs
+    version: 2.0.0
+  - name: geerlingguy.ntp
+    version: 2.3.1
+  - name: geerlingguy.pip
+    version: 2.2.0
+  - name: geerlingguy.security
+    version: 2.2.0
+  - name: geerlingguy.containerd
+    version: 1.3.0

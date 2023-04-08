@@ -1,0 +1,16 @@
+extends: default
+
+ignore: |
+  venv/
+  .roles/
+
+rules:
+  document-start: disable
+  truthy: disable
+  comments:
+    min-spaces-from-content: 1
+  quoted-strings:
+    quote-type: double
+    required: only-when-needed
+  line-length:
+    max: 160

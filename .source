@@ -1,0 +1,5 @@
+#!/bin/bash
+# shellcheck source=/dev/null
+
+export BW_SESSION=$(bw unlock --raw)
+source ansible/.venv/bin/activate
