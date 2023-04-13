@@ -1,0 +1,16 @@
+dnsmasq_local_domain: local
+
+dnsmasq:
+  aliases:
+    - ip: 10.0.0.1
+      host: "router.{{ dnsmasq_local_domain }}"
+  servers:
+    - gateway: 10.0.1.1
+      host: "router.iot.{{ dnsmasq_local_domain }}"
+    - gateway: 10.253.0.1
+      host: "wg.{{ dnsmasq_local_domain }}"
+      mask: "10.253.0.0/24"
+      reverse: True
+    - gateway: 10.0.2.1
+      host: "vm.{{ dnsmasq_local_domain }}"
+      lookup: True

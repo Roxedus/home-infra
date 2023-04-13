@@ -1,0 +1,22 @@
+{{ ansible_managed | comment }}
+# http://www.thekelleys.org.uk/dnsmasq/docs/dnsmasq-man.html
+addn-hosts=/etc/hosts.custom
+
+{% for alias in dnsmasq.aliases %}
+address=/{{ alias.host }}/{{ alias.ip }}
+{% endfor %}
+
+{% for srv in dnsmasq.srv %}
+srv-host=_{{ srv.service }}._{{ srv.protocol | default("tcp") | upper }}.{{ srv.domain }},{{ srv.url | default(srv.service + "." + srv.domain) }},{{ srv.port }}
+{% endfor %}
+
+{% for server in dnsmasq.servers %}
+{% if server.reverse|default(False) %}
+rev-server={{ server.mask }},{{ server.gateway }}
+{% endif %}
+{% if server.lookup|default(False) %}
+server=/{{ (server.gateway.split("."))[:3] | reverse | join(".") }}.in-addr.arpa/{{ server.gateway }}
+{% endif %}
+server=/{{ server.host }}/{{ server.gateway }}
+
+{% endfor %}

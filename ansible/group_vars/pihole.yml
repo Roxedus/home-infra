@@ -1,2 +1,33 @@
 pihole_update: True
 
+dnsmasq:
+  aliases:
+    - ip: 10.0.0.1
+      host: "gateway.{{ dmasq_local_domain }}"
+    - ip: 10.0.0.29
+      host: "code.roxedus.dev"
+    - ip: 10.0.0.29
+      host: ".code.roxedus.dev"
+    - ip: 10.0.0.29
+      host: ".{{ secret_wan_domain }}"
+    - ip: 10.0.0.29
+      host: "{{ secret_wan_domain }}"
+    - ip: 10.0.0.30
+      host: "{{ secret_unraid_uuid }}.myunraid.net"
+    - ip: 10.0.0.31
+      host: "pihole1.{{ dmasq_local_domain }}"
+    - ip: 10.0.0.32
+      host: "pihole2.{{ dmasq_local_domain }}"
+
+  srv:
+    - service: VLMCS
+      protocol: TCP
+      domain: "{{ dmasq_local_domain }}"
+      url: 10.0.0.29
+      port: 1688
+
+  servers:
+    - gateway: 10.0.0.1
+      host: "{{ dmasq_local_domain }}"
+      mask: "10.0.0.0/24"
+      reverse: True

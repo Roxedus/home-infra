@@ -114,6 +114,7 @@
     - update
   roles:
     - role: pihole
+    - role: dnsmasq_server
     - role: unbound
 
 - hosts: all

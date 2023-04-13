@@ -1,0 +1,38 @@
+- name: Check if dnsmasq is setup
+  ansible.builtin.stat:
+    path: "/etc/dnsmasq.d/"
+  register: dnsmasq_setup
+
+- name: Set up dnsmasq hosts
+  register: dnsmasq_hosts
+  become: True
+  ansible.builtin.template:
+    src: hosts.custom.j2
+    group: root
+    owner: root
+    mode: 0644
+    dest: /etc/hosts.custom
+
+- name: Set up dnsmasq rules
+  when: dnsmasq_setup.stat.isdir is defined and dnsmasq_setup.stat.isdir
+  register: dnsmasq
+  become: True
+  ansible.builtin.template:
+    src: 02-custom.conf.j2
+    group: root
+    owner: root
+    mode: 0644
+    dest: /etc/dnsmasq.d/02-custom.conf
+
+- name: Check if PiHole is installed
+  ansible.builtin.stat:
+    path: "/usr/local/bin/pihole"
+  register: pihole_bin
+
+- name: Restart PiHole systems
+  when: (dnsmasq.changed or dnsmasq_hosts.changed) and pihole_bin.stat.exists
+  become: True
+  ansible.builtin.command:
+    argv:
+      - pihole
+      - restartdns
