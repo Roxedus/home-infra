@@ -6,5 +6,6 @@ docker_users: "{{ docker_users_obj|map(attribute='username') }}"
 docker_apt_arch: "{{ apt_arch }}"
 
 docker_daemon_options:
-  log-driver: "journald"
-  log-opts: { "mode": "non-blocking" }
+  log-driver: journald
+  log-opts:
+    mode: non-blocking

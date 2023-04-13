@@ -24,7 +24,7 @@
 
 - name: Basic VI
   ansible.builtin.lineinfile:
-    mode: "0644"
+    mode: 0644
     path: /home/{{ user.username }}/.vimrc
     line: set nocompatible
     create: yes

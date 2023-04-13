@@ -3,7 +3,7 @@
   tags:
     - always
   vars_files:
-    - "vault/all.yml"
+    - vault/all.yml
   tasks:
     - name: Get dpkg arch
       when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
@@ -15,7 +15,7 @@
   become: "{{ do_become }}"
   tags: [never, init]
   vars_files:
-    - "vault/all.yml"
+    - vault/all.yml
 
   pre_tasks:
     - name: Provision users
@@ -26,7 +26,7 @@
         loop_var: user
 
     - name: Change hostname
-      when: "set_hostname is defined"
+      when: set_hostname is defined
       register: new_hostname
       ansible.builtin.hostname:
         name: "{{ set_hostname }}"
@@ -35,15 +35,15 @@
       when: new_hostname.changed
       ansible.builtin.lineinfile:
         path: /etc/hosts
-        regexp: '^127\.0\.0\.1 localhost'
-        line: "127.0.0.1 localhost {{ set_hostname }}"
+        regexp: ^127\.0\.0\.1 localhost
+        line: 127.0.0.1 localhost {{ set_hostname }}
         owner: root
         group: root
-        mode: "0644"
+        mode: 0644
 
     - name: Reboot the server
       ansible.builtin.reboot:
-        msg: "Reboot initiated by Ansible due to hostname change"
+        msg: Reboot initiated by Ansible due to hostname change
         connect_timeout: 5
         reboot_timeout: 300
         pre_reboot_delay: 2
@@ -73,7 +73,7 @@
   tags:
     - docker
   vars_files:
-    - "vault/all.yml"
+    - vault/all.yml
   post_tasks:
     - name: Install pip packages
       ansible.builtin.pip:
@@ -86,7 +86,7 @@
 
 - hosts: raspberry
   vars_files:
-    - "vault/all.yml"
+    - vault/all.yml
   tags:
     - init
     - raspberry
@@ -124,7 +124,7 @@
 
 - hosts: pihole
   vars_files:
-    - "vault/all.yml"
+    - vault/all.yml
   tags:
     - pihole
     - update
@@ -140,7 +140,7 @@
     - init
     - update
   vars_files:
-    - "vault/all.yml"
+    - vault/all.yml
 
   tasks:
     # https://www.cyberciti.biz/faq/ansible-apt-update-all-packages-on-ubuntu-debian-linux/
@@ -154,7 +154,7 @@
 
     - name: Remove ubuntu motd spam
       ansible.builtin.file:
-        path: "/etc/update-motd.d/{{ item }}"
+        path: /etc/update-motd.d/{{ item }}
         state: absent
       loop:
         - 00-header
@@ -198,7 +198,7 @@
       throttle: 1
       when: reboot_required_file.stat.exists and (ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian')
       ansible.builtin.reboot:
-        msg: "Reboot initiated by Ansible due to kernel updates"
+        msg: Reboot initiated by Ansible due to kernel updates
         connect_timeout: 5
         reboot_timeout: 300
         pre_reboot_delay: 0

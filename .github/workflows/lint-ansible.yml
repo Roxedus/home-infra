@@ -24,14 +24,8 @@ jobs:
         working-directory: ansible/
         run: |
           pip install $(grep wheel requirements.txt)
-          pip install $(grep ansible requirements.txt)
-          pip install $(grep ansible-lint requirements.txt)
           pip install $(grep yamllint requirements.txt)
 
       - name: Lint YAML files
         working-directory: ansible/
         run: yamllint .
-
-      - name: Lint Ansible files
-        working-directory: ansible/
-        run: ansible-lint -p

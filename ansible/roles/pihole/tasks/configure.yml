@@ -2,7 +2,7 @@
   become: True
   ansible.builtin.lineinfile:
     path: /etc/pihole/setupVars.conf
-    regexp: "^WEBPASSWORD="
+    regexp: ^WEBPASSWORD=
     line: WEBPASSWORD={{ pihole.password | hash("sha256") | hash("sha256") | default("")}}
     create: yes
 
@@ -10,15 +10,15 @@
   become: True
   ansible.builtin.lineinfile:
     path: /etc/pihole/setupVars.conf
-    regexp: "^WEBTHEME="
-    line: WEBTHEME=default-dark #default-dark default-darker default-light
+    regexp: ^WEBTHEME=
+    line: WEBTHEME=default-dark # default-dark default-darker default-light
     create: yes
 
 - name: Set pihole layout
   become: True
   ansible.builtin.lineinfile:
     path: /etc/pihole/setupVars.conf
-    regexp: "^WEBUIBOXEDLAYOUT="
+    regexp: ^WEBUIBOXEDLAYOUT=
     line: WEBUIBOXEDLAYOUT=boxed
     create: yes
 
@@ -26,7 +26,7 @@
   become: True
   ansible.builtin.lineinfile:
     path: /etc/pihole/setupVars.conf
-    regexp: "^DNSMASQ_LISTENING="
+    regexp: ^DNSMASQ_LISTENING=
     line: DNSMASQ_LISTENING=bind
     create: yes
 
@@ -34,7 +34,7 @@
   become: True
   ansible.builtin.lineinfile:
     path: /etc/pihole/setupVars.conf
-    regexp: "^DNS_FQDN_REQUIRED="
+    regexp: ^DNS_FQDN_REQUIRED=
     line: DNS_FQDN_REQUIRED=true
     create: yes
 
@@ -42,7 +42,7 @@
   become: True
   ansible.builtin.lineinfile:
     path: /etc/pihole/setupVars.conf
-    regexp: "^DNS_BOGUS_PRIV="
+    regexp: ^DNS_BOGUS_PRIV=
     line: DNS_BOGUS_PRIV=true
     create: yes
 
@@ -50,7 +50,7 @@
   become: True
   ansible.builtin.lineinfile:
     path: /etc/pihole/setupVars.conf
-    regexp: "^BLOCK_ICLOUD_PR="
+    regexp: ^BLOCK_ICLOUD_PR=
     line: BLOCK_ICLOUD_PR=false
     create: yes
 
@@ -58,7 +58,7 @@
   become: True
   ansible.builtin.lineinfile:
     path: /etc/pihole/setupVars.conf
-    regexp: "^PIHOLE_DNS_1="
+    regexp: ^PIHOLE_DNS_1=
     line: PIHOLE_DNS_1=127.0.0.1#5335
     create: yes
 
@@ -66,6 +66,6 @@
   become: True
   ansible.builtin.lineinfile:
     path: /etc/pihole/setupVars.conf
-    regexp: "^PIHOLE_DNS_2="
+    regexp: ^PIHOLE_DNS_2=
     line: PIHOLE_DNS_2=127.0.0.1#5335
     create: yes

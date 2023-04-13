@@ -22,13 +22,16 @@
   ansible.builtin.get_url:
     url: https://github.com/JanDeDobbeleer/oh-my-posh/releases/download/{{ omp_latest.tag }}/posh-linux-{{ apt_arch }}
     dest: /usr/local/bin/oh-my-posh
-    mode: "0755"
+    mode: 0755
     force: "yes"
 
 - name: Add OMP to bash
   ansible.builtin.lineinfile:
-    mode: "0644"
+    mode: 0644
     path: /home/{{ user.username }}/.bashrc
     search_string: oh-my-posh
-    line: eval "$(oh-my-posh init bash{% if user.dotfiles %} --config https://raw.githubusercontent.com/{{ user.github }}/dotfiles/main/private_dot_config/oh-my-posh.yaml{% endif %})"
+    line: >
+      eval "$(oh-my-posh init bash
+      {% if user.dotfiles %} --config https://raw.githubusercontent.com/{{ user.github }}/dotfiles/main/private_dot_config/oh-my-posh.yaml{% endif %}
+      )"
     create: yes

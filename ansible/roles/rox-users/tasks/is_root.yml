@@ -1,4 +1,4 @@
 - name: Add a Github key ssh key
   ansible.posix.authorized_key:
     user: root
-    key: "https://github.com/{{ user.github }}.keys"
+    key: https://github.com/{{ user.github }}.keys

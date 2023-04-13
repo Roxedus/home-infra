@@ -1,6 +1,6 @@
 - name: Check if PiHole is cloned
   ansible.builtin.stat:
-    path: "/etc/pihole"
+    path: /etc/pihole
   register: pihole_clone
 
 - name: Gather PiHole
@@ -9,7 +9,7 @@
 
 - name: Check if PiHole is installed
   ansible.builtin.stat:
-    path: "/usr/local/bin/pihole"
+    path: /usr/local/bin/pihole
   register: pihole_bin
 
 - name: Configure PiHole

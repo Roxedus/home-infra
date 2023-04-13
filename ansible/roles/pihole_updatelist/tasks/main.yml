@@ -1,6 +1,6 @@
 - name: Check if pihole_updatelist is cloned
   ansible.builtin.stat:
-    path: "/opt/pihole_updatelist"
+    path: /opt/pihole_updatelist
   register: pihole_updatelist_clone
 
 - name: Configure PiHole
@@ -10,15 +10,15 @@
 - name: Install updatelist conf
   become: True
   ansible.builtin.copy:
-    src: "pihole-updatelists.conf"
-    dest: "/etc/pihole-updatelists.conf"
-    mode: "0644"
-    owner: "root"
-    group: "root"
+    src: pihole-updatelists.conf
+    dest: /etc/pihole-updatelists.conf
+    mode: 0644
+    owner: root
+    group: root
 
 - name: Check if updatelist is installed
   ansible.builtin.stat:
-    path: "/usr/local/sbin/pihole-updatelists"
+    path: /usr/local/sbin/pihole-updatelists
   register: updatelist_exec
 
 - name: Activate changes

@@ -3,9 +3,9 @@
   register: pihole_updatelist
   become: True
   ansible.builtin.git:
-    repo: "https://github.com/jacklul/pihole-updatelists.git"
+    repo: https://github.com/jacklul/pihole-updatelists.git
     clone: yes
-    dest: "/opt/pihole_updatelist"
+    dest: /opt/pihole_updatelist
     depth: 1
     umask: "022"
 
@@ -14,7 +14,7 @@
   become: True
   ansible.builtin.file:
     path: /opt/pihole_updatelist/install.sh
-    mode: "0755"
+    mode: 0755
 
 - name: Install pihole_updatelist
   when: pihole_updatelist.changed

@@ -1,6 +1,6 @@
 - name: Check if dnsmasq is setup
   ansible.builtin.stat:
-    path: "/etc/dnsmasq.d/"
+    path: /etc/dnsmasq.d/
   register: dnsmasq_setup
 
 - name: Set up dnsmasq hosts
@@ -26,7 +26,7 @@
 
 - name: Check if PiHole is installed
   ansible.builtin.stat:
-    path: "/usr/local/bin/pihole"
+    path: /usr/local/bin/pihole
   register: pihole_bin
 
 - name: Restart PiHole systems

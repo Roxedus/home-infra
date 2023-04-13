@@ -32,8 +32,8 @@
 - name: Checkout PiHole
   become: True
   ansible.builtin.git:
-    repo: "https://github.com/pi-hole/pi-hole.git"
+    repo: https://github.com/pi-hole/pi-hole.git
     clone: yes
-    dest: "/etc/.pihole"
+    dest: /etc/.pihole
     depth: 1
     umask: "022"

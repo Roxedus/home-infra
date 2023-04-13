@@ -11,4 +11,4 @@ user:
   gid: "1000"
   dotfiles: True
   github: myfantasticgithub
-  password: encrypted shadow password #https://docs.ansible.com/ansible/latest/collections/ansible/builtin/user_module.html#parameter-password
+  password: encrypted shadow password # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/user_module.html#parameter-password

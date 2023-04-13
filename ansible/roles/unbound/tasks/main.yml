@@ -24,7 +24,7 @@
   become: True
   ansible.builtin.lineinfile:
     path: /etc/resolvconf.conf
-    regexp: "^unbound_conf="
+    regexp: ^unbound_conf=
     line: "#unbound_conf=/etc/unbound/unbound.conf.d/resolvconf_resolvers.conf"
     create: yes
 
@@ -36,7 +36,7 @@
 
 - name: Check if dnsmasq is setup
   ansible.builtin.stat:
-    path: "/etc/dnsmasq.d/"
+    path: /etc/dnsmasq.d/
   register: dnsmasq_setup
 
 - name: Raise edns limit
