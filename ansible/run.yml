@@ -68,6 +68,22 @@
         name: "{{package_list}}"
         state: latest
 
+- hosts: docker
+  become: "{{ do_become }}"
+  tags:
+    - docker
+  vars_files:
+    - "vault/all.yml"
+  post_tasks:
+    - name: Install pip packages
+      ansible.builtin.pip:
+        name:
+          - docker
+
+  roles:
+    - role: geerlingguy.docker
+      when: ansible_distribution == 'Ubuntu'
+
 - hosts: raspberry
   vars_files:
     - "vault/all.yml"
@@ -114,6 +130,7 @@
     - update
   roles:
     - role: pihole
+    - role: pihole_updatelist
     - role: dnsmasq_server
     - role: unbound
 
