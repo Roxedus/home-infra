@@ -5,7 +5,7 @@
 
 - name: Gather PiHole
   when: not pihole_clone.stat.exists
-  include_tasks: gather.yml
+  ansible.builtin.include_tasks: gather.yml
 
 - name: Check if PiHole is installed
   ansible.builtin.stat:
@@ -14,7 +14,7 @@
 
 - name: Configure PiHole
   when: pihole_bin.stat.exists
-  include_tasks: configure.yml
+  ansible.builtin.include_tasks: configure.yml
 
 - name: Place MoTD
   become: True
@@ -26,4 +26,4 @@
 
 - name: Update PiHole
   when: pihole_bin.stat.exists and pihole_update
-  include_tasks: update.yml
+  ansible.builtin.include_tasks: update.yml

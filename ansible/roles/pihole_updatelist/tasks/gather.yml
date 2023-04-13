@@ -2,23 +2,12 @@
   when: not pihole_updatelist_clone.stat.exists
   register: pihole_updatelist
   become: True
-  ansible.builtin.git:
+  ansible.builtin.git: # noqa: latest
     repo: https://github.com/jacklul/pihole-updatelists.git
     clone: yes
     dest: /opt/pihole_updatelist
     depth: 1
     umask: "022"
-
-- name: Make pihole_updatelist executeable
-  when: pihole_updatelist.changed
-  become: True
-  ansible.builtin.file:
-    path: /opt/pihole_updatelist/install.sh
-    mode: 0755
-
-- name: Install pihole_updatelist
-  when: pihole_updatelist.changed
-  become: True
-  ansible.builtin.command:
-    argv:
-      - /opt/pihole_updatelist/install.sh
+  notify:
+    - Make pihole_updatelist executeable
+    - Install pihole_updatelist

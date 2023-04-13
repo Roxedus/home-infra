@@ -1,10 +1,10 @@
 - name: Provision new user
   when: not box_is_appliance
-  include_tasks: user.yml
+  ansible.builtin.include_tasks: user.yml
 
 - name: Adapt root user
   when: box_is_appliance
-  include_tasks: is_root.yml
+  ansible.builtin.include_tasks: is_root.yml
 
 - name: Install pip package
   become: "{{ do_become }}"
@@ -14,13 +14,13 @@
 - name: Install github package
   become: "{{ do_become }}"
   ansible.builtin.pip:
-    state: latest
     name:
       - github3.py
       - pyopenssl
 
-- when: box_omp
-  include_tasks: omp.yml
+- name: Install OhMyPosh
+  when: box_omp
+  ansible.builtin.include_tasks: omp.yml
 
 - name: Basic VI
   ansible.builtin.lineinfile:

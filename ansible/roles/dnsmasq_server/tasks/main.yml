@@ -32,6 +32,8 @@
 - name: Restart PiHole systems
   when: (dnsmasq.changed or dnsmasq_hosts.changed) and pihole_bin.stat.exists
   become: True
+  register: pihole_restart
+  changed_when: pihole_restart.rc != 0
   ansible.builtin.command:
     argv:
       - pihole

@@ -1,0 +1,13 @@
+- name: Make pihole_updatelist executeable
+  become: True
+  ansible.builtin.file:
+    path: /opt/pihole_updatelist/install.sh
+    mode: 0755
+
+- name: Install pihole_updatelist
+  register: pihole_updatelist_inst
+  changed_when: pihole_updatelist_inst.rc != 0
+  become: True
+  ansible.builtin.command:
+    argv:
+      - /opt/pihole_updatelist/install.sh

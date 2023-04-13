@@ -26,7 +26,6 @@
     path: /etc/resolvconf.conf
     regexp: ^unbound_conf=
     line: "#unbound_conf=/etc/unbound/unbound.conf.d/resolvconf_resolvers.conf"
-    create: yes
 
 - name: Remove resolvconf
   become: True

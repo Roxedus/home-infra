@@ -1,4 +1,5 @@
-- hosts: all
+- name: Fetch metadata
+  hosts: all
   become: "{{ do_become }}"
   tags:
     - always
@@ -7,11 +8,12 @@
   tasks:
     - name: Get dpkg arch
       when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
-      ansible.builtin.shell: dpkg --print-architecture
+      ansible.builtin.command: dpkg --print-architecture
       register: _apt_arch
       changed_when: false
 
-- hosts: all
+- name: Set up ident
+  hosts: all
   become: "{{ do_become }}"
   tags: [never, init]
   vars_files:
@@ -19,37 +21,18 @@
 
   pre_tasks:
     - name: Provision users
-      include_role:
-        name: rox-users
+      ansible.builtin.include_role:
+        name: rox_users
       with_items: "{{ users }}"
       loop_control:
         loop_var: user
 
     - name: Change hostname
       when: set_hostname is defined
-      register: new_hostname
       ansible.builtin.hostname:
         name: "{{ set_hostname }}"
-
-    - name: Change hostname in hosts
-      when: new_hostname.changed
-      ansible.builtin.lineinfile:
-        path: /etc/hosts
-        regexp: ^127\.0\.0\.1 localhost
-        line: 127.0.0.1 localhost {{ set_hostname }}
-        owner: root
-        group: root
-        mode: 0644
-
-    - name: Reboot the server
-      ansible.builtin.reboot:
-        msg: Reboot initiated by Ansible due to hostname change
-        connect_timeout: 5
-        reboot_timeout: 300
-        pre_reboot_delay: 2
-        post_reboot_delay: 30
-        test_command: uptime
-      when: new_hostname.changed
+      notify:
+        - Change hostname in hosts
 
     - name: Update apt cache
       when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
@@ -65,10 +48,32 @@
     - name: Install packages
       when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
       ansible.builtin.apt:
-        name: "{{package_list}}"
-        state: latest
+        name: "{{ package_list }}"
+        state: present
 
-- hosts: docker
+  handlers:
+    - name: Change hostname in hosts
+      ansible.builtin.lineinfile:
+        path: /etc/hosts
+        regexp: ^127\.0\.0\.1 localhost
+        line: 127.0.0.1 localhost {{ set_hostname }}
+        owner: root
+        group: root
+        mode: 0644
+      notify:
+        - Reboot the server
+
+    - name: Reboot the server
+      ansible.builtin.reboot:
+        msg: Reboot initiated by Ansible due to hostname change
+        connect_timeout: 5
+        reboot_timeout: 300
+        pre_reboot_delay: 2
+        post_reboot_delay: 30
+        test_command: uptime
+
+- name: Install docker
+  hosts: docker
   become: "{{ do_become }}"
   tags:
     - docker
@@ -84,7 +89,8 @@
     - role: geerlingguy.docker
       when: ansible_distribution == 'Ubuntu'
 
-- hosts: raspberry
+- name: Set up Rasberry PIs
+  hosts: raspberry
   vars_files:
     - vault/all.yml
   tags:
@@ -95,7 +101,7 @@
     - name: Install packages
       become: "{{ do_become }}"
       ansible.builtin.apt:
-        name: "{{ item  }}"
+        name: "{{ item }}"
       loop:
         - libraspberrypi-bin
         - linux-modules-extra-raspi
@@ -120,9 +126,11 @@
           dtparam=poe_fan_temp3=66000
 
           dtoverlay=vc4-fkms-v3d
+        mode: 0644
         dest: /boot/firmware/usercfg.txt
 
-- hosts: pihole
+- name: Provision PiHole
+  hosts: pihole
   vars_files:
     - vault/all.yml
   tags:
@@ -134,7 +142,8 @@
     - role: dnsmasq_server
     - role: unbound
 
-- hosts: all
+- name: Update host
+  hosts: all
   become: "{{ do_become }}"
   tags:
     - init

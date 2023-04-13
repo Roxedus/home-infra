@@ -3,8 +3,7 @@
   ansible.builtin.lineinfile:
     path: /etc/pihole/setupVars.conf
     regexp: ^WEBPASSWORD=
-    line: WEBPASSWORD={{ pihole.password | hash("sha256") | hash("sha256") | default("")}}
-    create: yes
+    line: WEBPASSWORD={{ pihole.password | hash("sha256") | hash("sha256") | default("") }}
 
 - name: Set pihole theme
   become: True
@@ -12,7 +11,6 @@
     path: /etc/pihole/setupVars.conf
     regexp: ^WEBTHEME=
     line: WEBTHEME=default-dark # default-dark default-darker default-light
-    create: yes
 
 - name: Set pihole layout
   become: True
@@ -20,7 +18,6 @@
     path: /etc/pihole/setupVars.conf
     regexp: ^WEBUIBOXEDLAYOUT=
     line: WEBUIBOXEDLAYOUT=boxed
-    create: yes
 
 - name: Set pihole listen
   become: True
@@ -28,7 +25,6 @@
     path: /etc/pihole/setupVars.conf
     regexp: ^DNSMASQ_LISTENING=
     line: DNSMASQ_LISTENING=bind
-    create: yes
 
 - name: Set pihole fqdn forwarding
   become: True
@@ -36,7 +32,6 @@
     path: /etc/pihole/setupVars.conf
     regexp: ^DNS_FQDN_REQUIRED=
     line: DNS_FQDN_REQUIRED=true
-    create: yes
 
 - name: Set pihole reverse lookup
   become: True
@@ -44,7 +39,6 @@
     path: /etc/pihole/setupVars.conf
     regexp: ^DNS_BOGUS_PRIV=
     line: DNS_BOGUS_PRIV=true
-    create: yes
 
 - name: Set pihole iCloud relay
   become: True
@@ -52,7 +46,6 @@
     path: /etc/pihole/setupVars.conf
     regexp: ^BLOCK_ICLOUD_PR=
     line: BLOCK_ICLOUD_PR=false
-    create: yes
 
 - name: Set pihole upstream1 ipv4
   become: True
@@ -60,7 +53,6 @@
     path: /etc/pihole/setupVars.conf
     regexp: ^PIHOLE_DNS_1=
     line: PIHOLE_DNS_1=127.0.0.1#5335
-    create: yes
 
 - name: Set pihole upstream2 ipv4
   become: True
@@ -68,4 +60,3 @@
     path: /etc/pihole/setupVars.conf
     regexp: ^PIHOLE_DNS_2=
     line: PIHOLE_DNS_2=127.0.0.1#5335
-    create: yes

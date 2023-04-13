@@ -27,11 +27,11 @@
       - unzip
       - wget
       - dialog
-    state: latest
+    state: present
 
 - name: Checkout PiHole
   become: True
-  ansible.builtin.git:
+  ansible.builtin.git: # noqa: latest
     repo: https://github.com/pi-hole/pi-hole.git
     clone: yes
     dest: /etc/.pihole
