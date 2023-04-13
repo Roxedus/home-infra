@@ -17,6 +17,6 @@ repos:
     rev: v6.14.4
     hooks:
       - id: ansible-lint
-        entry: cd ansible && python3 -m ansiblelint -v --force-color
+        entry: cd ansible && python3 -m ansible-lint -v --force-color
         args:
           - --nocolor

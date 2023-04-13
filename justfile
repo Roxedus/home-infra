@@ -14,7 +14,7 @@ _pip-install:
   cd {{ansible_dir}} && {{python_dir}}/pip install -r requirements.txt
 
 _pre-commit-install:
-  {{ansible_dir}}/{{python_dir}}/pre-commit install
+  {{ansible_dir}}/{{python_dir}}/pre-commit install --install-hooks
 
 _galaxy-install:
   cd {{ansible_dir}} && {{python_dir}}/ansible-galaxy install -r requirements.yml --force
