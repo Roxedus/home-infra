@@ -31,5 +31,5 @@ git-init: _init-venv && _pip-install _pre-commit-install _galaxy-install _init-v
 upgrade: _pip-install _pre-commit-install _galaxy-install
 
 # Just vault (encrypt/decrypt/edit)
-vault ACTION VAULT="vars/vault.yaml":
+vault ACTION VAULT="vault/all.yaml":
   cd {{ansible_dir}} && {{python_dir}}/ansible-vault {{ACTION}} {{VAULT}}
