@@ -1,0 +1,178 @@
+- hosts: all
+  become: "{{ do_become }}"
+  tags:
+    - always
+  vars_files:
+    - "vault/all.yml"
+  tasks:
+    - name: Get dpkg arch
+      when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+      ansible.builtin.shell: dpkg --print-architecture
+      register: _apt_arch
+      changed_when: false
+
+- hosts: all
+  become: "{{ do_become }}"
+  tags: [never, init]
+  vars_files:
+    - "vault/all.yml"
+
+  pre_tasks:
+    - name: Provision users
+      include_role:
+        name: rox-users
+      with_items: "{{ users }}"
+      loop_control:
+        loop_var: user
+
+    - name: Change hostname
+      when: "set_hostname is defined"
+      register: new_hostname
+      ansible.builtin.hostname:
+        name: "{{ set_hostname }}"
+
+    - name: Change hostname in hosts
+      when: new_hostname.changed
+      ansible.builtin.lineinfile:
+        path: /etc/hosts
+        regexp: '^127\.0\.0\.1 localhost'
+        line: "127.0.0.1 localhost {{ set_hostname }}"
+        owner: root
+        group: root
+        mode: "0644"
+
+    - name: Reboot the server
+      ansible.builtin.reboot:
+        msg: "Reboot initiated by Ansible due to hostname change"
+        connect_timeout: 5
+        reboot_timeout: 300
+        pre_reboot_delay: 2
+        post_reboot_delay: 30
+        test_command: uptime
+      when: new_hostname.changed
+
+    - name: Update apt cache
+      when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+      ansible.builtin.apt:
+        update_cache: true
+        cache_valid_time: 1
+
+  roles:
+    - role: geerlingguy.ntp
+    - role: geerlingguy.security
+      when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+  tasks:
+    - name: Install packages
+      when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+      ansible.builtin.apt:
+        name: "{{package_list}}"
+        state: latest
+
+- hosts: raspberry
+  vars_files:
+    - "vault/all.yml"
+  tags:
+    - init
+    - raspberry
+    - update
+  tasks:
+    - name: Install packages
+      become: "{{ do_become }}"
+      ansible.builtin.apt:
+        name: "{{ item  }}"
+      loop:
+        - libraspberrypi-bin
+        - linux-modules-extra-raspi
+        - vlan
+
+    - name: Add the 802.1q module
+      become: "{{ do_become }}"
+      community.general.modprobe:
+        name: 8021q
+        state: present
+
+    - name: Place PoE fan file
+      become: "{{ do_become }}"
+      ansible.builtin.copy:
+        content: |
+          # Ansible managed
+
+          dtoverlay=rpi-poe
+          dtparam=poe_fan_temp0=57000
+          dtparam=poe_fan_temp1=60000
+          dtparam=poe_fan_temp2=63000
+          dtparam=poe_fan_temp3=66000
+
+          dtoverlay=vc4-fkms-v3d
+        dest: /boot/firmware/usercfg.txt
+
+- hosts: all
+  become: "{{ do_become }}"
+  tags:
+    - init
+    - update
+  vars_files:
+    - "vault/all.yml"
+
+  tasks:
+    # https://www.cyberciti.biz/faq/ansible-apt-update-all-packages-on-ubuntu-debian-linux/
+    - name: Update packages
+      when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+      ansible.builtin.apt:
+        update_cache: "True"
+        force_apt_get: "True"
+        cache_valid_time: 3600
+        upgrade: "True"
+
+    - name: Remove ubuntu motd spam
+      ansible.builtin.file:
+        path: "/etc/update-motd.d/{{ item }}"
+        state: absent
+      loop:
+        - 00-header
+        - 10-help-text
+        - 10-uname
+        - 50-landscape-sysinfo
+        - 50-motd-news
+        - 80-livepatch
+        - 85-fwupd
+        - 88-esm-announce
+        - 90-updates-available
+        - 91-contract-ua-esm-status
+        - 91-release-upgrade
+        - 92-unattended-upgrades
+        - 95-hwe-eol
+        - 97-overlayroot
+        - 98-fsck-at-reboot
+        - 98-reboot-required
+      when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+
+    - name: Place MoTD
+      become: "{{ do_become }}"
+      when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+      ansible.builtin.copy:
+        content: |
+          #!/bin/sh
+          # Ansible managed
+
+          neofetch
+        mode: 0755
+        dest: /etc/update-motd.d/01-neofetch
+
+    - name: Check if a reboot is needed for Debian and Ubuntu boxes
+      register: reboot_required_file
+      when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+      ansible.builtin.stat:
+        path: /var/run/reboot-required
+        get_md5: no
+
+    - name: Reboot the server
+      throttle: 1
+      when: reboot_required_file.stat.exists and (ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian')
+      ansible.builtin.reboot:
+        msg: "Reboot initiated by Ansible due to kernel updates"
+        connect_timeout: 5
+        reboot_timeout: 300
+        pre_reboot_delay: 0
+        post_reboot_delay: 30
+        test_command: uptime

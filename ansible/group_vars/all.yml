@@ -1,0 +1,52 @@
+ansible_become_password: "{{ secret_sudo }}"
+
+ntp_timezone: "Europe/Oslo"
+
+do_become: True
+
+box_omp: True
+box_chezmoi: False
+box_is_appliance: False
+
+apt_arch: "{{ _apt_arch.stdout }}"
+
+users:
+  - username: roxedus
+    groupname: roxedus
+    home: yes
+    uid: "1000"
+    gid: "1000"
+    docker: True
+    passwordless: True
+    dotfiles: True
+    github: Roxedus
+    password: "{{ secret_rox_pass }}"
+
+package_list:
+  - bash-completion
+  - ca-certificates
+  - curl
+  - git
+  - gnupg2
+  - htop
+  - jq
+  - ncdu
+  - neofetch
+  - net-tools
+  - python3
+  - python3-apt
+  - python3-pip
+  - software-properties-common
+  - tmux
+  - wget
+
+dmasq_local_domain: "{{ secret_local_domain }}"
+
+security_ssh_password_authentication: "no"
+security_ssh_permit_root_login: "no"
+security_ssh_port: 22
+security_ssh_usedns: "no"
+security_autoupdate_enabled: true
+security_fail2ban_enabled: true
+security_sudoers_passwordless:
+  - "{{ users|selectattr('passwordless', 'defined')|map(attribute='username') }}"

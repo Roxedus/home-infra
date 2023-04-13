@@ -1,0 +1,34 @@
+- name: Check if OMP is installed
+  ansible.builtin.stat:
+    path: /usr/local/bin/oh-my-posh
+  register: omp_bin
+
+- name: Check OMP version
+  when: omp_bin.stat.exists
+  ansible.builtin.command: /usr/local/bin/oh-my-posh --version
+  changed_when: false
+  register: omp_ver
+
+- name: Get latest release of OMP
+  community.general.github_release:
+    user: JanDeDobbeleer
+    repo: oh-my-posh
+    action: latest_release
+  register: omp_latest
+
+- name: Download OMP
+  when: not omp_bin.stat.exists or omp_latest.tag != ( "v" + omp_ver.stdout )
+  become: "{{ do_become }}"
+  ansible.builtin.get_url:
+    url: https://github.com/JanDeDobbeleer/oh-my-posh/releases/download/{{ omp_latest.tag }}/posh-linux-{{ apt_arch }}
+    dest: /usr/local/bin/oh-my-posh
+    mode: "0755"
+    force: "yes"
+
+- name: Add OMP to bash
+  ansible.builtin.lineinfile:
+    mode: "0644"
+    path: /home/{{ user.username }}/.bashrc
+    search_string: oh-my-posh
+    line: eval "$(oh-my-posh init bash{% if user.dotfiles %} --config https://raw.githubusercontent.com/{{ user.github }}/dotfiles/main/private_dot_config/oh-my-posh.yaml{% endif %})"
+    create: yes

@@ -1,0 +1,30 @@
+- name: Provision new user
+  when: not box_is_appliance
+  include_tasks: user.yml
+
+- name: Adapt root user
+  when: box_is_appliance
+  include_tasks: is_root.yml
+
+- name: Install pip package
+  become: "{{ do_become }}"
+  ansible.builtin.apt:
+    name: python3-pip
+
+- name: Install github package
+  become: "{{ do_become }}"
+  ansible.builtin.pip:
+    state: latest
+    name:
+      - github3.py
+      - pyopenssl
+
+- when: box_omp
+  include_tasks: omp.yml
+
+- name: Basic VI
+  ansible.builtin.lineinfile:
+    mode: "0644"
+    path: /home/{{ user.username }}/.vimrc
+    line: set nocompatible
+    create: yes

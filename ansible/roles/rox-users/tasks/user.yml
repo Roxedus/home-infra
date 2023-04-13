@@ -1,0 +1,19 @@
+- name: Ensure groups exists
+  ansible.builtin.group:
+    name: "{{ user.groupname | default(user.username) }}"
+    gid: "{{ user.gid | default(omit) }}"
+    state: present
+
+- name: Add users
+  ansible.builtin.user:
+    name: "{{ user.username }}"
+    uid: "{{ user.uid | default(omit) }}"
+    group: "{{ user.groupname | default(user.username) }}"
+    shell: "{{ user.shell | default('/bin/bash') }}"
+    move_home: "{{ user.home | default(omit) }}"
+    password: "{{ user.password | password_hash('sha512') | default(omit) }}"
+
+- name: Add a Github key ssh key
+  ansible.posix.authorized_key:
+    user: "{{ user.username }}"
+    key: "https://github.com/{{ user.github }}.keys"

@@ -1,0 +1,14 @@
+box_omp: false
+box_chezmoi: false
+
+box_is_appliance: False
+
+user:
+  username: myfantasticuser
+  groupname: myfantasticgroup
+  home: yes
+  uid: "1000"
+  gid: "1000"
+  dotfiles: True
+  github: myfantasticgithub
+  password: encrypted shadow password #https://docs.ansible.com/ansible/latest/collections/ansible/builtin/user_module.html#parameter-password
