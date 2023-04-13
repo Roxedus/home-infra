@@ -1,0 +1,58 @@
+- name: Get Unbound
+  become: True
+  ansible.builtin.apt:
+    name:
+      - unbound
+
+- name: Install Unbound conf
+  become: True
+  ansible.builtin.template:
+    dest: /etc/unbound/unbound.conf.d/pi-hole.conf
+    src: pi-hole.conf.j2
+    group: root
+    owner: root
+    mode: 0644
+
+- name: Stop resolvconf service
+  become: True
+  ansible.builtin.service:
+    name: unbound-resolvconf
+    state: stopped
+    enabled: False
+
+- name: Set resolvconf
+  become: True
+  ansible.builtin.lineinfile:
+    path: /etc/resolvconf.conf
+    regexp: "^unbound_conf="
+    line: "#unbound_conf=/etc/unbound/unbound.conf.d/resolvconf_resolvers.conf"
+    create: yes
+
+- name: Remove resolvconf
+  become: True
+  ansible.builtin.file:
+    path: /etc/unbound/unbound.conf.d/resolvconf_resolvers.conf
+    state: absent
+
+- name: Check if dnsmasq is setup
+  ansible.builtin.stat:
+    path: "/etc/dnsmasq.d/"
+  register: dnsmasq_setup
+
+- name: Raise edns limit
+  when: dnsmasq_setup.stat.isdir is defined and dnsmasq_setup.stat.isdir
+  become: True
+  ansible.builtin.copy:
+    dest: /etc/dnsmasq.d/99-edns.conf
+    group: root
+    owner: root
+    mode: 0644
+    content: |
+      # Ansible managed
+      edns-packet-max=1232
+
+- name: Restart unbound service
+  become: True
+  ansible.builtin.service:
+    name: unbound
+    state: restarted

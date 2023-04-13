@@ -106,6 +106,15 @@
           dtoverlay=vc4-fkms-v3d
         dest: /boot/firmware/usercfg.txt
 
+- hosts: pihole
+  vars_files:
+    - "vault/all.yml"
+  tags:
+    - pihole
+    - update
+  roles:
+    - role: unbound
+
 - hosts: all
   become: "{{ do_become }}"
   tags:
