@@ -113,6 +113,7 @@
     - pihole
     - update
   roles:
+    - role: pihole
     - role: unbound
 
 - hosts: all

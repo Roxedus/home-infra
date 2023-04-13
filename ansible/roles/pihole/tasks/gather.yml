@@ -1,0 +1,39 @@
+- name: Get dependencies for PiHole
+  become: True
+  ansible.builtin.apt:
+    name:
+      - cron
+      - curl
+      - dhcpcd5
+      - dns-root-data
+      - dnsutils
+      - git
+      - idn2
+      - iputils-ping
+      - libcap2
+      - libcap2-bin
+      - lighttpd
+      - lsof
+      - netcat
+      - php-cgi
+      - php-cli
+      - php-curl
+      - php-intl
+      - php-sqlite3
+      - php-xml
+      - psmisc
+      - sqlite3
+      - sudo
+      - unzip
+      - wget
+      - dialog
+    state: latest
+
+- name: Checkout PiHole
+  become: True
+  ansible.builtin.git:
+    repo: "https://github.com/pi-hole/pi-hole.git"
+    clone: yes
+    dest: "/etc/.pihole"
+    depth: 1
+    umask: "022"

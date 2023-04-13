@@ -1,0 +1,6 @@
+- name: Update PiHole
+  become: True
+  ansible.builtin.command:
+    argv:
+      - pihole
+      - -up
