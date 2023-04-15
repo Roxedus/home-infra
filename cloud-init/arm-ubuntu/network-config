@@ -1,0 +1,19 @@
+version: 2
+ethernets:
+  eth0:
+    match:
+      name: eth0
+    mtu: 1500
+    dhcp4: false
+    dhcp6: false
+    addresses:
+      - 10.0.0.31/24
+      - 2a01:799:cd8:fa00:2e0:4cff:fe68:31/64
+    gateway4: 10.0.0.1
+    gateway6: 2a01:799:cd8:fa00:2e0:4cff:fe68:639
+    nameservers:
+      addresses:
+        - 8.8.8.8
+        - 2001:4860:4860::8888
+      search:
+        - rostvik.site

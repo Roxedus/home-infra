@@ -1,0 +1,25 @@
+#cloud-config
+hostname: pihole1.rostvik.home
+manage_etc_hosts: false
+packages:
+  - avahi-daemon
+  - linux-modules-extra-raspi
+  - vlan
+apt:
+  conf: |
+    Acquire {
+      Check-Date "false";
+    };
+
+users:
+  - name: roxedus
+    groups: users,adm,dialout,audio,netdev,video,plugdev,cdrom,games,input,sudo
+    shell: /bin/bash
+    lock_passwd: false
+    ssh_authorized_keys:
+      - |
+        ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDCCAoaJP2lAulXrzWrbJe95q5dAkdwrO+VnOrkRwNF9fTHvJf9nTFYxULerBy1tsi0agtwbpLJ4c3ip6mb6bnFS8LpsBleKwOg4ph7cBZDnscIQcoYiK3CvI82A8BILuTP+WYY4qnsTJWw8AHApnzxCzPWEAVbJ1SqaS1itJlGUpfSgp0d0J+mOLa8IJstNEc9H/ijKwCiM2u5kyIOoDt1Xupa5SAi5AQnsHc2YalJOoX1DEI8U6nk99ms0jYULs5U0l/bJ+yV8VX8L/ZUpf33rvoxQMNHQCE+iZ4pJZL6RD6llkUucNuhyrL7oOom2uwgWg7gbD3aLHoaKQAkNhMyvColXw8QRIzquSdiGRYOiz3IflGZzagAVDSldKWk8mXQAQOonjSqW0F/ryyFoD8gslpeYpmKsfcSPO9tpVHiHrEuEHeEkQv+gUr/Gy/gZlujR8S/aAmKE4KDt+qlj6w74LB4rBKtqv/CygQVvAkiAt40l3ChnNesVulbQiJ7MpojCjNWD5dkjP2p1IC7FzyzxGS6qRybm3R8+/TcmeZeZnUuITNHlZakZh5OcJLFRGQdyIN4J7otZ7SyXWTl7oOEQ09+eopiyYQvYu7zqj+O88ELiWQvBBVrCjovJDVIew7Dh7sDBWXq2hh52BgUBQbQNjJwLzVXtM/Nm+zf/KQamQ== simen@rostvik.no
+        sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIDw7JOLygD2KRrcwcHKmQbaPGuWbMN0bs6tAJxlvqfrKAAAABHNzaDo= roxedus@Simens-MBP.home
+    sudo: ALL=(ALL) NOPASSWD:ALL
+
+timezone: Europe/Oslo
