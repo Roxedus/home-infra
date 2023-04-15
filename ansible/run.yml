@@ -38,7 +38,7 @@
       when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
       ansible.builtin.apt:
         update_cache: true
-        cache_valid_time: 1
+      changed_when: false
 
   roles:
     - role: geerlingguy.ntp
