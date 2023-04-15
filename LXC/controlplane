@@ -1,0 +1,14 @@
+arch: amd64
+cores: 2
+hostname: controlplane
+memory: 4096
+net0: name=eth0,bridge=vmbr0,firewall=1,gw=10.0.2.1,hwaddr=36:A9:18:B8:F7:2B,ip=10.0.2.5/26,tag=2,type=veth
+ostype: ubuntu
+rootfs: Nvme:100/vm-100-disk-0.raw,size=50G
+searchdomain: kube.rostvik.site
+swap: 0
+features: fuse=1,mount=nfs,nesting=1
+lxc.apparmor.profile: unconfined
+lxc.cap.drop:
+lxc.cgroup.devices.allow: a
+lxc.mount.auto: proc:rw sys:rw

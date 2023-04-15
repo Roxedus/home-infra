@@ -1,0 +1,150 @@
+- name: Disable SWAP
+  when: ansible_memory_mb.swap.total != 0
+  register: swap_disable
+  become: True
+  ansible.builtin.command: swapoff -a
+
+- name: Remove swapfile from /etc/fstab
+  become: True
+  ansible.posix.mount:
+    name: "{{ item }}"
+    fstype: swap
+    state: absent
+  with_items:
+    - swap
+
+- name: Add propogation to systemd
+  become: True
+  community.general.ini_file:
+    path: /lib/systemd/system/docker.service
+    section: Service
+    option: MountFlags
+    value: shared
+    mode: 0644
+  notify:
+    - kube | docker options changed
+
+- name: Check if Raspberrypi
+  ansible.builtin.shell: cat /sys/firmware/devicetree/base/model || /bin/true
+  register: rpi_data
+  changed_when: False
+
+- name: Tweak Raspberry Pis
+  when:
+    - rpi_data.stdout is defined
+    - rpi_data.stdout is match("Raspberry Pi")
+  ansible.builtin.include_tasks: tweaks_raspberry.yml
+
+- name: Check if LXC
+  ansible.builtin.shell: cat /proc/1/environ || /bin/true
+  register: lxc_data
+  changed_when: False
+
+- name: Tweak LXC
+  when:
+    - lxc_data.stdout is defined
+    - lxc_data.stdout is search("container=lxc")
+  ansible.builtin.include_tasks: tweaks_lxc.yml
+
+- name: Tweak modeprobe entries
+  become: True
+  ansible.builtin.ini_file:
+    option: "{{ item.option }}"
+    state: "{{ item.state }}"
+    section: null
+    path: /usr/lib/modules-load.d/kube.conf
+    mode: 0644
+    allow_no_value: true
+  loop:
+    - state: present
+      option: br_netfilter
+    - state: present
+      option: overlay
+  notify:
+    - kube | systemctl restart systemd-modules-load.service
+
+- name: Tweak sysctl entries
+  become: True
+  ansible.builtin.sysctl:
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+    state: "{{ item.state }}"
+    sysctl_file: /etc/sysctl.conf
+    reload: false
+  loop:
+    - state: present
+      name: kernel.pid_max
+      value: "4194303"
+    - state: present
+      name: net.bridge.bridge-nf-call-arptables
+      value: "1"
+    - state: present
+      name: net.bridge.bridge-nf-call-ip6tables
+      value: "1"
+    - state: present
+      name: net.bridge.bridge-nf-call-iptables
+      value: "1"
+    - state: present
+      name: net.ipv4.ip_forward
+      value: "1"
+    - state: present
+      name: net.ipv6.conf.all.disable_ipv6
+      value: "1"
+    - state: present
+      name: net.ipv6.conf.all.forwarding
+      value: "0"
+    - state: present
+      name: net.ipv6.conf.default.disable_ipv6
+      value: "1"
+    - state: present
+      name: net.ipv6.conf.lo.disable_ipv6
+      value: "1"
+    - state: present
+      name: vm.min_free_kbytes
+      value: 65536
+    - state: present
+      name: vm.swappiness
+      value: "0"
+  notify:
+    - kube | sysctl --system
+
+- name: Add Apt signing key for Google and Libcontainers
+  become: True
+  ansible.builtin.apt_key:
+    url: "{{ item }}"
+    state: present
+  loop:
+    - https://packages.cloud.google.com/apt/doc/apt-key.gpg
+
+- name: Add repo for Google and Libcontainers
+  become: True
+  ansible.builtin.apt_repository:
+    filename: Kubernetes
+    repo: deb {{ item }}
+    mode: 0666
+    update_cache: True
+  loop:
+    - https://apt.kubernetes.io/ kubernetes-xenial main
+
+- name: Install kubernetes packages
+  become: True
+  ansible.builtin.apt:
+    name:
+      - kubectl={{ kube_apt }}
+      - kubelet={{ kube_apt }}
+      - kubeadm={{ kube_apt }}
+      - fuse-overlayfs
+      - nfs-common
+      - open-iscsi
+    state: present
+    allow_downgrade: True
+
+- name: Hold kubernetes version
+  become: True
+  ansible.builtin.dpkg_selections:
+    name: "{{ item }}"
+    selection: hold
+  with_items:
+    - kubelet
+    - kubeadm
+    - kubectl

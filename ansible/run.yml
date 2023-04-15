@@ -144,6 +144,30 @@
     - role: dnsmasq_server
     - role: unbound
 
+- name: Install Kubernetes
+  any_errors_fatal: true
+  hosts: kubernetes
+  tags:
+    - init
+    - kubernetes
+    - never
+  vars_files:
+    - vault/all.yml
+  tasks:
+    - name: Include Containerd role
+      ansible.builtin.include_role:
+        name: geerlingguy.containerd
+        apply:
+          become: "{{ do_become }}"
+    - name: Include Docker role
+      ansible.builtin.include_role:
+        name: geerlingguy.docker
+        apply:
+          become: "{{ do_become }}"
+    - name: Include Kubernetes role
+      ansible.builtin.include_role:
+        name: kubernetes
+
 - name: Update host
   hosts: all
   become: "{{ do_become }}"

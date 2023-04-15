@@ -1,0 +1,6 @@
+- name: Include node role
+  include_tasks: node.yml
+
+- name: Include controlplane role
+  when: is_controlplane is defined
+  include_tasks: controlplane.yml

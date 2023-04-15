@@ -1,0 +1,13 @@
+- name: Set up kmsg in LXC # https://kevingoos.medium.com/kubernetes-inside-proxmox-lxc-cce5c9927942
+  become: True
+  ansible.builtin.copy:
+    content: |
+      #!/bin/sh -e
+      if [ ! -e /dev/kmsg ]; then
+        ln -s /dev/console /dev/kmsg
+      fi
+      mount --make-rshared /
+    dest: /etc/rc.local
+    mode: 0755
+  notify:
+    - kube | boot options changed

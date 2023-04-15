@@ -1,0 +1,2 @@
+kube_release: "1.25"
+kube_apt: "{{ kube_release }}.5-00"
