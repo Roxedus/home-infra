@@ -18,8 +18,8 @@ _pip-install:
 _pre-commit-install:
   {{ansible_dir}}/{{python_dir}}/pre-commit install --install-hooks
 
-_galaxy-install:
-  cd {{ansible_dir}} && {{python_dir}}/ansible-galaxy install -r requirements.yml --force
+_galaxy-install *args:
+  cd {{ansible_dir}} && {{python_dir}}/ansible-galaxy install -r requirements.yml {{args}}
 
 _init-venv:
   python3 -m venv {{ansible_dir}}/{{venv_dir}}
@@ -30,7 +30,7 @@ git-init: _init-venv && _pip-install _pre-commit-install _galaxy-install _init-v
   cd {{ansible_dir}} && {{python_dir}}/pip install --upgrade pip
 
 # Upgrades packages, galaxy and pre-commit
-upgrade: _pip-install _pre-commit-install _galaxy-install
+upgrade: _pip-install _pre-commit-install (_galaxy-install "--force")
 
 # Just vault (encrypt/decrypt/edit)
 vault ACTION VAULT="vault/all.yaml":
