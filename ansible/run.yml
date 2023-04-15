@@ -42,6 +42,8 @@
 
   roles:
     - role: geerlingguy.ntp
+    - role: bodsch.snapd
+      when: ansible_distribution == 'Ubuntu'
     - role: geerlingguy.security
       when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
   tasks:
