@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://json.schemastore.org/pre-commit-config.json
 
-exclude: ansible/.*
+exclude: ansible/\..*
 
 repos:
   - repo: local
@@ -9,14 +9,15 @@ repos:
         name: Ensure vault is encrypted
         language: script
         entry: .pre-commit/ansible-vault-encrypted.sh
+      - name: Ansible lint
+        language: script
+        id: ansible-lint
+        files: ansible/
+        entry: .pre-commit/ansible-lint.sh
+        args:
+          - -p
+          - --nocolor
   - repo: https://github.com/adrienverge/yamllint.git
     rev: v1.29.0
     hooks:
       - id: yamllint
-  - repo: https://github.com/ansible/ansible-lint
-    rev: v6.14.4
-    hooks:
-      - id: ansible-lint
-        entry: cd ansible && python3 -m ansible-lint -v --force-color
-        args:
-          - --nocolor
