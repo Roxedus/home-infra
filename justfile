@@ -1,5 +1,7 @@
 #!/usr/bin/env -S just --justfile
 
+export BW_SESSION := env_var_or_default('BW_SESSION', "")
+
 ansible_dir := "ansible"
 venv_dir := ".venv"
 
