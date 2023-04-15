@@ -6,7 +6,7 @@
     line: \1 cgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory
     backrefs: True
   notify:
-    - kube | boot options changed
+    - Kube | boot options changed
 
 - name: Set GPU memory split to 16 MB
   become: True
@@ -16,5 +16,6 @@
     option: gpu_mem
     value: 16
     create: True
+    mode: 0644
   notify:
-    - kube | boot options changed
+    - Kube | boot options changed

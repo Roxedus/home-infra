@@ -1,6 +1,7 @@
 - name: Disable SWAP
   when: ansible_memory_mb.swap.total != 0
   register: swap_disable
+  changed_when: swap_disable.rc != 0
   become: True
   ansible.builtin.command: swapoff -a
 
@@ -22,7 +23,7 @@
     value: shared
     mode: 0644
   notify:
-    - kube | docker options changed
+    - Kube | docker options changed
 
 - name: Check if Raspberrypi
   ansible.builtin.shell: cat /sys/firmware/devicetree/base/model || /bin/true
@@ -48,7 +49,7 @@
 
 - name: Tweak modeprobe entries
   become: True
-  ansible.builtin.ini_file:
+  community.general.ini_file:
     option: "{{ item.option }}"
     state: "{{ item.state }}"
     section: null
@@ -61,11 +62,11 @@
     - state: present
       option: overlay
   notify:
-    - kube | systemctl restart systemd-modules-load.service
+    - Kube | systemctl restart systemd-modules-load.service
 
 - name: Tweak sysctl entries
   become: True
-  ansible.builtin.sysctl:
+  ansible.posix.sysctl:
     name: "{{ item.name }}"
     value: "{{ item.value }}"
     state: "{{ item.state }}"
@@ -106,7 +107,7 @@
       name: vm.swappiness
       value: "0"
   notify:
-    - kube | sysctl --system
+    - Kube | sysctl --system
 
 - name: Add Apt signing key for Google and Libcontainers
   become: True

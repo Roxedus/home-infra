@@ -10,4 +10,4 @@
     dest: /etc/rc.local
     mode: 0755
   notify:
-    - kube | boot options changed
+    - Kube | boot options changed

@@ -1,4 +1,4 @@
-- name: kube | systemctl restart systemd-modules-load.service
+- name: Kube | systemctl restart systemd-modules-load.service
   become: True
   ansible.builtin.service:
     name: systemd-modules-load.service
@@ -6,21 +6,21 @@
   changed_when: false
   failed_when: false
 
-- name: kube | docker options changed
+- name: Kube | docker options changed
   become: True
   ansible.builtin.service:
     name: docker.service
-    state: "restarted"
+    state: restarted
   changed_when: false
   failed_when: false
 
-- name: kube | sysctl --system
+- name: Kube | sysctl --system
   become: True
   ansible.builtin.command: sysctl --system
   changed_when: false
   failed_when: false
 
-- name: kube | boot options changed
+- name: Kube | boot options changed
   become: True
   changed_when: false
   failed_when: false
