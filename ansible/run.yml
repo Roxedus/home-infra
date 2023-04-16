@@ -147,11 +147,6 @@
         name: geerlingguy.containerd
         apply:
           become: "{{ do_become }}"
-    - name: Include Docker role
-      ansible.builtin.include_role:
-        name: geerlingguy.docker
-        apply:
-          become: "{{ do_become }}"
     - name: Include Kubernetes role
       ansible.builtin.include_role:
         name: kubernetes

@@ -47,7 +47,7 @@
     - lxc_data.stdout is search("container=lxc")
   ansible.builtin.include_tasks: tweaks_lxc.yml
 
-- name: Tweak modeprobe entries
+- name: Tweak modprobe entries
   become: True
   community.general.ini_file:
     option: "{{ item.option }}"
