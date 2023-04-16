@@ -5,8 +5,6 @@ FILES_PATTERN='ansible/.*vault.*\.*$|ansible/vault/*'
 REQUIRED='ANSIBLE_VAULT'
 
 EXIT_STATUS=0
-wipe="\033[1m\033[0m"
-yellow='\033[1;33m'
 
 for f in $(git diff --cached --name-only | grep -E $FILES_PATTERN)
 do
@@ -25,7 +23,7 @@ if [ ! $EXIT_STATUS = 0 ] ; then
   echo '#'
   while read -r line; do
     if [ -n "$line" ]; then
-      echo -e "#\t${yellow}unencrypted:   $line${wipe}"
+      echo -e "#\tunencrypted:   $line"
     fi
   done <<< "$UNENCRYPTED_FILES"
   echo '#'

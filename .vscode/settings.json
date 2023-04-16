@@ -10,5 +10,6 @@
       "ansible/run.ya?ml"
     ]
   },
-  "ansible.python.activationScript": "ansible/.venv/bin/activate"
+  "ansible.python.activationScript": "ansible/.venv/bin/activate",
+  "yaml.customTags": ["!vault"]
 }

@@ -3,8 +3,6 @@
   become: "{{ do_become }}"
   tags:
     - always
-  vars_files:
-    - vault/all.yml
   tasks:
     - name: Get dpkg arch
       when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
@@ -16,8 +14,6 @@
   hosts: all
   become: "{{ do_become }}"
   tags: [never, init]
-  vars_files:
-    - vault/all.yml
 
   pre_tasks:
     - name: Provision users
@@ -79,8 +75,6 @@
   become: "{{ do_become }}"
   tags:
     - docker
-  vars_files:
-    - vault/all.yml
   post_tasks:
     - name: Install pip packages
       ansible.builtin.pip:
@@ -93,8 +87,6 @@
 
 - name: Set up Rasberry PIs
   hosts: raspberry
-  vars_files:
-    - vault/all.yml
   tags:
     - init
     - raspberry
@@ -133,8 +125,6 @@
 
 - name: Provision PiHole
   hosts: pihole
-  vars_files:
-    - vault/all.yml
   tags:
     - pihole
     - update
@@ -151,8 +141,6 @@
     - init
     - kubernetes
     - never
-  vars_files:
-    - vault/all.yml
   tasks:
     - name: Include Containerd role
       ansible.builtin.include_role:
@@ -174,8 +162,6 @@
   tags:
     - init
     - update
-  vars_files:
-    - vault/all.yml
 
   tasks:
     # https://www.cyberciti.biz/faq/ansible-apt-update-all-packages-on-ubuntu-debian-linux/
