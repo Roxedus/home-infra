@@ -12,7 +12,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: longhorn
-      version: v1.4.0
+      version: 1.4.1
 
   interval: 1m0s
 
