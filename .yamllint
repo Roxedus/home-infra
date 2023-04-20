@@ -3,6 +3,7 @@ extends: default
 ignore: |
   .venv/
   .galaxy_roles/
+  kubernetes/flux/roxedus.net/.sops/
 
 rules:
   document-start: disable

@@ -1,0 +1,39 @@
+apiVersion: v1
+data:
+    address: ENC[AES256_GCM,data:qwD6AuQcgeGwOcywwD7kzB9pBX0VCXgKSjmdkNJOwenv1Yw0fFap+vqIqaon0RHFQ1gS+RtMBFoS0UaM8f/dSWjxqciD/elgZzx5Eic20+q7fKPzam6q1kBNdzBoOracnFrpzUY7Xh+b9uCu7YuZA2q4EgqJVVFQCGmMVCwpM+fjr117bpNEw7HxEYA/19vrXxgRzmnsJZm9YgwWOQgUR+7z/U8=,iv:T+x6QaV9fsXJ4/0bgms2o7IVX8q9unG2iKgFybMjPco=,tag:upZ+i8K3VAQWvsxg6aD9Mg==,type:str]
+kind: Secret
+metadata:
+    name: discord-url
+    namespace: flux-system
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age: []
+    lastmodified: "2023-04-20T18:18:52Z"
+    mac: ENC[AES256_GCM,data:B61W000FP3y5gZyw9kYs5H5p5htXayVXyDeK0lzsJmA2mMKm3KrpZcCu2MzUCRvtD2MyKMkt7fDyfRgi8tXosx21tzyEvm2Lf5GiM3aaIb1ZVnZKy4EdXbyUci8zCfZhOTnblBLMJrb+eWrV4R7btLEY0KpQGbHyet0m1WGuefM=,iv:GwmBJ+1Ddvb8RxdZKmBzNqmyGmfBtJMdX3ren0oKk6k=,tag:QV/F00Mjfhgt5+aQEcvYAw==,type:str]
+    pgp:
+        - created_at: "2023-04-20T18:18:52Z"
+          enc: |
+            -----BEGIN PGP MESSAGE-----
+
+            hQIMA1cj4fDUDCbjAQ/+N2+ypzKsSras1VMYXysWbb40kq75dUlowXJs4JaqhyDL
+            TSAoYVYdVpqMnsmjQcRdkfy+tcNCiF5m7OnC/gHFkRdaWa5rjXrBAWe0RUnjf9ZM
+            3yZv68CGiBGfcwpdQcB2fhAfc90XQyO5w7QkwzL1dIx4kJNrfpeT4t73zsjf04MH
+            4FaDYwK0opQCUV6T/AkOqH2z5S/MR/b0GTwsYhaLABguOHHVjRZrKqp2jfd7/mH3
+            UrY74SUmzJk6qDYKO8i5YZweDD9Im2w9L+z0sTJcEZ4E3Hf4Bj1ybIA5QyUgEg5H
+            Ote7H7h0W6V9BfleE/oxszc7x380DTeBzPpDaRGexZTDZSpjC43VdJuVmU1RDx5F
+            PW0Z0lGcWGxFyVyELhyC+EVgK3wcu+8pEBC+XDtY8dMNrSc61gkL9xELS5mCw4eu
+            JR48Xb/r6u4JWR2L5FD/YDdGr8fMcbfkQy/w7uEQmXi7sBm2++znP3eqBR93fPXF
+            oa304XXkX1XJtS3ybxDP4D3bbSZnKDVfGuFPorsJ3D6IuMH1YaHQQkOLYffp459P
+            Cd+GJ1tCn/ep2Pq1P901+25Zt/SRurNmVAyOlc2lFylbsXLDLJPAXBA8kU1E+f6W
+            4ry2Po9geqbN9Ugj4yrGHGwRwEewAaAYlDEEWo4UNP6k8pEVISlvOucdC2onGaLU
+            aAEJAhBK0klZAJ9TBFmCEmtzscOItl0kmHWwIjv7lqruyHFeIlcvFOWzaTMgjYAU
+            XVh3YF3IA3nbRRbDU7WMDescYV+Kor5+93S9H1Qtms3f8LFdoZnhmwrdh9CAtFsh
+            02VpdliX6VVY
+            =MqEl
+            -----END PGP MESSAGE-----
+          fp: 5A072DAA639F00658F0284CA9A4E279C82F654B1
+    encrypted_regex: ^(data|stringData)$
+    version: 3.7.3
