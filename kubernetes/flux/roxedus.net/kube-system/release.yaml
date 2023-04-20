@@ -1,0 +1,21 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: metrics-server
+  namespace: kube-system
+spec:
+  chart:
+    spec:
+      chart: metrics-server
+      reconcileStrategy: ChartVersion
+      sourceRef:
+        kind: HelmRepository
+        name: metrics-server
+      version: 3.8.4
+
+  interval: 1m0s
+
+  values:
+    args:
+      - --kubelet-insecure-tls
