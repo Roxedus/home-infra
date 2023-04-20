@@ -109,6 +109,15 @@
   notify:
     - Kube | sysctl --system
 
+- name: Configure Apparmor
+  become: True
+  ansible.builtin.lineinfile:
+    mode: 0644
+    path: /etc/apparmor.d/tunables/home.d/ubuntu
+    line: "#@{HOMEDIRS}+="
+    regexp: ^#@{HOMEDIRS}+=
+    create: yes
+
 - name: Add Apt signing key for Google and Libcontainers
   become: True
   ansible.builtin.apt_key:
