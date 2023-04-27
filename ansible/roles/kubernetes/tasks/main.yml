@@ -1,6 +1,5 @@
 - name: Include node role
   ansible.builtin.include_tasks: node.yml
 
-- name: Include controlplane role
-  when: is_controlplane is defined
-  ansible.builtin.include_tasks: controlplane.yml
+- name: Include CLI-Tools role
+  ansible.builtin.include_tasks: cli.yml

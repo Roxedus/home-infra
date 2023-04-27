@@ -1,0 +1,39 @@
+- name: Check if Nerdctl is installed
+  ansible.builtin.stat:
+    path: /usr/local/bin/nerdctl
+  register: nerd_bin
+
+- name: Check Nerdctl version
+  when: nerd_bin.stat.exists
+  ansible.builtin.command: /usr/local/bin/nerdctl --version
+  changed_when: false
+  register: nerd_ver
+
+- name: Get latest release of Nerdctl
+  community.general.github_release:
+    user: containerd
+    repo: nerdctl
+    action: latest_release
+  register: nerd_rel
+
+- name: Download Nerdctl
+  when: not nerd_bin.stat.exists or nerd_rel.tag != ( "v" + (nerd_ver.stdout | replace("nerdctl version ", "")))
+  become: "{{ do_become }}"
+  ansible.builtin.unarchive:
+    src: https://github.com/containerd/nerdctl/releases/download/{{ nerd_rel.tag }}/nerdctl-{{ nerd_rel.tag | replace("v","") }}-linux-{{ apt_arch }}.tar.gz
+    dest: /usr/local/bin
+    include: nerdctl
+    remote_src: yes
+    mode: 0755
+
+- name: Add kubectl alias to bash
+  when: is_controlplane is defined
+  ansible.builtin.lineinfile:
+    mode: 0644
+    path: /home/{{ users.0.username }}/.bashrc
+    line: "{{ item }}"
+    create: yes
+  with_items:
+    - source <(kubectl completion bash)
+    - alias k=kubectl
+    - complete -F __start_kubectl k
