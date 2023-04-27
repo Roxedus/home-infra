@@ -11,7 +11,7 @@
     group: "{{ user.groupname | default(user.username) }}"
     shell: "{{ user.shell | default('/bin/bash') }}"
     move_home: "{{ user.home | default(omit) }}"
-    password: "{{ user.password | password_hash('sha512') | default(omit) }}"
+    password: "{{ user.password | password_hash('sha512', user.username ) | default(omit) }}"
 
 - name: Add a Github key ssh key
   ansible.posix.authorized_key:
