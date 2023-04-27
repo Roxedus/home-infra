@@ -43,6 +43,26 @@
     - role: geerlingguy.security
       when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
   tasks:
+    - name: Add repo for non-free firmware
+      when: ansible_distribution == 'Debian' and ansible_facts.board_name is match("ZimaBoard")
+      become: True
+      ansible.builtin.apt_repository:
+        filename: debian-non-free
+        repo: "{{ item  }}"
+        mode: 0666
+        update_cache: True
+      loop:
+        - deb http://deb.debian.org/debian/ {{ ansible_facts.distribution_release }} non-free
+        - deb-src http://deb.debian.org/debian/ {{ ansible_facts.distribution_release }} non-free
+
+    - name: Install firmwares
+      when: ansible_distribution == 'Debian' and ansible_facts.board_name is match("ZimaBoard")
+      ansible.builtin.apt:
+        name:
+          - beignet-opencl-icd
+          - firmware-realtek
+        state: present
+
     - name: Install packages
       when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
       ansible.builtin.apt:
@@ -168,7 +188,12 @@
         cache_valid_time: 3600
         upgrade: "True"
 
-    - name: Remove ubuntu motd spam
+    - name: Remove motd
+      ansible.builtin.file:
+        path: /etc/motd
+        state: absent
+
+    - name: Remove update-motd
       ansible.builtin.file:
         path: /etc/update-motd.d/{{ item }}
         state: absent
