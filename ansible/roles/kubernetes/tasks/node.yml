@@ -30,6 +30,14 @@
     fstype: swap
     state: absent
 
+- name: Start systemd-resolved
+  become: True
+  when: ansible_distribution == 'Debian'
+  ansible.builtin.service:
+    name: systemd-resolved
+    state: started
+    enabled: True
+
 - name: Add propogation to systemd
   become: True
   community.general.ini_file:
