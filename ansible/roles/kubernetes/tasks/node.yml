@@ -1,3 +1,21 @@
+- name: Look for Systemd SWAP units
+  when: ansible_facts.service_mgr == "systemd"
+  ansible.builtin.shell: systemctl list-unit-files --type swap -q | grep -i swap | awk '{print $1}'
+  register: swap_service
+  changed_when: swap_service.rc != 0
+  become: True
+
+- name: Disable SWAP units
+  when: ansible_facts.service_mgr == "systemd" and (swap_service.stdout_lines | length != 0)
+  ansible.builtin.systemd:
+    daemon_reexec: True
+    daemon_reload: True
+    name: "{{ item }}"
+    enabled: False
+    masked: True
+  loop: "{{ swap_service.stdout_lines }}"
+  become: True
+
 - name: Disable SWAP
   when: ansible_memory_mb.swap.total != 0
   register: swap_disable
@@ -8,11 +26,9 @@
 - name: Remove swapfile from /etc/fstab
   become: True
   ansible.posix.mount:
-    name: "{{ item }}"
+    path: none
     fstype: swap
     state: absent
-  with_items:
-    - swap
 
 - name: Add propogation to systemd
   become: True
