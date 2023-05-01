@@ -1,5 +1,5 @@
 ansible-lint==6.15.0
-ansible==7.4.0
+ansible==7.5.0
 jmespath==1.0.1
 pre-commit==3.2.2
 wheel==0.40.0
