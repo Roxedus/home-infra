@@ -1,32 +1,7 @@
+---
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: metallb-system
 resources:
+  - flux.yaml
   - pool.yaml
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: metallb
-  namespace: flux-system
-spec:
-  interval: 10m
-  targetNamespace: metallb-system
-  sourceRef:
-    kind: GitRepository
-    name: metallb
-    namespace: flux-system
-  path: /config/native
-  prune: true
-  timeout: 1m
----
-apiVersion: source.toolkit.fluxcd.io/v1
-kind: GitRepository
-metadata:
-  name: metallb
-  namespace: flux-system
-spec:
-  interval: 5m
-  url: https://github.com/metallb/metallb
-  ref:
-    tag: v0.13.9
