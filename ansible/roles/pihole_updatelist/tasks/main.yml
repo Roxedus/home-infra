@@ -9,6 +9,7 @@
 
 - name: Install updatelist conf
   become: True
+  register: installed_pihole_updatelist
   ansible.builtin.copy:
     src: pihole-updatelists.conf
     dest: /etc/pihole-updatelists.conf
@@ -32,7 +33,7 @@
 
 - name: Update pihole_updatelist
   become: True
-  when: updatelist_exec.stat.exists and pihole_update
+  when: updatelist_exec.stat.exists and pihole_update and installed_pihole_updatelist.changed
   register: pihole_updatelist_upd
   changed_when: pihole_updatelist_upd.rc != 0
   ansible.builtin.command:
