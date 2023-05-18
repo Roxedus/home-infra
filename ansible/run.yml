@@ -61,6 +61,7 @@
         name:
           - beignet-opencl-icd
           - firmware-realtek
+          - i965-va-driver
         state: present
 
     - name: Install packages
