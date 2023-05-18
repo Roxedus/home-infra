@@ -14,6 +14,8 @@ dnsmasq:
       host: .{{ secret_wan_domain }}
     - ip: 10.0.0.30
       host: "{{ secret_unraid_uuid }}.myunraid.net"
+    - ip: 10.0.0.30
+      host: .{{ secret_unraid_uuid }}.myunraid.net
     - ip: 10.0.0.31
       host: pihole1.{{ dmasq_local_domain }}
     - ip: 10.0.0.32
@@ -30,6 +32,10 @@ dnsmasq:
     - gateway: 10.0.0.1
       host: "{{ dmasq_local_domain }}"
       mask: 10.0.0.0/24
+      reverse: True
+    - gateway: 10.0.2.1
+      host: "{{ dmasq_local_domain }}"
+      mask: 10.0.2.0/26
       reverse: True
 
 pihole:
