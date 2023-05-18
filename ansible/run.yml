@@ -96,6 +96,7 @@
   become: "{{ do_become }}"
   tags:
     - docker
+    - init
   post_tasks:
     - name: Install pip packages
       ansible.builtin.pip:
