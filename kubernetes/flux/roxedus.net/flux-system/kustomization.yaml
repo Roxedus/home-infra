@@ -5,3 +5,4 @@ resources:
   - gotk-sync.yaml
   - sops-kustomization.yaml
   - alerts.yaml
+  - default-kustomization.yaml
