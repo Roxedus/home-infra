@@ -154,6 +154,16 @@
     - role: pihole_updatelist
     - role: dnsmasq_server
     - role: unbound
+  tasks:
+    - name: Deny dhcp by dhcpcd
+      become: "{{ do_become }}"
+      ansible.builtin.lineinfile:
+        path: /etc/dhcpcd.conf
+        regexp: ^denyinterfaces eth0
+        line: denyinterfaces eth0
+        owner: root
+        group: root
+        mode: 0644
 
 - name: Install Kubernetes
   any_errors_fatal: true
