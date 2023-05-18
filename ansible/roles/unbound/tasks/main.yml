@@ -12,6 +12,8 @@
     group: root
     owner: root
     mode: 0644
+  notify:
+    - Restart unbound service
 
 - name: Stop resolvconf service
   become: True
@@ -49,9 +51,5 @@
     content: |
       # Ansible managed
       edns-packet-max=1232
-
-- name: Restart unbound service
-  become: True
-  ansible.builtin.service:
-    name: unbound
-    state: restarted
+  notify:
+    - Restart unbound service
