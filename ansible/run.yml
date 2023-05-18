@@ -171,6 +171,26 @@
       ansible.builtin.include_role:
         name: kubernetes
 
+- name: Mount unraid media
+  hosts: nfs_media
+  become: "{{ do_become }}"
+  tags:
+    - init
+    - update
+
+  tasks:
+    - name: Get dependencies for NFS
+      ansible.builtin.apt:
+        name: nfs-common
+
+    - name: Mount unraid media
+      ansible.posix.mount:
+        src: 10.0.0.30:/mnt/user/data/media/
+        path: /mnt/user/data/media/
+        opts: ro
+        state: mounted
+        fstype: nfs
+
 - name: Update host
   hosts: all
   become: "{{ do_become }}"
