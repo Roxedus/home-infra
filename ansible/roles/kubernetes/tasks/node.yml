@@ -61,6 +61,7 @@
   ansible.builtin.include_tasks: tweaks_raspberry.yml
 
 - name: Check if LXC
+  become: True
   ansible.builtin.shell: cat /proc/1/environ || /bin/true
   register: lxc_data
   changed_when: False
