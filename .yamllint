@@ -5,7 +5,7 @@ ignore: |
   .galaxy_roles/
   kubernetes/flux/flux-system/gotk-components.yaml
   kubernetes/flux/flux-system/gotk-sync.yaml
-  kubernetes/**/sops.*.yaml
+  kubernetes/.sops/*.yaml
 
 rules:
   document-start: disable
