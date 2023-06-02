@@ -9,7 +9,7 @@ spec:
     secretRef:
       name: sops-age
   interval: 10m0s
-  path: ./kubernetes/flux/roxedus.net
+  path: ./kubernetes/flux
   prune: true
   sourceRef:
     kind: GitRepository
