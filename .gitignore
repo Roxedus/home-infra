@@ -5,6 +5,9 @@
 .vagrant/
 *.box
 
+### age ###
+age.agekey
+
 ### VisualStudioCode ###
 .vscode/*
 !.vscode/settings.json
