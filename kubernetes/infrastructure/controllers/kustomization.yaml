@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
   - metallb.yaml
   - metrics-server.yaml
+  - weave-gitops.yaml
