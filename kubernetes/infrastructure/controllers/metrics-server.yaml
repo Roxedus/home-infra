@@ -30,3 +30,6 @@ spec:
         - op: add
           path: /spec/template/spec/containers/0/args/-
           value: --kubelet-insecure-tls
+        target:
+          kind: Deployment
+          name: metrics-server
