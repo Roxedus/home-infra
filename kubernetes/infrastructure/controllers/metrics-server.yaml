@@ -22,6 +22,6 @@ spec:
     kind: GitRepository
     name: metrics-server
     namespace: flux-system
-  path: /manifests/overlays/release
+  path: /manifests/release
   prune: true
   timeout: 1m
