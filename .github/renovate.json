@@ -5,7 +5,7 @@
   ],
   "flux": {
     "fileMatch": [
-      "kubernetes/flux/roxedus.net/*/.+\\.yaml$"
+      "kubernetes/*/.+\\.yaml$"
     ]
   },
   "pre-commit": {
