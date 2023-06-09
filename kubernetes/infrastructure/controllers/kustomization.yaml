@@ -4,6 +4,6 @@ resources:
   - metallb.yaml
   - metrics-server.yaml
   - weave-gitops.yaml
-  - node-feature-discovery.yaml
+  #  - node-feature-discovery.yaml
   - cert-manager.yaml
   - intel-dp.yaml

@@ -13,10 +13,78 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
+  name: intel-device-plugins-for-kubernetes-nfd
+  namespace: flux-system
+spec:
+  interval: 10m
+  sourceRef:
+    kind: GitRepository
+    name: intel-device-plugins-for-kubernetes
+    namespace: flux-system
+  path: /deployments/nfd
+  prune: true
+  timeout: 1m
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: intel-device-plugins-for-kubernetes-nfd-gpu
+  namespace: flux-system
+spec:
+  interval: 10m
+  dependsOn:
+    - name: intel-device-plugins-for-kubernetes-nfd
+  sourceRef:
+    kind: GitRepository
+    name: intel-device-plugins-for-kubernetes
+    namespace: flux-system
+  path: /deployments/nfd/overlays/gpu
+  prune: true
+  timeout: 1m
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: intel-device-plugins-for-kubernetes-nfd-feature-rules
+  namespace: flux-system
+spec:
+  interval: 10m
+  dependsOn:
+    - name: intel-device-plugins-for-kubernetes-nfd-gpu
+  sourceRef:
+    kind: GitRepository
+    name: intel-device-plugins-for-kubernetes
+    namespace: flux-system
+  path: /deployments/nfd/overlays/node-feature-rules
+  prune: true
+  timeout: 1m
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: intel-device-plugins-for-kubernetes-nfd-fractional-resources
+  namespace: flux-system
+spec:
+  interval: 10m
+  dependsOn:
+    - name: intel-device-plugins-for-kubernetes-nfd-feature-rules
+  sourceRef:
+    kind: GitRepository
+    name: intel-device-plugins-for-kubernetes
+    namespace: flux-system
+  path: /deployments/nfd/overlays/fractional_resources
+  prune: true
+  timeout: 1m
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
   name: intel-device-plugins-for-kubernetes-operator
   namespace: flux-system
 spec:
   interval: 10m
+  dependsOn:
+    - name: intel-device-plugins-for-kubernetes-nfd-fractional-resources
   sourceRef:
     kind: GitRepository
     name: intel-device-plugins-for-kubernetes
