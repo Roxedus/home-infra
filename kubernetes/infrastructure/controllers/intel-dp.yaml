@@ -65,7 +65,7 @@ metadata:
   name: intel-device-plugins-for-kubernetes-nfd-fractional-resources
   namespace: flux-system
 spec:
-  targetNamespace: system
+  targetNamespace: inteldeviceplugins-system
   interval: 10m
   dependsOn:
     - name: intel-device-plugins-for-kubernetes-nfd-feature-rules
@@ -112,7 +112,7 @@ metadata:
   name: intel-device-plugins-for-kubernetes-gpu-plugin
   namespace: flux-system
 spec:
-  targetNamespace: system
+  targetNamespace: inteldeviceplugins-system
   dependsOn:
     - name: intel-device-plugins-for-kubernetes-operator
   interval: 10m
