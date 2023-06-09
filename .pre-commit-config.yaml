@@ -21,4 +21,5 @@ repos:
         args:
           - --nocolor
           - -p
-          - --project-dir ansible
+          - --project-dir
+          - ansible
