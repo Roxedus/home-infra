@@ -99,7 +99,7 @@ spec:
     kind: GitRepository
     name: intel-device-plugins-for-kubernetes
     namespace: intel-dp
-  path: /deployments/operator
+  path: /deployments/operator/default
   prune: true
   timeout: 1m
   patches:
@@ -124,7 +124,7 @@ spec:
   dependsOn:
     - name: intel-device-plugins-for-kubernetes-operator
   interval: 10m
-  targetNamespace: intel-dp
+  targetNamespace: inteldeviceplugins-system
   sourceRef:
     kind: GitRepository
     name: intel-device-plugins-for-kubernetes
