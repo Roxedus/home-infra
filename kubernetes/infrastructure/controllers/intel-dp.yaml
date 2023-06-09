@@ -72,7 +72,7 @@ spec:
     kind: GitRepository
     name: intel-device-plugins-for-kubernetes
     namespace: flux-system
-  path: /deployments/nfd/overlays/fractional_resources
+  path: /deployments/gpu_plugin/overlays/fractional_resources
   prune: true
   timeout: 1m
 ---
