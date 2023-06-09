@@ -6,4 +6,4 @@ resources:
   - weave-gitops.yaml
   #  - node-feature-discovery.yaml
   - cert-manager.yaml
-  # - intel-dp.yaml
+  - intel-dp.yaml
