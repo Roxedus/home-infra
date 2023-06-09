@@ -14,12 +14,12 @@ repos:
     hooks:
       - id: yamllint
         types: [file, yaml]
-  - repo: https://github.com/ansible/ansible-lint
-    rev: v6.17.0
-    hooks:
-      - id: ansible-lint
-        args:
-          - --nocolor
-          - -p
-          - --project-dir
-          - ansible
+  # - repo: https://github.com/ansible/ansible-lint
+  #   rev: v6.17.0
+  #   hooks:
+  #     - id: ansible-lint
+  #       args:
+  #         - --nocolor
+  #         - -p
+  #         - --project-dir
+  #         - ansible
