@@ -124,6 +124,7 @@ spec:
   dependsOn:
     - name: intel-device-plugins-for-kubernetes-operator
   interval: 10m
+  targetNamespace: intel-dp
   sourceRef:
     kind: GitRepository
     name: intel-device-plugins-for-kubernetes
