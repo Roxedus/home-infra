@@ -38,6 +38,6 @@ spec:
     kind: GitRepository
     name: intel-device-plugins-for-kubernetes
     namespace: flux-system
-  path: /deployments/gpu-plugin
+  path: /deployments/gpu_plugin
   prune: true
   timeout: 1m
