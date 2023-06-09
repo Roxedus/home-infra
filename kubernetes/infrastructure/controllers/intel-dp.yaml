@@ -24,6 +24,18 @@ spec:
   path: /deployments/operator
   prune: true
   timeout: 1m
+  patches:
+    - patch: |-
+        kind: not-important
+        metadata:
+          name: not-important
+        spec:
+          template:
+            spec:
+              nodeSelector:
+                kubernetes.io/arch: amd64
+      target:
+        kind: (StatefulSet|Deployment|Job)
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
