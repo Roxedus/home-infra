@@ -8,6 +8,7 @@ spec:
   interval: 10m0s
   dependsOn:
     - name: infra-configs
+      namespace: flux-system
   sourceRef:
     kind: GitRepository
     namespace: flux-system
