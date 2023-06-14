@@ -7,3 +7,4 @@ resources:
   #  - node-feature-discovery.yaml
   - cert-manager.yaml
   - intel-dp.yaml
+  - longhorn.yaml
