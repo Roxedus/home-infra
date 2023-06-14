@@ -1,0 +1,75 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: quicksync
+  labels:
+    app: ersatztv
+  name: ersatztv
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ersatztv
+  template:
+    metadata:
+      labels:
+        app: ersatztv
+    spec:
+      nodeSelector:
+        hwtranscode: quicksync
+      containers:
+        - image: jasongdove/ersatztv:develop-vaapi
+          name: ersatztv
+          securityContext:
+            privileged: true
+          resources: {}
+          ports:
+            - containerPort: 8409
+          volumeMounts:
+            - mountPath: /root/.local/share/ersatztv
+              name: config
+            - mountPath: /dev/dri
+              name: quicksync
+            - mountPath: /mnt/user/data/media/series
+              name: unraid-media
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: ersatztv-pvc
+        - name: quicksync
+          hostPath:
+            path: /dev/dri
+        - name: unraid-media
+          nfs:
+            server: 10.0.0.30
+            path: /mnt/user/data/media/series
+            readOnly: true
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  namespace: quicksync
+  name: ersatztv-pvc
+  labels:
+    app: ersatztv
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn
+  resources:
+    requests:
+      storage: 2Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ersatztv-np
+  namespace: quicksync
+spec:
+  type: NodePort
+  selector:
+    app: ersatztv
+  ports:
+    - protocol: TCP
+      port: 8409
