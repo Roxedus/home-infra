@@ -10,6 +10,7 @@ spec:
     - name: infra-configs
   sourceRef:
     kind: GitRepository
+    namespace: flux-system
     name: flux-system
   path: kubernetes/apps/
   prune: true
