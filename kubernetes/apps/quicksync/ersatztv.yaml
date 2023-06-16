@@ -26,6 +26,8 @@ spec:
           resources:
             requests:
               gpu.intel.com/i915: 1
+            limits:
+              gpu.intel.com/i915: 1
           ports:
             - containerPort: 8409
           volumeMounts:
