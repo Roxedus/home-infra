@@ -17,29 +17,26 @@ spec:
         app: ersatztv
     spec:
       nodeSelector:
-        hwtranscode: quicksync
+        intel.feature.node.kubernetes.io/gpu: "true"
       containers:
         - image: jasongdove/ersatztv:develop-vaapi
           name: ersatztv
           securityContext:
             privileged: true
-          resources: {}
+          resources:
+            requests:
+              gpu.intel.com/i915: 1
           ports:
             - containerPort: 8409
           volumeMounts:
             - mountPath: /root/.local/share/ersatztv
               name: config
-            - mountPath: /dev/dri
-              name: quicksync
             - mountPath: /mnt/user/data/media/series
               name: unraid-media
       volumes:
         - name: config
           persistentVolumeClaim:
             claimName: ersatztv-pvc
-        - name: quicksync
-          hostPath:
-            path: /dev/dri
         - name: unraid-media
           nfs:
             server: 10.0.0.30
