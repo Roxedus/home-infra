@@ -66,9 +66,10 @@ metadata:
   name: ersatztv-np
   namespace: quicksync
 spec:
-  type: LoadBalancer
+  type: NodePort
   selector:
     app: ersatztv
   ports:
     - protocol: TCP
+      nodePort: 30007
       port: 8409
