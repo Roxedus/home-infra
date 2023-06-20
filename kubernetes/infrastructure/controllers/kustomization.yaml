@@ -8,3 +8,4 @@ resources:
   - cert-manager.yaml
   - intel-dp.yaml
   - longhorn.yaml
+  - traefik.yaml
