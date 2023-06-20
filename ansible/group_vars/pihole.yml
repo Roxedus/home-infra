@@ -20,6 +20,10 @@ dnsmasq:
       host: pihole1.{{ dmasq_local_domain }}
     - ip: 10.0.0.32
       host: pihole2.{{ dmasq_local_domain }}
+    - ip: 10.0.2.40
+      host: roxedus.com
+    - ip: 10.0.2.40
+      host: .roxedus.com
 
   srv:
     - service: VLMCS
