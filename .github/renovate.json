@@ -10,5 +10,27 @@
   },
   "pre-commit": {
     "enabled": true
-  }
+  },
+  "packageRules": [
+    {
+      "matchPaths": [
+        "kubernetes/infrastructure/controllers/**",
+        "kubernetes/flux/flux-system/**"
+      ],
+      "matchUpdateTypes": [
+        "patch"
+      ],
+      "automerge": true
+    },
+    {
+      "matchPackageNames": [
+        "yamllint"
+      ]
+    },
+    {
+      "matchPackageNames": [
+        "ansible-lint"
+      ]
+    }
+  ]
 }
