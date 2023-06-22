@@ -73,19 +73,19 @@ spec:
     - protocol: TCP
       nodePort: 30007
       port: 8409
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: ersatztv-ci
-  namespace: quicksync
-spec:
-  type: ClusterIP
-  selector:
-    app: ersatztv
-  ports:
-    - port: 8409
-      targetPort: 8409
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: ersatztv-ci
+#   namespace: quicksync
+# spec:
+#   type: ClusterIP
+#   selector:
+#     app: ersatztv
+#   ports:
+#     - port: 8409
+#       targetPort: 8409
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -99,8 +99,8 @@ spec:
         paths:
           - backend:
               service:
-                name: ersatztv-ci
+                name: ersatztv-np
                 port:
-                  number: 8406
+                  number: 8409
             path: /
             pathType: Prefix
