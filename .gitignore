@@ -23,7 +23,6 @@ ansible/.venv
 ansible/.galaxy_roles
 
 ### Terraform ###
-terraform/**
 **/.terraform/*
 *.tfstate
 *.tfstate.*

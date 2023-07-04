@@ -4,5 +4,8 @@
 export BW_SESSION=$(bw unlock --raw)
 export GITHUB_TOKEN=$(bw get password "ghFluxToken")
 export GITHUB_USER=Roxedus
+export OAUTH_CLIENT_ID=$(bw get item "tailscale api" | jq -r '.fields[] | select( .name == "ts_id" ) .value')
+export OAUTH_CLIENT_SECRET=$(bw get item "tailscale api" | jq -r '.fields[] | select( .name == "ts_secret" ) .value')
+export TF_TOKEN_app_terraform_io=$(bw get password "TF_TOKEN_app_terraform_io")
 export SOPS_AGE_KEY_FILE=$(pwd)/age.agekey
 source ansible/.venv/bin/activate

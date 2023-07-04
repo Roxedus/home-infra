@@ -11,5 +11,8 @@
     ]
   },
   "ansible.python.activationScript": "ansible/.venv/bin/activate",
-  "yaml.customTags": ["!vault"]
+  "yaml.customTags": [
+    "!vault"
+  ],
+  "ansible.python.interpreterPath": "/home/roxedus/projects/home-infra/ansible/.venv/bin/python3"
 }

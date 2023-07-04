@@ -1,6 +1,9 @@
 #!/usr/bin/env -S just --justfile
 
 export BW_SESSION := env_var_or_default('BW_SESSION', "")
+export OAUTH_CLIENT_SECRET := env_var_or_default('OAUTH_CLIENT_SECRET', "")
+export OAUTH_CLIENT_ID := env_var_or_default('OAUTH_CLIENT_ID', "")
+export TF_TOKEN_app_terraform_io := env_var_or_default('TF_TOKEN_app_terraform_io', "")
 export LC_ALL := "en_US.UTF-8"
 
 ansible_dir := "ansible"
