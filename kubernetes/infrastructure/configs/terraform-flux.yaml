@@ -12,6 +12,7 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
+  refreshBeforeApply: true
   varsFrom:
     - kind: Secret
       name: tailscale-secrets
