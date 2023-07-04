@@ -15,6 +15,10 @@ python := python_dir + if os_family() == "windows" { "/python.exe" } else { "/py
 run *args="-D -t update":
   cd {{ansible_dir}} && {{python_dir}}/ansible-playbook run.yml {{args}}
 
+# Crypts a value
+acrypt *args="":
+  cd {{ansible_dir}} && {{python_dir}}/ansible-vault encrypt_string {{args}}
+
 # Runs terraform apply
 tf *args="":
   {{_terraform}} apply {{args}}
