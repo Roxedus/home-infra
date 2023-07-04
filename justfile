@@ -1,6 +1,7 @@
 #!/usr/bin/env -S just --justfile
 
 export BW_SESSION := env_var_or_default('BW_SESSION', "")
+export LC_ALL := "en_US.UTF-8"
 
 ansible_dir := "ansible"
 terraform_dir := "terraform"
