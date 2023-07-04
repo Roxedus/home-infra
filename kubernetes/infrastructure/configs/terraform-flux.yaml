@@ -1,0 +1,17 @@
+---
+apiVersion: infra.contrib.fluxcd.io/v1alpha2
+kind: Terraform
+metadata:
+  name: home-infra
+  namespace: flux-system
+spec:
+  interval: 1m
+  approvePlan: auto
+  path: ./terraform
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  varsFrom:
+    - kind: Secret
+      name: tailscale-secrets

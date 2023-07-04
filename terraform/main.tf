@@ -5,13 +5,13 @@ terraform {
       version = "0.13.7"
     }
   }
-  cloud {
-    organization = "rostvik_no"
+  # cloud {
+  #   organization = "rostvik_no"
 
-    workspaces {
-      name = "home-infra"
-    }
-  }
+  #   workspaces {
+  #     name = "home-infra"
+  #   }
+  # }
 }
 provider "tailscale" {
   tailnet = "rostvik.no"
