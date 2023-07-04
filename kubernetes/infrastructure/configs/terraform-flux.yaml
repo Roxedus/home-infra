@@ -12,6 +12,8 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  varsFrom:
-    - kind: Secret
-      name: tailscale-secret
+  runnerPodTemplate:
+    spec:
+      envFrom:
+        - secretRef:
+            name: tailscale-secrets
