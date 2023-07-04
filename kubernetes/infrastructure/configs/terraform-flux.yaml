@@ -14,4 +14,4 @@ spec:
     namespace: flux-system
   varsFrom:
     - kind: Secret
-      name: tailscale-secrets
+      name: tailscale-secret
