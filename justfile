@@ -18,9 +18,13 @@ python := python_dir + if os_family() == "windows" { "/python.exe" } else { "/py
 run *args="-D -t update":
   cd {{ansible_dir}} && {{python_dir}}/ansible-playbook run.yml {{args}}
 
-# Crypts a value
+# Crypts a ansible value
 acrypt *args="":
   cd {{ansible_dir}} && {{python_dir}}/ansible-vault encrypt_string {{args}}
+
+# Crypts a kubernetes value
+kcrypt *args="":
+  sops --encrypt --in-place kubernetes/.sops/{{args}}.yaml
 
 # Runs terraform apply
 tf *args="":
