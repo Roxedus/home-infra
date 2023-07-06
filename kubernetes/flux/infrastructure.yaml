@@ -31,20 +31,3 @@ spec:
     name: flux-system
   path: ./kubernetes/infrastructure/configs
   prune: true
-# ---
-# apiVersion: kustomize.toolkit.fluxcd.io/v1
-# kind: Kustomization
-# metadata:
-#   name: home-infra
-#   namespace: flux-system
-# spec:
-#   dependsOn:
-#     - name: infra-controllers
-#   interval: 1h
-#   retryInterval: 1m
-#   timeout: 5m
-#   sourceRef:
-#     kind: GitRepository
-#     name: flux-system
-#   path: ./kubernetes/infrastructure/tf
-#   prune: true
