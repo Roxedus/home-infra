@@ -15,7 +15,7 @@ metadata:
   namespace: public
 spec:
   interval: 5m
-  targetnamespace: public
+  targetNamespace: public
   chart:
     spec:
       chart: metallb
