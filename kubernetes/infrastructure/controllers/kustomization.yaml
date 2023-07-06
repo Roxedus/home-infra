@@ -11,3 +11,8 @@ resources:
   - traefik.yaml
   - vault.yaml
   - weave-gitops.yaml
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: controllers

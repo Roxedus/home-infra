@@ -3,7 +3,7 @@ apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
 metadata:
   name: metallb
-  namespace: flux-system
+  namespace: public
 spec:
   interval: 5m0s
   url: https://metallb.github.io/metallb
@@ -12,10 +12,10 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: metallb-system
-  namespace: flux-system
+  namespace: public
 spec:
   interval: 5m
-  targetNamespace: metallb-system
+  targetnamespace: public
   chart:
     spec:
       chart: metallb
