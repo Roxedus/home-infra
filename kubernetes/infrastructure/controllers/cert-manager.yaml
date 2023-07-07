@@ -22,7 +22,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: cert-manager
-        namespace: cert-manager
+        namespace: controllers
       interval: 10m
   values:
     installCRDs: true
