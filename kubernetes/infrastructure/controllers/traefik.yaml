@@ -32,7 +32,7 @@ spec:
   values:
     experimental:
       http3:
-        enabled: true
+        enabled: false
       plugins:
         enabled: false
       kubernetesGateway:
