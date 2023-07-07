@@ -4,4 +4,4 @@ resources:
   #- metallb.yaml
   - external-secrets.yaml
   - cert-manager-roxedus.yaml
-  - terraform-flux.yaml
+  #- terraform-flux.yaml
