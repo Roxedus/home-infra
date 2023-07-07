@@ -35,7 +35,7 @@ spec:
     service:
       ui:
         type: NodePort
-        nodePort: 32304
+        nodePort: 32305
 
     persistence:
       defaultClassReplicaCount: 2
