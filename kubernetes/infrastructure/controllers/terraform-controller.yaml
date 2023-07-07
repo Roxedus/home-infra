@@ -25,6 +25,6 @@ spec:
         namespace: controllers
       interval: 10m
   values:
-    installCRDs: false
+    installCRDs: true
     metrics:
       enabled: false
