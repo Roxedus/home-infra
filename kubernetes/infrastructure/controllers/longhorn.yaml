@@ -33,6 +33,7 @@ spec:
     crds: CreateReplace
   upgrade:
     crds: CreateReplace
+    force: true
 
   interval: 1m0s
 
