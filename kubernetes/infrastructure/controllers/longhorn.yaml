@@ -39,7 +39,7 @@ spec:
   interval: 1m0s
 
   values:
-    bbbb: aaaa
+    bbbb: cccc
     service:
       ui:
         type: NodePort
