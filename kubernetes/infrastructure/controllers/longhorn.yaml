@@ -51,5 +51,8 @@ spec:
     longhornRecoveryBackend:
       replicas: 0
 
+    csi:
+      kubeletRootDir: /var/lib/kubelet
+
     persistence:
       defaultClassReplicaCount: 2
