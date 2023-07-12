@@ -33,12 +33,13 @@ spec:
     crds: CreateReplace
   upgrade:
     crds: CreateReplace
-    force: true
+    #force: true
     # remediation:
     #   remediateLastFailure: true
   interval: 1m0s
 
   values:
+    bbbb: aaaa
     service:
       ui:
         type: NodePort
@@ -50,9 +51,6 @@ spec:
       replicas: 0
     longhornRecoveryBackend:
       replicas: 0
-
-    csi:
-      kubeletRootDir: /var/lib/kubelet
 
     persistence:
       defaultClassReplicaCount: 2
