@@ -27,7 +27,12 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: longhorn
-      version: 1.5.0
+      version: 1.4.2
+
+  install:
+    crds: CreateReplace
+  upgrade:
+    crds: CreateReplace
 
   interval: 1m0s
 
@@ -36,6 +41,13 @@ spec:
       ui:
         type: NodePort
         nodePort: 32305
+
+    longhornAdmissionWebhook:
+      replicas: 0
+    longhornConversionWebhook:
+      replicas: 0
+    longhornRecoveryBackend:
+      replicas: 0
 
     persistence:
       defaultClassReplicaCount: 2
