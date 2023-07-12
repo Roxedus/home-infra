@@ -27,7 +27,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: longhorn
-      version: 1.4.2
+      version: 1.4.1
 
   install:
     crds: CreateReplace
