@@ -40,10 +40,10 @@ spec:
 
   values:
     ds: aaa
-    # service:
-    #   ui:
-    #     type: NodePort
-    #     nodePort: 32305
+    service:
+      ui:
+        type: NodePort
+        nodePort: 32305
 
     longhornAdmissionWebhook:
       replicas: 0
