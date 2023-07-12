@@ -27,17 +27,19 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: longhorn
-      version: 1.4.2
+      version: 1.5.0
 
   install:
     crds: CreateReplace
   upgrade:
     crds: CreateReplace
     force: true
-
+    # remediation:
+    #   remediateLastFailure: true
   interval: 1m0s
 
   values:
+    ds: aaa
     # service:
     #   ui:
     #     type: NodePort
