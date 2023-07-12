@@ -39,7 +39,6 @@ spec:
   interval: 1m0s
 
   values:
-    ds: aaa
     service:
       ui:
         type: NodePort
