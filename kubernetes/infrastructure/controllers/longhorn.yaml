@@ -35,7 +35,6 @@ spec:
     crds: CreateReplace
     cleanupOnFail: true
     force: true
-    replace: true
     # remediation:
     #   remediateLastFailure: true
   interval: 1m0s
