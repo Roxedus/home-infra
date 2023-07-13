@@ -28,12 +28,15 @@ spec:
         kind: HelmRepository
         name: longhorn
       version: 1.5.0
-
+  prune: true
   install:
     crds: CreateReplace
+    replace: true
   upgrade:
     crds: CreateReplace
-    #force: true
+    cleanupOnFail: true
+    force: true
+    replace: true
     # remediation:
     #   remediateLastFailure: true
   interval: 1m0s
