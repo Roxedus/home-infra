@@ -28,7 +28,6 @@ spec:
         kind: HelmRepository
         name: longhorn
       version: 1.5.0
-  prune: true
   install:
     crds: CreateReplace
     replace: true
