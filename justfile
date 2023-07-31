@@ -8,11 +8,15 @@ export LC_ALL := "en_US.UTF-8"
 
 ansible_dir := "ansible"
 terraform_dir := "terraform"
+packer_dir := "packer"
 
 venv_dir := ".venv"
 
 python_dir := if os_family() == "windows" { venv_dir + "/Scripts" } else { venv_dir + "/bin" }
 python := python_dir + if os_family() == "windows" { "/python.exe" } else { "/python3" }
+
+default:
+  just --list
 
 # Runs the playbook
 run *args="-D -t update":
@@ -34,6 +38,12 @@ tf *args="":
 plan *args="":
   {{_terraform}} plan {{args}}
 
+pack node="" type="kube":
+  {{_packer}} build -var 'node={{node}}' -var 'type={{type}}' arm64-ubuntu2204-node.pkr.hcl
+
+pack_base:
+  {{_packer}} build arm64-ubuntu2204-base.pkr.hcl
+
 _pip-install:
   cd {{ansible_dir}} && {{python_dir}}/pip install -r requirements.txt
 
@@ -50,6 +60,8 @@ _terraform := "cd " + terraform_dir + " && terraform"
 
 _init-terraform *args:
   {{_terraform}} init {{args}}
+
+_packer:= "cd " + packer_dir + "&& docker run --rm --privileged -v /dev:/dev -v ${PWD}:/build mkaczanowski/packer-builder-arm:1.0.7"
 
 # Initializes the local folder with a venv and packages
 git-init: _init-venv && _pip-install _pre-commit-install _galaxy-install _init-venv _init-terraform

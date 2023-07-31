@@ -1,10 +1,7 @@
 #cloud-config
-hostname: node03.kube.rostvik.home
+hostname: $node.kube.rostvik.home
 manage_etc_hosts: false
-packages:
-  - avahi-daemon
-  - linux-modules-extra-raspi
-  - vlan
+
 apt:
   conf: |
     Acquire {

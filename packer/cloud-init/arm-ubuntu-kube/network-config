@@ -4,12 +4,13 @@ ethernets:
     match:
       name: eth0
     mtu: 1500
-    dhcp4: true
+    dhcp4: false
+    dhcp6: false
     optional: true
 vlans:
   vlan.2:
     addresses:
-      - 10.0.2.8/26
+      - 10.0.2.$node/26
     gateway4: 10.0.2.1
     id: 2
     link: eth0

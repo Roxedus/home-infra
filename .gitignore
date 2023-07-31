@@ -27,3 +27,10 @@ ansible/.galaxy_roles
 *.tfstate
 *.tfstate.*
 *.tfvars
+
+### Packer ###
+**/packer/.packer_cache/*
+**/packer/.packer_plugins/*
+**/packer/*.img
+**/packer/*.sha256
+**/packer/*.xz

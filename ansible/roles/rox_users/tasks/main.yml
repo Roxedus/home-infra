@@ -6,6 +6,12 @@
   when: box_is_appliance
   ansible.builtin.include_tasks: is_root.yml
 
+- name: Update apt cache
+  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+  ansible.builtin.apt:
+    update_cache: true
+  changed_when: false
+
 - name: Install pip package
   become: "{{ do_become }}"
   ansible.builtin.apt:
