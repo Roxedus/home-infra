@@ -1,4 +1,4 @@
-kube_release: 1.26
+kube_release: 1.27
 kube_apt: "{{ kube_release }}.4-00"
 containerd_config_default_write: true
 containerd_config_cgroup_driver_systemd: true
