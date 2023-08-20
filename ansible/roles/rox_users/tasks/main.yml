@@ -20,6 +20,7 @@
 - name: Install github package
   become: "{{ do_become }}"
   ansible.builtin.pip:
+    extra_args: "{{ '--break-system-packages' if ansible_distribution == 'Debian' else '' }}"
     name:
       - github3.py
       - pyopenssl
