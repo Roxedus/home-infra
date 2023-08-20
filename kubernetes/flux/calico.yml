@@ -30,7 +30,7 @@ spec:
         namespace: tigera-operator
       interval: 10m
   values:
-    phoney: true
+    phoney: false
     installation:
       cni:
         type: Calico
