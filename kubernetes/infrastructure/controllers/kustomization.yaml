@@ -7,7 +7,7 @@ resources:
   # - intel-dp.yaml
   # - longhorn.yaml
   # - metallb.yaml
-  # - metrics-server.yaml
+  - metrics-server.yaml
   # - terraform-controller.yaml
   # - traefik.yaml
   # - vault.yaml
