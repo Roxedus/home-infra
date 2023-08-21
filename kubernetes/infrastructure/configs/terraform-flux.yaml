@@ -3,7 +3,7 @@ apiVersion: infra.contrib.fluxcd.io/v1alpha2
 kind: Terraform
 metadata:
   name: home-infra
-  namespace: flux-system
+  namespace: controllers
 spec:
   interval: 1m
   approvePlan: auto
