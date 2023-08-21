@@ -6,9 +6,9 @@ resources:
   # - external-secrets.yaml
   # - intel-dp.yaml
   - longhorn.yaml
-  # - metallb.yaml
+  - metallb.yaml
   - metrics-server.yaml
   # - terraform-controller.yaml
-  # - traefik.yaml
+  - traefik.yaml
   # - vault.yaml
   - weave-gitops.yaml
