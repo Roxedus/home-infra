@@ -51,6 +51,7 @@ spec:
       enabled: true
       annotations:
         cert-manager.io/cluster-issuer: roxedus.com-cloudflare
+        traefik.ingress.kubernetes.io/router.tls: "true"
       ingressClassName: traefik
       hosts:
         - host: weave.roxedus.com
