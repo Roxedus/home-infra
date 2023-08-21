@@ -48,7 +48,7 @@ spec:
       # bcrypt hash for password "flux"
       passwordHash: $2a$10$P/tHQ1DNFXdvX0zRGA8LPeSOyb0JXq9rP3fZ4W8HGTpLV7qHDlWhe
     ingress:
-      enabled: true
+      enabled: false
       ingressClassName: traefik
       hosts:
         - host: weave.roxedus.com
