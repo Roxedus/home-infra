@@ -34,7 +34,7 @@ spec:
       http3:
         enabled: false
       plugins:
-        enabled: false
+        enabled: true
       kubernetesGateway:
         enabled: false
 
