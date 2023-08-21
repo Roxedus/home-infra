@@ -30,6 +30,7 @@ spec:
         namespace: public
       interval: 10m
   values:
+    dummy: aaa
     experimental:
       http3:
         enabled: false
