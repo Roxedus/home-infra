@@ -30,13 +30,14 @@
     fstype: swap
     state: absent
 
-# - name: Start systemd-resolved
-#   become: True
-#   when: ansible_distribution == 'Debian'
-#   ansible.builtin.service:
-#     name: systemd-resolved
-#     state: started
-#     enabled: True
+- name: Install systemd dependencies
+  become: True
+  ansible.builtin.apt:
+    name:
+      - systemd-resolved
+    state: present
+  notify:
+    - Kube | systemd-resolved installed
 
 - name: Add propogation to systemd
   become: True
