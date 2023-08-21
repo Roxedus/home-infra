@@ -77,7 +77,7 @@ spec:
         minVersion: VersionTLS12
 
     service:
-      enabled: true
+      enabled: false
       type: LoadBalancer
 
     providers:
