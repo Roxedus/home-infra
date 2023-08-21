@@ -5,7 +5,7 @@ resources:
   # - cert-manager.yaml
   # - external-secrets.yaml
   # - intel-dp.yaml
-  # - longhorn.yaml
+  - longhorn.yaml
   # - metallb.yaml
   - metrics-server.yaml
   # - terraform-controller.yaml
