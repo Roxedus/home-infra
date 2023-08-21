@@ -49,6 +49,8 @@ spec:
       passwordHash: $2a$10$P/tHQ1DNFXdvX0zRGA8LPeSOyb0JXq9rP3fZ4W8HGTpLV7qHDlWhe
     ingress:
       enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: roxedus.com-cloudflare
       ingressClassName: traefik
       hosts:
         - host: weave.roxedus.com
