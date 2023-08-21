@@ -12,7 +12,7 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  alwaysCleanupRunnerPod: true
+  alwaysCleanupRunnerPod: false
   varsFrom:
     - kind: Secret
       name: tailscale-secrets
