@@ -2,10 +2,9 @@ packer {}
 
 source "arm" "ubuntu" {
   file_urls = [
-    "ubuntu-22.04.2-preinstalled-server-arm64+raspi.img.xz",
-    "https://cdimage.ubuntu.com/releases/22.04.2/release/ubuntu-22.04.2-preinstalled-server-arm64+raspi.img.xz"
+    "https://cdimage.ubuntu.com/releases/22.04.3/release/ubuntu-22.04.3-preinstalled-server-arm64+raspi.img.xz"
   ]
-  file_checksum_url     = "https://cdimage.ubuntu.com/releases/22.04.2/release/SHA256SUMS"
+  file_checksum_url     = "https://cdimage.ubuntu.com/releases/22.04.3/release/SHA256SUMS"
   file_checksum_type    = "sha256"
   file_target_extension = "xz"
   file_unarchive_cmd    = ["xz", "--decompress", "$ARCHIVE_PATH"]
