@@ -5,14 +5,14 @@ metadata:
   name: home-infra
   namespace: flux-system
 spec:
-  interval: 1m
+  interval: 5h
   approvePlan: auto
   path: ./terraform
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  alwaysCleanupRunnerPod: false
+  alwaysCleanupRunnerPod: true
   varsFrom:
     - kind: Secret
       name: tailscale-secrets
