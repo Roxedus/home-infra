@@ -3,5 +3,5 @@ kind: Kustomization
 resources:
   - metallb.yaml
   # - external-secrets.yaml
-  # - cert-manager-roxedus.yaml
+  - cert-manager-roxedus.yaml
   # - terraform-flux.yaml
