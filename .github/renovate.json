@@ -8,6 +8,9 @@
       "kubernetes/*/.+\\.yaml$"
     ]
   },
+  "ignorePaths": [
+    "kubernetes/infrastructure/controllers/longhorn.yaml"
+  ],
   "pre-commit": {
     "enabled": true
   },

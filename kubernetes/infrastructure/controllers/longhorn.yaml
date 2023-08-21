@@ -35,12 +35,9 @@ spec:
     crds: CreateReplace
     cleanupOnFail: true
     force: true
-    # remediation:
-    #   remediateLastFailure: true
   interval: 1m0s
 
   values:
-    bbbb: cccc
     service:
       ui:
         type: NodePort
