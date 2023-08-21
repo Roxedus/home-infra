@@ -38,10 +38,15 @@ spec:
   interval: 1m0s
 
   values:
-    service:
-      ui:
-        type: NodePort
-        nodePort: 32305
+    ingress:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: roxedus.com-cloudflare
+      ingressClassName: traefik
+      host: longhorn.roxedus.com
+      tls: true
+      secureBackends: true
+      tlsSecret: longhorn-roxedus-tls
 
     longhornAdmissionWebhook:
       replicas: 0
