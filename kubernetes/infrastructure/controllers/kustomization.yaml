@@ -8,7 +8,7 @@ resources:
   - longhorn.yaml
   - metallb.yaml
   - metrics-server.yaml
-  # - terraform-controller.yaml
+  - terraform-controller.yaml
   - traefik.yaml
   # - vault.yaml
   - weave-gitops.yaml
