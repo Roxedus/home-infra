@@ -29,7 +29,9 @@ spec:
       repository: ghcr.io/twin/gatus
       tag: v5.5.1
 
-    persistence.enabled: true
+    persistence:
+      storageClassName: longhorn
+      enabled: true
 
     ingress:
       enabled: false
