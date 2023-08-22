@@ -12,4 +12,4 @@ resources:
   - traefik.yaml
   # - vault.yaml
   - weave-gitops.yaml
-  - gatus.yaml
+  #- gatus.yaml
