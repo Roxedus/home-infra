@@ -25,6 +25,7 @@ spec:
         namespace: controllers
       interval: 10m
   values:
+    duummy: yes
     image:
       repository: ghcr.io/twin/gatus
       tag: v5.5.1
