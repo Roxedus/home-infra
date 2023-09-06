@@ -1,4 +1,4 @@
-ansible-lint==6.17.2
+ansible-lint==6.19.0
 ansible==8.3.0
 jmespath==1.0.1
 pre-commit==3.3.3
