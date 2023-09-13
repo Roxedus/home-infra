@@ -1,9 +1,8 @@
 #!/usr/bin/env -S just --justfile
 
 export BW_SESSION := env_var_or_default('BW_SESSION', "")
-export OAUTH_CLIENT_SECRET := env_var_or_default('OAUTH_CLIENT_SECRET', "")
-export OAUTH_CLIENT_ID := env_var_or_default('OAUTH_CLIENT_ID', "")
-export TF_TOKEN_app_terraform_io := env_var_or_default('TF_TOKEN_app_terraform_io', "")
+export TF_VAR_OAUTH_CLIENT_SECRET := env_var_or_default('OAUTH_CLIENT_SECRET', "")
+export TF_VAR_OAUTH_CLIENT_ID := env_var_or_default('OAUTH_CLIENT_ID', "")
 export LC_ALL := "en_US.UTF-8"
 
 ansible_dir := "ansible"
@@ -60,6 +59,20 @@ _terraform := "cd " + terraform_dir + " && terraform"
 
 _init-terraform *args:
   {{_terraform}} init {{args}}
+
+_get_state:
+  kubectl get secret tfstate-default-home-infra -n flux-system \
+    -ojsonpath='{.data.tfstate}' \
+    | base64 -d | gzip -d > terraform/terraform.tfstate
+
+_push_state:
+  gzip terraform/terraform.tfstate -c | \
+    kubectl create secret \
+      generic tfstate-default-home-infra -n flux-system \
+      --from-file=tfstate=/dev/stdin \
+      --dry-run=client -o=yaml \
+        | yq e '.metadata.annotations["encoding"]="gzip"' - \
+          > kubectl apply -f -
 
 _packer:= "cd " + packer_dir + "&& docker run --rm --privileged -v /dev:/dev -v ${PWD}:/build mkaczanowski/packer-builder-arm:1.0.7"
 
