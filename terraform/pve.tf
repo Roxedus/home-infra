@@ -41,7 +41,7 @@ resource "proxmox_virtual_environment_container" "siem_container" {
 
     ip_config {
       ipv4 {
-        address = "10.0.0.35"
+        address = "10.0.0.35/32"
       }
     }
 
