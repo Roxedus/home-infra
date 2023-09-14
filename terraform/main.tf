@@ -26,10 +26,9 @@ provider "tailscale" {
 }
 
 provider "proxmox" {
-  endpoint = "https://pve.rostvik.site:8006/"
-  username = var.PROXMOX_VE_USERNAME
-  password = var.PROXMOX_VE_PASSWORD
-  insecure = true
+  endpoint  = "https://pve.rostvik.site:8006/"
+  api_token = var.PROXMOX_VE_API_TOKEN
+  insecure  = true
   ssh {
     username = var.PROXMOX_VE_SSH_USERNAME
     password = var.PROXMOX_VE_SSH_PASSWORD
