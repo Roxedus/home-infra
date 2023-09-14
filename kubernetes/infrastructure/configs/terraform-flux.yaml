@@ -16,3 +16,5 @@ spec:
   varsFrom:
     - kind: Secret
       name: tailscale-secrets
+    - kind: Secret
+      name: proxmox

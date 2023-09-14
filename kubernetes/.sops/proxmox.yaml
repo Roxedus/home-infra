@@ -1,0 +1,29 @@
+apiVersion: v1
+data:
+    PROXMOX_VE_PASSWORD: ENC[AES256_GCM,data:HhFHh/50Z/7F6xf6d6ALSBmKH+LiN5KK3gDMEO3+B4tDTvhPpyORrruLAM30JyobbTlo9uQpImJKf9h0YsYIKu+0qAcIf8b6c44C6dhNwiD1PXdQ,iv:xDQpVGLle+CkNaF0WqIWCxJqGShlUq1rM8fxnie31mI=,tag:BvLON9UKHt97Cl0SJQyH0Q==,type:str]
+    PROXMOX_VE_USERNAME: ENC[AES256_GCM,data:mOP5CyCYUr+SM/+osoUCNAqgco0=,iv:sBtxCxaRidkcICVVhE1QRDYagkVaxNVQRDixL1zIzRI=,tag:P54bX+IghGZKvU5TPY3uSQ==,type:str]
+kind: Secret
+metadata:
+    creationTimestamp: null
+    name: proxmox
+    namespace: flux-system
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age:
+        - recipient: age1hkstmc7v8yq2th9zu4vwqc4z6umg47fzam7aduatxnjg8eqzt9fsur4f5u
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSB5MS9PNGVMcmM5aDVsSGZs
+            cmtnbFpXS2tybzB2UWJlOTJGb2FYM2hTZ0FVCm1RK2tOMWFZdy9XYnE5OFJiby83
+            WlNlMlVGSDFaaUdhd1dPRFkvOGlPaVUKLS0tIGNrTUNvQjFaYThuTkh0S3lZZkJn
+            YUMza1JKL0R6WUJYWnAyWWQ2djc2ckEKwtRSdTJZ1PE66wPn/Vv8M756qNNm7Nqb
+            eOVAY9fB2bAbAe3UzBM6UmnW9qg7h43rHK2bV5jg8+i3vPLpPt/z7g==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2023-09-14T21:26:14Z"
+    mac: ENC[AES256_GCM,data:hGYO/DlonSvOMiXZVMDNTeL0hF37rd2INmIyroinn9vpQ+2gD2mtD5fiJQlxdSQXv94hztPw6jrpma4ffwzIGux6YoqrevMvqrQB4E9XXcZbXb4ePgnFk0PdwPGjl9jxzYWO8x5PW9OvSLkoF4FBki7KnG4Qb9pw+ALkum2yTRw=,iv:sPS6ljvCNH/6DrAE4UDDaP7AH9GPTc8s1gizGxYAaMs=,tag:DlHVpe+3Ot7FNH/Dohhrtw==,type:str]
+    pgp: []
+    encrypted_regex: ^(data|stringData)$
+    version: 3.7.3
