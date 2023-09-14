@@ -16,15 +16,15 @@ resource "random_password" "container_password" {
   special          = true
 }
 
-resource "proxmox_virtual_environment_file" "ubuntu_2004" {
-  content_type = "vztmpl"
-  datastore_id = "local-btrfs"
-  node_name    = local.pve_node
+# resource "proxmox_virtual_environment_file" "ubuntu_2204" {
+#   content_type = "vztmpl"
+#   datastore_id = "local-btrfs"
+#   node_name    = local.pve_node
 
-  source_file {
-    path = "http://download.proxmox.com/images/system/ubuntu-20.04-standard_20.04-1_amd64.tar.gz"
-  }
-}
+#   source_file {
+#     path = "http://download.proxmox.com/images/system/ubuntu-22.04-standard_22.04-1_amd64.tar.zst"
+#   }
+# }
 
 resource "proxmox_virtual_environment_container" "siem_container" {
   description = "Managed by Terraform"
@@ -69,7 +69,7 @@ resource "proxmox_virtual_environment_container" "siem_container" {
   }
 
   operating_system {
-    template_file_id = proxmox_virtual_environment_file.ubuntu_2004.id
+    template_file_id = "local-btrfs:vztmpl/ubuntu-22.04-standard_22.04-1_amd64.tar.zst" #proxmox_virtual_environment_file.ubuntu_2204.id
     type             = "ubuntu"
   }
 
