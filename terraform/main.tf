@@ -30,6 +30,10 @@ provider "proxmox" {
   username = var.PROXMOX_VE_USERNAME
   password = var.PROXMOX_VE_PASSWORD
   insecure = true
+  ssh {
+    username = var.PROXMOX_VE_SSH_USERNAME
+    password = var.PROXMOX_VE_SSH_PASSWORD
+  }
 }
 
 provider "random" {}
