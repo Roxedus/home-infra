@@ -16,7 +16,7 @@ resource "random_password" "container_password" {
   special          = true
 }
 
-resource "proxmox_virtual_environment_file" "ubuntu_2204" {
+resource "proxmox_virtual_environment_file" "ubuntu_2004" {
   content_type = "vztmpl"
   datastore_id = "local-btrfs"
   node_name    = local.pve_node
@@ -69,7 +69,7 @@ resource "proxmox_virtual_environment_container" "siem_container" {
   }
 
   operating_system {
-    template_file_id = proxmox_virtual_environment_file.ubuntu_2204.id
+    template_file_id = proxmox_virtual_environment_file.ubuntu_2004.id
     type             = "ubuntu"
   }
 
