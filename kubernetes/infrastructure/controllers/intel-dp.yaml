@@ -30,24 +30,24 @@ spec:
   path: /deployments/nfd
   prune: true
   timeout: 1m
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: intel-device-plugins-for-kubernetes-nfd-feature-rules
-  namespace: intel-dp
-spec:
-  interval: 10m
-  # targetNamespace: intel-dp
-  dependsOn:
-    - name: intel-device-plugins-for-kubernetes-nfd
-  sourceRef:
-    kind: GitRepository
-    name: intel-device-plugins-for-kubernetes
-    namespace: intel-dp
-  path: /deployments/nfd/overlays/node-feature-rules
-  prune: true
-  timeout: 1m
+# ---
+# apiVersion: kustomize.toolkit.fluxcd.io/v1
+# kind: Kustomization
+# metadata:
+#   name: intel-device-plugins-for-kubernetes-nfd-feature-rules
+#   namespace: intel-dp
+# spec:
+#   interval: 10m
+#   # targetNamespace: intel-dp
+#   dependsOn:
+#     - name: intel-device-plugins-for-kubernetes-nfd
+#   sourceRef:
+#     kind: GitRepository
+#     name: intel-device-plugins-for-kubernetes
+#     namespace: intel-dp
+#   path: /deployments/nfd/overlays/node-feature-rules
+#   prune: true
+#   timeout: 1m
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
