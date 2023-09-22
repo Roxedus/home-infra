@@ -46,6 +46,7 @@ spec:
     name: intel-device-plugins-for-kubernetes
     namespace: intel-dp
   path: /deployments/nfd/overlays/node-feature-rules
+  force: true
   prune: true
   timeout: 1m
 ---
@@ -64,7 +65,6 @@ spec:
     name: intel-device-plugins-for-kubernetes
     namespace: intel-dp
   path: /deployments/gpu_plugin/overlays/fractional_resources
-  force: true
   prune: true
   timeout: 1m
 ---
