@@ -34,13 +34,13 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: intel-device-plugins-for-kubernetes-nfd-fractional-resources
+  name: intel-device-plugins-for-kubernetes-nfd-feature-rules
   namespace: intel-dp
 spec:
   interval: 10m
   # targetNamespace: intel-dp
   dependsOn:
-    - name: intel-device-plugins-for-kubernetes-nfd
+    - name: intel-device-plugins-for-kubernetes-nfd-fractional-resources
   sourceRef:
     kind: GitRepository
     name: intel-device-plugins-for-kubernetes
