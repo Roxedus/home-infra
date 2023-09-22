@@ -56,7 +56,7 @@ metadata:
   namespace: intel-dp
 spec:
   interval: 10m
-  targetNamespace: inteldeviceplugins-system
+  targetNamespace: intel-dp
   dependsOn:
     - name: intel-device-plugins-for-kubernetes-operator
   sourceRef:
@@ -106,7 +106,7 @@ spec:
   dependsOn:
     - name: intel-device-plugins-for-kubernetes-operator
   interval: 10m
-  targetNamespace: inteldeviceplugins-system
+  targetNamespace: intel-dp
   sourceRef:
     kind: GitRepository
     name: intel-device-plugins-for-kubernetes

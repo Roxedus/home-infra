@@ -4,7 +4,7 @@ resources:
   - ns.yaml
   - cert-manager.yaml
   # - external-secrets.yaml
-  # - intel-dp.yaml
+  - intel-dp.yaml
   - longhorn.yaml
   - metallb.yaml
   - metrics-server.yaml
