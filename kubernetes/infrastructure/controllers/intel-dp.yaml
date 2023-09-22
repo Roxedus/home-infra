@@ -13,7 +13,7 @@ spec:
   interval: 5m
   url: https://github.com/intel/intel-device-plugins-for-kubernetes
   ref:
-    tag: v0.27.1
+    tag: v0.28.0
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
