@@ -40,7 +40,7 @@ spec:
   interval: 10m
   # targetNamespace: intel-dp
   dependsOn:
-    - name: iintel-device-plugins-for-kubernetes
+    - name: intel-device-plugins-for-kubernetes-nfd
   sourceRef:
     kind: GitRepository
     name: intel-device-plugins-for-kubernetes
