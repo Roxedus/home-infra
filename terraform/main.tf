@@ -2,7 +2,7 @@ terraform {
   required_providers {
     tailscale = {
       source  = "tailscale/tailscale"
-      version = "0.13.10"
+      version = "0.13.11"
     }
     proxmox = {
       source  = "bpg/proxmox"
