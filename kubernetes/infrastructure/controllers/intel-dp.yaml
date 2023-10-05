@@ -118,3 +118,17 @@ spec:
   force: true
   prune: true
   timeout: 1m
+  patches:
+    - target:
+        kind: NodeFeatureRule
+        name: intel-gpu-platform-labeling
+      patch: |
+        - op: replace
+          path: /spec/rules/1/labels/
+          value: []
+        - op: replace
+          path: /spec/rules/2/labels/
+          value: []
+        - op: replace
+          path: /spec/rules/3/labels/
+          value: []
