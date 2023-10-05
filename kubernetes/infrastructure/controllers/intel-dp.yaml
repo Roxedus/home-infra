@@ -22,66 +22,10 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: intel-device-plugins-for-kubernetes-nfd
-  namespace: intel-dp
-spec:
-  interval: 10m
-  # targetNamespace: intel-dp
-  sourceRef:
-    kind: GitRepository
-    name: intel-device-plugins-for-kubernetes
-    namespace: intel-dp
-  path: /deployments/nfd
-  prune: true
-  timeout: 1m
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: intel-device-plugins-for-kubernetes-nfd-feature-rules
-  namespace: intel-dp
-spec:
-  interval: 10m
-  # targetNamespace: intel-dp
-  dependsOn:
-    - name: intel-device-plugins-for-kubernetes-nfd
-  sourceRef:
-    kind: GitRepository
-    name: intel-device-plugins-for-kubernetes
-    namespace: intel-dp
-  path: /deployments/nfd/overlays/node-feature-rules
-  force: true
-  prune: true
-  timeout: 1m
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: intel-device-plugins-for-kubernetes-nfd-fractional-resources
-  namespace: intel-dp
-spec:
-  interval: 10m
-  targetNamespace: inteldeviceplugins-system
-  dependsOn:
-    - name: intel-device-plugins-for-kubernetes-operator
-  sourceRef:
-    kind: GitRepository
-    name: intel-device-plugins-for-kubernetes
-    namespace: intel-dp
-  path: /deployments/gpu_plugin/overlays/fractional_resources
-  prune: true
-  timeout: 1m
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
   name: intel-device-plugins-for-kubernetes-operator
   namespace: intel-dp
 spec:
   interval: 10m
-  # targetNamespace: intel-dp
-  #  dependsOn:
-  #    - name: intel-device-plugins-for-kubernetes-nfd-fractional-resources
   sourceRef:
     kind: GitRepository
     name: intel-device-plugins-for-kubernetes
@@ -117,5 +61,60 @@ spec:
     name: intel-device-plugins-for-kubernetes
     namespace: intel-dp
   path: /deployments/gpu_plugin
+  prune: true
+  timeout: 1m
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: intel-device-plugins-for-kubernetes-nfd
+  namespace: intel-dp
+spec:
+  interval: 10m
+  # targetNamespace: intel-dp
+  dependsOn:
+    - name: intel-device-plugins-for-kubernetes-gpu-plugin
+  sourceRef:
+    kind: GitRepository
+    name: intel-device-plugins-for-kubernetes
+    namespace: intel-dp
+  path: /deployments/nfd
+  prune: true
+  timeout: 1m
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: intel-device-plugins-for-kubernetes-nfd-fractional-resources
+  namespace: intel-dp
+spec:
+  interval: 10m
+  targetNamespace: inteldeviceplugins-system
+  dependsOn:
+    - name: intel-device-plugins-for-kubernetes-nfd
+  sourceRef:
+    kind: GitRepository
+    name: intel-device-plugins-for-kubernetes
+    namespace: intel-dp
+  path: /deployments/gpu_plugin/overlays/fractional_resources
+  prune: true
+  timeout: 1m
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: intel-device-plugins-for-kubernetes-nfd-feature-rules
+  namespace: intel-dp
+spec:
+  interval: 10m
+  # targetNamespace: intel-dp
+  dependsOn:
+    - name: intel-device-plugins-for-kubernetes-nfd-fractional-resources
+  sourceRef:
+    kind: GitRepository
+    name: intel-device-plugins-for-kubernetes
+    namespace: intel-dp
+  path: /deployments/nfd/overlays/node-feature-rules
+  force: true
   prune: true
   timeout: 1m
