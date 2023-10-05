@@ -92,6 +92,8 @@ kind: Ingress
 metadata:
   name: ersatztv-ing
   namespace: quicksync
+  annotations:
+    cert-manager.io/cluster-issuer: roxedus.com-cloudflare
 spec:
   rules:
     - host: ersatztv.roxedus.com
@@ -104,3 +106,7 @@ spec:
                   number: 8409
             path: /
             pathType: Prefix
+  tls:
+    - hosts:
+        - ersatztv.roxedus.com
+      secretName: ersatztv-roxedus-tls
