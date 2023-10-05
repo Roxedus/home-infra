@@ -9,6 +9,10 @@ kind: GitRepository
 metadata:
   name: intel-device-plugins-for-kubernetes
   namespace: intel-dp
+  annotations:
+    kustomize.toolkit.fluxcd.io/ssa: Override
+    kustomize.toolkit.fluxcd.io/force: Enabled
+    kustomize.toolkit.fluxcd.io/prune: Enabled
 spec:
   interval: 5m
   url: https://github.com/intel/intel-device-plugins-for-kubernetes
@@ -20,11 +24,6 @@ kind: Kustomization
 metadata:
   name: intel-device-plugins-for-kubernetes-nfd
   namespace: intel-dp
-  annotations:
-    kustomize.toolkit.fluxcd.io/ssa: Override
-    kustomize.toolkit.fluxcd.io/force: Enabled
-    kustomize.toolkit.fluxcd.io/prune: Enabled
-
 spec:
   interval: 10m
   # targetNamespace: intel-dp
