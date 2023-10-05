@@ -123,12 +123,9 @@ spec:
         kind: NodeFeatureRule
         name: intel-gpu-platform-labeling
       patch: |
-        - op: replace
-          path: /spec/rules/1/labels/
-          value: []
-        - op: replace
-          path: /spec/rules/2/labels/
-          value: []
-        - op: replace
-          path: /spec/rules/3/labels/
-          value: []
+        - op: remove
+          path: /spec/rules/1/labels
+        - op: remove
+          path: /spec/rules/2/labels
+        - op: remove
+          path: /spec/rules/3/labels
