@@ -19,7 +19,7 @@ spec:
       nodeSelector:
         intel.feature.node.kubernetes.io/gpu: "true"
       containers:
-        - image: jasongdove/ersatztv:develop-vaapi
+        - image: jasongdove/ersatztv:develop-vaapi@sha256:25d55cd3900921139a45d8435e2a28861944dbef4505a47ab2d14190c3f93c0e
           name: ersatztv
           securityContext:
             privileged: true
