@@ -56,30 +56,6 @@
     - role: geerlingguy.security
       when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
   tasks:
-    - name: Add repo for non-free firmware
-      when: ansible_distribution == 'Debian' and ansible_facts.board_name is match("ZimaBoard")
-      become: True
-      ansible.builtin.apt_repository:
-        filename: debian-non-free
-        repo: "{{ item  }}"
-        mode: 0666
-        update_cache: True
-      loop:
-        - deb http://deb.debian.org/debian/ {{ ansible_facts.distribution_release }} non-free
-        - deb-src http://deb.debian.org/debian/ {{ ansible_facts.distribution_release }} non-free
-
-    - name: Install firmwares
-      when: ansible_distribution == 'Debian' and ansible_facts.board_name is match("ZimaBoard")
-      ansible.builtin.apt:
-        name:
-          #- beignet-opencl-icd
-          - firmware-realtek
-          #- i965-va-driver
-          - i965-va-driver-shaders
-          - intel-gpu-tools
-          - vainfo
-        state: present
-
     - name: Install packages
       when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
       ansible.builtin.apt:
@@ -129,6 +105,10 @@
     - init
     - update
   tasks:
+    - name: Include ZimaBoard role
+      ansible.builtin.include_role:
+        name: zimaboard
+      when: ansible_facts.board_name is match("ZimaBoard")
     - name: Include raspberry role
       ansible.builtin.include_role:
         name: raspberry
