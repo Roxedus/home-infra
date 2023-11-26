@@ -129,37 +129,8 @@
     - init
     - raspberry
     - update
-  tasks:
-    - name: Install packages
-      become: "{{ do_become }}"
-      ansible.builtin.apt:
-        name: "{{ item }}"
-      loop:
-        - libraspberrypi-bin
-        - linux-modules-extra-raspi
-        - vlan
-
-    - name: Add the 802.1q module
-      become: "{{ do_become }}"
-      community.general.modprobe:
-        name: 8021q
-        state: present
-
-    - name: Place PoE fan file
-      become: "{{ do_become }}"
-      ansible.builtin.copy:
-        content: |
-          # Ansible managed
-
-          dtoverlay=rpi-poe
-          dtparam=poe_fan_temp0=57000
-          dtparam=poe_fan_temp1=60000
-          dtparam=poe_fan_temp2=63000
-          dtparam=poe_fan_temp3=66000
-
-          dtoverlay=vc4-fkms-v3d
-        mode: 0644
-        dest: /boot/firmware/usercfg.txt
+  roles:
+    - role: raspberry
 
 - name: Provision PiHole
   hosts: pihole
@@ -171,16 +142,6 @@
     - role: pihole_updatelist
     - role: dnsmasq_server
     - role: unbound
-  tasks:
-    - name: Deny dhcp by dhcpcd
-      become: "{{ do_become }}"
-      ansible.builtin.lineinfile:
-        path: /etc/dhcpcd.conf
-        regexp: ^denyinterfaces eth0
-        line: denyinterfaces eth0
-        owner: root
-        group: root
-        mode: 0644
 
 - name: Install Kubernetes
   any_errors_fatal: true
