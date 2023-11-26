@@ -123,14 +123,16 @@
     - role: geerlingguy.docker
       when: ansible_distribution == 'Ubuntu'
 
-- name: Set up Rasberry PIs
-  hosts: raspberry
+- name: Board specific setup
+  hosts: all
   tags:
     - init
-    - raspberry
     - update
-  roles:
-    - role: raspberry
+  tasks:
+    - name: Include raspberry role
+      ansible.builtin.include_role:
+        name: raspberry
+      when: ansible_facts.kernel.endswith("-raspi")
 
 - name: Provision PiHole
   hosts: pihole
