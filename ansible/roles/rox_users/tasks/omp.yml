@@ -10,6 +10,7 @@
   register: omp_ver
 
 - name: Get latest release of OMP
+  delegate_to: 127.0.0.1
   community.general.github_release:
     user: JanDeDobbeleer
     repo: oh-my-posh

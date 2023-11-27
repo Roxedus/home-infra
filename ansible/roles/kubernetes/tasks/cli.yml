@@ -10,6 +10,7 @@
   register: nerd_ver
 
 - name: Get latest release of Nerdctl
+  delegate_to: 127.0.0.1
   community.general.github_release:
     user: containerd
     repo: nerdctl

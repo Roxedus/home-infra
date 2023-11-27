@@ -1,7 +1,8 @@
 ansible-lint==6.21.1
 ansible==8.5.0
+github3.py==4.0.1
 jmespath==1.0.1
+passlib==1.7.4 ; sys_platform == 'darwin'
 pre-commit==3.5.0
 wheel==0.41.2
 yamllint==1.32.0
-passlib==1.7.4 ; sys_platform == 'darwin'

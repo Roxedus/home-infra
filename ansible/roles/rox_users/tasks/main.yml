@@ -6,25 +6,6 @@
   when: box_is_appliance
   ansible.builtin.include_tasks: is_root.yml
 
-- name: Update apt cache
-  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
-  ansible.builtin.apt:
-    update_cache: true
-  changed_when: false
-
-- name: Install pip package
-  become: "{{ do_become }}"
-  ansible.builtin.apt:
-    name: python3-pip
-
-- name: Install github package
-  become: "{{ do_become }}"
-  ansible.builtin.pip:
-    extra_args: "{{ '--break-system-packages' if ansible_distribution == 'Debian' else '' }}"
-    name:
-      - github3.py
-      - pyopenssl
-
 - name: Install OhMyPosh
   when: box_omp
   ansible.builtin.include_tasks: omp.yml

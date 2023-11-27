@@ -89,12 +89,6 @@
   tags:
     - docker
     - init
-  post_tasks:
-    - name: Install pip packages
-      ansible.builtin.pip:
-        name:
-          - docker
-
   roles:
     - role: geerlingguy.docker
       when: ansible_distribution == 'Ubuntu'
