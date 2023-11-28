@@ -1,5 +1,8 @@
-box_omp: false
-box_chezmoi: false
+box_omp: False
+box_chezmoi: False
+
+chezmoi_config: False
+chezmoi_age: ""
 
 box_is_appliance: False
 

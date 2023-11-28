@@ -10,7 +10,12 @@
   when: box_omp
   ansible.builtin.include_tasks: omp.yml
 
+- name: Install Chezmoi
+  when: box_chezmoi
+  ansible.builtin.include_tasks: chezmoi.yml
+
 - name: Basic VI
+  when: not box_chezmoi
   ansible.builtin.lineinfile:
     mode: 0644
     path: /home/{{ user.username }}/.vimrc
