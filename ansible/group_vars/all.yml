@@ -27,6 +27,7 @@ users:
     dotfiles: True
     github: Roxedus
     password: "{{ secret_sudo }}"
+    zfs: True
 
 package_list:
   - bash-completion

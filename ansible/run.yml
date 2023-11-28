@@ -124,6 +124,13 @@
     - role: dnsmasq_server
     - role: unbound
 
+- name: Install ZFS
+  hosts: server
+  become: "{{ do_become }}"
+  tags: [never, init, test]
+  roles:
+    - role: zfs
+
 - name: Install Kubernetes
   any_errors_fatal: true
   hosts: kubernetes
