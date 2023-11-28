@@ -8,6 +8,8 @@ box_omp: True
 box_chezmoi: False
 box_is_appliance: False
 
+homebrew: False
+
 raspberry_is_vlaned: True
 
 apt_arch: "{{ _apt_arch.stdout }}"

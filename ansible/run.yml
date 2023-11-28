@@ -36,6 +36,11 @@
       loop_control:
         loop_var: user
 
+    - name: Install Homebrew
+      ansible.builtin.include_role:
+        name: homebrew
+      when: homebrew
+
     - name: Change hostname
       when: set_hostname is defined
       ansible.builtin.hostname:

@@ -1,0 +1,28 @@
+# https://github.com/markosamuli/ansible-linuxbrew/blob/master/tasks/install/with_installer.yml
+- name: Temporary directory
+  ansible.builtin.tempfile:
+    state: directory
+    suffix: homebrew
+  register: homebrew_tmp
+  become: false
+
+- name: Download Homebrew install script
+  ansible.builtin.get_url:
+    url: https://raw.githubusercontent.com/Homebrew/install/master/install.sh
+    dest: "{{ homebrew_tmp.path }}/install.sh"
+    mode: 0700
+  become: false
+
+- name: Install Homebrew with the installer
+  ansible.builtin.command: sh -c "{{ homebrew_tmp.path }}/install.sh"
+  register: install_result
+  changed_when: install_result.rc == 0
+  become: false
+  environment:
+    NONINTERACTIVE: 1
+
+- name: Remove temporary directory
+  ansible.builtin.file:
+    path: "{{ homebrew_tmp.path }}"
+    state: absent
+  become: false
