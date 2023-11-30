@@ -165,7 +165,7 @@
         src: 10.0.0.30:/mnt/user/data/media/
         path: /mnt/user/data/media/
         opts: ro
-        state: mounted
+        state: "{{ 'present' if lookup('file', '/mnt/user/data/media/.test', errors='ignore') else 'mounted' }}"
         fstype: nfs
 
 - name: Update host
