@@ -57,6 +57,8 @@ security_autoupdate_enabled: true
 security_fail2ban_enabled: true
 security_sudoers_passwordless:
   - "{{ users | selectattr('passwordless', 'true') | map(attribute='username') }}"
+security_sudoers_passworded:
+  - "{{ users | selectattr('passwordless', 'false') | map(attribute='username') }}"
 
 secret_local_domain: !vault |
   $ANSIBLE_VAULT;1.1;AES256
