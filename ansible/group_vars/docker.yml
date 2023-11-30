@@ -1,6 +1,6 @@
 docker_install_compose: true
 
-docker_users_obj: "{{ users | selectattr('docker', 'defined') }}"
+docker_users_obj: "{{ users | selectattr('docker', 'true') }}"
 docker_users: "{{ docker_users_obj | map(attribute='username') }}"
 
 docker_apt_arch: "{{ apt_arch }}"
