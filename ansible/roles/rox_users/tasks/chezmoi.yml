@@ -10,9 +10,9 @@
   ansible.builtin.file:
     path: /home/{{ user.username }}/{{ item }}
     state: directory
-    mode: "0755"
+    mode: "0775"
     owner: "{{ user.username }}"
-    group: "{{ user.username }}"
+    group: "{{ user.groupname }}"
   loop:
     - .local/bin
     - .config/chezmoi
@@ -26,7 +26,7 @@
     dest: /home/{{ user.username }}/.local/bin/chezmoi
     mode: 0755
     owner: "{{ user.username }}"
-    group: "{{ user.username }}"
+    group: "{{ user.groupname }}"
 
 - name: Create Chezmoi config
   when: chezmoi_config
@@ -35,7 +35,7 @@
     content: "{{ chezmoi_config }}"
     dest: /home/{{ user.username }}/.config/chezmoi/chezmoi.yml
     owner: "{{ user.username }}"
-    group: "{{ user.username }}"
+    group: "{{ user.groupname }}"
 
 - name: Create Chezmoi age file
   become: False
@@ -43,12 +43,27 @@
     content: "{{ chezmoi_age }}"
     dest: /home/{{ user.username }}/.config/chezmoi/key.age
     owner: "{{ user.username }}"
-    group: "{{ user.username }}"
+    group: "{{ user.groupname }}"
 
 - name: Init Chezmoi
   ansible.builtin.command: .local/bin/chezmoi init {{ user.github }}
   register: init_result
   when: chezmoi_create.changed and chezmoi_download.changed
+  changed_when: init_result.rc == 0
+  become: False
+  environment:
+    NONINTERACTIVE: 1
+
+- name: Check if Chezmoi is initialized
+  become: False
+  ansible.builtin.stat:
+    path: /home/{{ user.username }}/.local/share/chezmoi/
+  register: chezmoi_init
+
+- name: Apply Chezmoi
+  ansible.builtin.command: .local/bin/chezmoi apply -v
+  register: init_result
+  when: chezmoi_init.stat.exists
   changed_when: init_result.rc == 0
   become: False
   environment:
