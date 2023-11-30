@@ -118,6 +118,7 @@
   tags:
     - pihole
     - update
+    - init
   roles:
     - role: pihole
     - role: pihole_updatelist
@@ -184,6 +185,14 @@
         force_apt_get: "True"
         cache_valid_time: 3600
         upgrade: "True"
+        autoremove: "True"
+
+    - name: Remove Ubuntu ESM apt spam
+      when: ansible_distribution == 'Ubuntu'
+      ansible.builtin.copy:
+        content: |
+          # Ansible managed
+        dest: /etc/apt/apt.conf.d/20apt-esm-hook.conf
 
     - name: Remove motd
       ansible.builtin.file:
@@ -198,18 +207,12 @@
         - 00-header
         - 10-help-text
         - 10-uname
-        - 50-landscape-sysinfo
         - 50-motd-news
         - 80-livepatch
-        - 85-fwupd
         - 88-esm-announce
-        - 90-updates-available
         - 91-contract-ua-esm-status
         - 91-release-upgrade
         - 92-unattended-upgrades
-        - 95-hwe-eol
-        - 97-overlayroot
-        - 98-fsck-at-reboot
         - 98-reboot-required
       when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
 
