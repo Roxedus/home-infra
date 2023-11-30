@@ -6,6 +6,16 @@
   register: homebrew_tmp
   become: false
 
+- name: Create folders
+  become: True
+  register: chezmoi_create
+  ansible.builtin.file:
+    path: /home/linuxbrew/.linuxbrew/
+    state: directory
+    mode: "0755"
+    owner: "{{ users.0.username }}"
+    group: "{{ users.0.groupname }}"
+
 - name: Download Homebrew install script
   ansible.builtin.get_url:
     url: https://raw.githubusercontent.com/Homebrew/install/master/install.sh
