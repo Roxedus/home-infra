@@ -10,7 +10,9 @@
 - name: Give user passwordless access to ZFS commands
   become: "{{ do_become }}"
   lineinfile:
-    path: /etc/sudoers
+    path: /etc/sudoers.d/zfs
     line: "{{ item }} ALL=(ALL) NOPASSWD: /usr/sbin/zfs,/usr/sbin/zpool"
-    regexp: "{{ item }} .*/usr/sbin/zfs,/usr/sbin/zpool"
+    regexp: ^{{ item }} .*/usr/sbin/zfs,/usr/sbin/zpool$
+    validate: visudo -cf %s
+    mode: 0440
   loop: "{{ zfs_users }}"
