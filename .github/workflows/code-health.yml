@@ -2,10 +2,10 @@ name: Check Code health
 
 on:
   push:
-    # paths:
-    #   - ansible/**
-    # branches:
-    #   - main
+  #    paths:
+  #      - ansible/**
+  #    branches:
+  #      - main
   pull_request:
     types: [opened, reopened, edited]
 
