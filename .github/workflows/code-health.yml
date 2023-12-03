@@ -19,7 +19,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4.7.1
         with:
-          python-version: 3.10
+          python-version: 3.11
 
       - name: Install linters
         working-directory: ansible/
@@ -40,6 +40,7 @@ jobs:
       - name: run kics Scan
         uses: Checkmarx/kics-github-action@3f21d96af19575aae6bf83ebdd7dee91d02fa746
         with:
+          path: .
           config_path: .kics/config.yml
           output_formats: sarif
 
