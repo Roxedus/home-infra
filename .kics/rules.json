@@ -1,0 +1,21 @@
+{
+  "rules": [
+    {
+      "id": "3a3b2a7f-ab70-4000-b3e6-f39129bd6c07",
+      "name": "Sops encrypted secrets",
+      "regex": "(?i)ENC\\[AES256_GCM,data:.*\\]",
+      "allowRules": [
+        {
+          "description": "Avoid SOPS secrets",
+          "regex": "(?i)ENC\\[AES256_GCM,data:.*\\]"
+        }
+      ]
+    }
+  ],
+  "allowRules": [
+    {
+      "description": "Avoid SOPS secrets",
+      "regex": "(?i)ENC\\[AES256_GCM,data:.*\\]"
+    }
+  ]
+}

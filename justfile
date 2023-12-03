@@ -3,6 +3,8 @@
 export BW_SESSION := env_var_or_default('BW_SESSION', "")
 export TF_VAR_OAUTH_CLIENT_SECRET := env_var_or_default('OAUTH_CLIENT_SECRET', "")
 export TF_VAR_OAUTH_CLIENT_ID := env_var_or_default('OAUTH_CLIENT_ID', "")
+export UID := env_var_or_default('UID', "")
+export GID := env_var_or_default('GID', "")
 export LC_ALL := "en_US.UTF-8"
 
 ansible_dir := "ansible"
@@ -42,6 +44,9 @@ pack node="" type="kube":
 
 pack_base:
   {{_packer}} build arm64-ubuntu2204-base.pkr.hcl
+
+kicks:
+  docker run --rm -t -u $UID:$GID -v ${PWD}:/path --workdir /path checkmarx/kics:latest scan --config ./.kics/config.yml
 
 _pip-install:
   cd {{ansible_dir}} && {{python_dir}}/pip install -r requirements.txt

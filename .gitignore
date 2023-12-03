@@ -34,3 +34,8 @@ ansible/.galaxy_roles
 **/packer/*.img
 **/packer/*.sha256
 **/packer/*.xz
+
+### Kics ###
+.kics/*
+!.kics/config.yml
+!.kics/rules.json
