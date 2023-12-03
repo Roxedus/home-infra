@@ -28,7 +28,6 @@ jobs:
           pip install $(grep yamllint requirements.txt)
 
       - name: Lint YAML files
-        working-directory: ansible/
         run: yamllint .
 
   kics:
@@ -37,11 +36,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4.1.1
 
-      - name: run kics Scan
+      - name: Run kics Scan
         uses: Checkmarx/kics-github-action@3f21d96af19575aae6bf83ebdd7dee91d02fa746
         with:
           path: .
           config_path: .kics/config.yml
+          ignore_on_exit: results
           output_formats: sarif
 
       - name: Upload SARIF file
