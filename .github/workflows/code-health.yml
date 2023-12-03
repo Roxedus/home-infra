@@ -33,6 +33,11 @@ jobs:
   kics:
     name: Run kics
     runs-on: ubuntu-latest
+    permissions:
+      checks: write
+      contents: read
+      security-events: write
+      statuses: write
     steps:
       - uses: actions/checkout@v4.1.1
 
