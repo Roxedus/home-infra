@@ -32,6 +32,7 @@
   when: chezmoi_config
   become: False
   ansible.builtin.copy:
+    mode: "0760"
     content: "{{ chezmoi_config }}"
     dest: /home/{{ user.username }}/.config/chezmoi/chezmoi.yml
     owner: "{{ user.username }}"
@@ -40,6 +41,7 @@
 - name: Create Chezmoi age file
   become: False
   ansible.builtin.copy:
+    mode: "0760"
     content: "{{ chezmoi_age }}"
     dest: /home/{{ user.username }}/.config/chezmoi/key.age
     owner: "{{ user.username }}"

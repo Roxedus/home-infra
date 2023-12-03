@@ -32,6 +32,6 @@ data "tailscale_device" "unraid" {
 
 
 output "devices" {
-  value = data.tailscale_devices.all_devices.devices[*].name
-
+  value       = data.tailscale_devices.all_devices.devices[*].name
+  description = "The name of all the decives on the TailNet"
 }
