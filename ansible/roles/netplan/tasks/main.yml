@@ -1,0 +1,50 @@
+- name: Add yq repository from PPA
+  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+  become: true
+  ansible.builtin.apt_repository:
+    repo: ppa:rmescandon/yq
+
+- name: Update apt cache
+  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+  become: true
+  ansible.builtin.apt:
+    update_cache: true
+  changed_when: false
+
+- name: Install YQ and tmux
+  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+  ansible.builtin.apt:
+    name:
+      - yq
+      - tmux
+    state: present
+
+- name: Capturing Existing Configurations
+  find:
+    paths: /etc/netplan
+    patterns: "*.yml,*.yaml"
+  register: _netplan_configs
+
+- debug: var=_netplan_configs
+  when: debug is defined and ( debug | bool )
+
+- name: Removing Existing Configurations
+  file:
+    path: "{{ item['path'] }}"
+    state: absent
+  become: true
+  with_items: "{{ _netplan_configs['files'] }}"
+  when:
+    - item['path'] != netplan_config_file
+
+- name: Generate 00-ansible.yaml Netplan file
+  ansible.builtin.template:
+    src: 00-ansible.yaml.j2
+    dest: "{{ netplan_config_file }}"
+    mode: 0600
+    owner: root
+    group: root
+    validate: yq e '.' %s
+  notify:
+    - Try Netplan
+  become: true

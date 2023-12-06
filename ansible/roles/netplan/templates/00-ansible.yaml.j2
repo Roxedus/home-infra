@@ -1,0 +1,21 @@
+{{ ansible_managed | comment }}
+
+network:
+  version: 2
+  ethernets:
+    {{ netplan_interface }}:
+      dhcp-identifier: mac
+      dhcp4: {{ netplan_dhcp }}
+{% if not netplan_dhcp %}
+      addresses: {{ netplan_addresses }}
+      gateway4: {{ netplan_gateway4 }}
+{% endif %}
+{% if netplan_dns or netplan_search %}
+      nameservers:
+{% if netplan_dns %}
+        addresses: {{ netplan_dns }}
+{% endif %}
+{% if netplan_search %}
+        search: {{ netplan_search }}
+{% endif %}
+{% endif %}
