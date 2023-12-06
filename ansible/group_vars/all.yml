@@ -10,6 +10,8 @@ box_is_appliance: False
 
 homebrew: False
 
+prom_node_exporter: True
+
 chezmoi_age: "{{ secret_chezmoi_age }}"
 
 raspberry_is_vlaned: True
