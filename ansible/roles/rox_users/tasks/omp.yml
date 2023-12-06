@@ -28,7 +28,7 @@
 
 - name: Add OMP to bash
   ansible.builtin.lineinfile:
-    mode: 0644
+    mode: 0664
     path: /home/{{ user.username }}/.bashrc
     search_string: oh-my-posh
     line: >

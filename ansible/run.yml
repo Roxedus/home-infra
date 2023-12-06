@@ -91,7 +91,10 @@
         test_command: uptime
 
 - name: Install docker
-  hosts: docker
+  hosts:
+    - edge
+    - hbd
+    - server
   become: "{{ do_become }}"
   tags:
     - docker
@@ -156,7 +159,7 @@
 - name: Install ZFS
   hosts: server
   become: "{{ do_become }}"
-  tags: [never, init, test]
+  tags: [never, init]
   roles:
     - role: zfs
 
@@ -178,7 +181,9 @@
         name: kubernetes
 
 - name: Mount unraid media
-  hosts: nfs_media
+  hosts:
+    - server
+    - node04
   become: "{{ do_become }}"
   tags:
     - init
@@ -186,6 +191,7 @@
 
   tasks:
     - name: Get dependencies for NFS
+      when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
       ansible.builtin.apt:
         name: nfs-common
 

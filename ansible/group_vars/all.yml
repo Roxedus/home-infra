@@ -51,6 +51,15 @@ package_list:
 
 dmasq_local_domain: "{{ secret_local_domain }}"
 
+docker_install_compose: true
+docker_users_obj: "{{ users | selectattr('docker', 'true') }}"
+docker_users: "{{ docker_users_obj | map(attribute='username') }}"
+docker_apt_arch: "{{ apt_arch }}"
+docker_daemon_options:
+  log-driver: journald
+  log-opts:
+    mode: non-blocking
+
 security_ssh_password_authentication: "no"
 security_ssh_permit_root_login: "no"
 security_ssh_port: 22
