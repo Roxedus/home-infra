@@ -74,10 +74,13 @@
       ansible.builtin.lineinfile:
         path: /etc/hosts
         regexp: ^127\.0\.0\.1 localhost
-        line: 127.0.0.1 localhost {{ set_hostname }}
+        line: 127.0.0.1 {{ item }}
         owner: root
         group: root
         mode: 0644
+      with_items:
+        - localhost
+        - "{{ set_hostname }}"
       notify:
         - Reboot the server
 
