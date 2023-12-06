@@ -27,6 +27,9 @@ run *args="-D -t update":
 acrypt *args="":
   cd {{ansible_dir}} && {{python_dir}}/ansible-vault encrypt_string {{args}}
 
+afact *host="":
+  cd {{ansible_dir}} && {{python_dir}}/ansible {{host}} -m ansible.builtin.setup
+
 # Crypts a kubernetes value
 kcrypt *args="":
   sops --encrypt --in-place kubernetes/.sops/{{args}}.yaml
