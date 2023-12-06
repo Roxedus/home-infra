@@ -71,6 +71,13 @@ security_sudoers_passwordless:
 security_sudoers_passworded:
   - "{{ users | selectattr('passwordless', 'false') | map(attribute='username') }}"
 
+netplan_dhcp: True
+netplan_dns:
+  - 10.0.0.31
+  - 10.0.0.32
+netplan_gateway4: 10.0.0.1
+netplan_search: ["{{ secret_local_domain }}"]
+
 secret_local_domain: !vault |
   $ANSIBLE_VAULT;1.1;AES256
   30363732646139316631643137336631353737303937346231363561396162353535613233313332

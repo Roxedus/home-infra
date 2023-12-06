@@ -1,0 +1,3 @@
+set_hostname: edge
+netplan_addresses: [10.0.0.16/24]
+netplan_dhcp: false

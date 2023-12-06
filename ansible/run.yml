@@ -93,6 +93,17 @@
         post_reboot_delay: 30
         test_command: uptime
 
+- name: Setup Netplan
+  hosts:
+    - edge
+    - server
+  become: "{{ do_become }}"
+  tags:
+    - netplan
+    - init
+  roles:
+    - role: netplan
+
 - name: Install docker
   hosts:
     - edge
