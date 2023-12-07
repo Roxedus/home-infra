@@ -8,6 +8,8 @@ on:
   #      - main
   pull_request:
     types: [opened, reopened, edited]
+    branches-ignore:
+      - renovate/*
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
