@@ -10,9 +10,36 @@ on:
     types: [opened, reopened, edited]
 
 jobs:
+  meta:
+    name: Create meta object
+    runs-on: ubuntu-latest
+    permissions: read-all
+    outputs:
+      check_files: ${{ steps.vars.outputs.check_files }}
+    steps:
+      - uses: actions/checkout@v4.1.1
+        with:
+          fetch-depth: 0
+
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v40
+        with:
+          files_ignore_separator: ","
+
+      - name: Create Meta variables
+        id: vars
+        run: |
+          if [[ ${GITHUB_REF//refs\/heads\//} =~ ^renovate/.* ]]; then
+            echo "check_files=${{ steps.changed-files.outputs.all_changed_files }}" >> $GITHUB_OUTPUT
+          else
+            echo "check_files=." >> $GITHUB_OUTPUT
+          fi
+
   yaml:
     name: Check YAML files
     runs-on: ubuntu-latest
+    needs: [meta]
     steps:
       - uses: actions/checkout@v4.1.1
 
@@ -28,7 +55,7 @@ jobs:
           pip install $(grep yamllint requirements.txt)
 
       - name: Lint YAML files
-        run: yamllint .
+        run: yamllint ${{ needs.meta.outputs.check_files }}
 
   kics:
     name: Run kics
@@ -38,13 +65,14 @@ jobs:
       contents: read
       security-events: write
       statuses: write
+    needs: [meta]
     steps:
       - uses: actions/checkout@v4.1.1
 
       - name: Run kics Scan
         uses: Checkmarx/kics-github-action@3f21d96af19575aae6bf83ebdd7dee91d02fa746
         with:
-          path: .
+          path: ${{ needs.meta.outputs.check_files }}
           config_path: .kics/config.yml
           ignore_on_exit: results
           output_formats: sarif
