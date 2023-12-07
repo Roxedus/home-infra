@@ -29,7 +29,8 @@
     },
     {
       "matchPackageNames": [
-        "yamllint"
+        "yamllint",
+        "adrienverge/yamllint"
       ]
     },
     {
