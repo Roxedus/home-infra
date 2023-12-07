@@ -10,7 +10,7 @@ repos:
         language: script
         entry: .pre-commit/ansible-vault-encrypted.sh
   - repo: https://github.com/adrienverge/yamllint.git
-    rev: v1.32.0
+    rev: v1.33.0
     hooks:
       - id: yamllint
         types: [file, yaml]
