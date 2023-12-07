@@ -1,7 +1,7 @@
 - name: Update PiHole
   register: pihole_updated
   changed_when: pihole_updated.rc != 0
-  become: True
+  become: true
   ansible.builtin.command:
     argv:
       - pihole

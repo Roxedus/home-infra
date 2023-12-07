@@ -8,7 +8,7 @@
   ansible.builtin.include_tasks: gather.yml
 
 - name: Install updatelist conf
-  become: True
+  become: true
   register: installed_pihole_updatelist
   ansible.builtin.copy:
     src: pihole-updatelists.conf
@@ -26,13 +26,13 @@
   when: updatelist_exec.stat.exists
   register: pihole_updatelist_act
   changed_when: pihole_updatelist_act.rc != 0
-  become: True
+  become: true
   ansible.builtin.command:
     argv:
       - pihole-updatelists
 
 - name: Update pihole_updatelist
-  become: True
+  become: true
   when: updatelist_exec.stat.exists and pihole_update and installed_pihole_updatelist.changed
   register: pihole_updatelist_upd
   changed_when: pihole_updatelist_upd.rc != 0

@@ -1,5 +1,5 @@
 - name: Set up kmsg in LXC # https://kevingoos.medium.com/kubernetes-inside-proxmox-lxc-cce5c9927942
-  become: True
+  become: true
   ansible.builtin.copy:
     content: |
       #!/bin/sh -e

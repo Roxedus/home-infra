@@ -19,12 +19,12 @@
 
 - name: Download Nerdctl
   when: not nerd_bin.stat.exists or nerd_rel.tag != ( "v" + (nerd_ver.stdout | replace("nerdctl version ", "")))
-  become: "{{ do_become }}"
+  become: true
   ansible.builtin.unarchive:
     src: https://github.com/containerd/nerdctl/releases/download/{{ nerd_rel.tag }}/nerdctl-{{ nerd_rel.tag | replace("v","") }}-linux-{{ apt_arch }}.tar.gz
     dest: /usr/local/bin
     include: nerdctl
-    remote_src: yes
+    remote_src: true
     mode: 0755
 
 - name: Add kubectl alias to bash
@@ -33,7 +33,7 @@
     mode: 0644
     path: /home/{{ users.0.username }}/.bashrc
     line: "{{ item }}"
-    create: yes
+    create: true
   with_items:
     - source <(kubectl completion bash)
     - alias k=kubectl

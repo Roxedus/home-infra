@@ -1,11 +1,11 @@
 - name: Check if Chezmoi is installed
-  become: False
+  become: false
   ansible.builtin.stat:
     path: /home/{{ user.username }}/.local/bin/chezmoi
   register: chezmoi_bin
 
 - name: Create folders
-  become: False
+  become: false
   register: chezmoi_create
   ansible.builtin.file:
     path: /home/{{ user.username }}/{{ item }}
@@ -20,7 +20,7 @@
 - name: Download Chezmoi
   when: not chezmoi_bin.stat.exists
   register: chezmoi_download
-  become: False
+  become: false
   ansible.builtin.get_url:
     url: https://github.com/twpayne/chezmoi/releases/latest/download/chezmoi-linux-{{ apt_arch }}
     dest: /home/{{ user.username }}/.local/bin/chezmoi
@@ -30,7 +30,7 @@
 
 - name: Create Chezmoi config
   when: chezmoi_config
-  become: False
+  become: false
   ansible.builtin.copy:
     mode: "0760"
     content: "{{ chezmoi_config }}"
@@ -39,7 +39,7 @@
     group: "{{ user.groupname }}"
 
 - name: Create Chezmoi age file
-  become: False
+  become: false
   ansible.builtin.copy:
     mode: "0760"
     content: "{{ chezmoi_age }}"
@@ -52,12 +52,12 @@
   register: init_result
   when: chezmoi_create.changed and chezmoi_download.changed
   changed_when: init_result.rc == 0
-  become: False
+  become: false
   environment:
     NONINTERACTIVE: 1
 
 - name: Check if Chezmoi is initialized
-  become: False
+  become: false
   ansible.builtin.stat:
     path: /home/{{ user.username }}/.local/share/chezmoi/
   register: chezmoi_init
@@ -67,6 +67,6 @@
   register: init_result
   when: chezmoi_init.stat.exists
   changed_when: init_result.rc == 0
-  become: False
+  become: false
   environment:
     NONINTERACTIVE: 1

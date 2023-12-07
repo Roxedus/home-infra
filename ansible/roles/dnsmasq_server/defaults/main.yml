@@ -10,7 +10,7 @@ dnsmasq:
     - gateway: 10.253.0.1
       host: wg.{{ dnsmasq_local_domain }}
       mask: 10.253.0.0/24
-      reverse: True
+      reverse: true
     - gateway: 10.0.2.1
       host: vm.{{ dnsmasq_local_domain }}
-      lookup: True
+      lookup: true

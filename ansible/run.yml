@@ -1,6 +1,5 @@
 - name: Fetch metadata
   hosts: all
-  become: "{{ do_become }}"
   tags:
     - always
   tasks:
@@ -14,7 +13,7 @@
       ansible.builtin.service_facts:
 
     - name: Stop unattended-upgr
-      become: True
+      become: true
       when:
         - ansible_distribution == 'Ubuntu'
         - ansible_facts.services["unattended-upgrades.service"] is defined
@@ -25,7 +24,6 @@
 
 - name: Set up ident
   hosts: all
-  become: "{{ do_become }}"
   tags: [never, init]
 
   pre_tasks:
@@ -42,6 +40,7 @@
       when: homebrew
 
     - name: Change hostname
+      become: true
       when: set_hostname is defined
       ansible.builtin.hostname:
         name: "{{ set_hostname }}"
@@ -49,6 +48,7 @@
         - Change hostname in hosts
 
     - name: Update apt cache
+      become: true
       when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
       ansible.builtin.apt:
         update_cache: true
@@ -71,6 +71,7 @@
 
   handlers:
     - name: Change hostname in hosts
+      become: true
       ansible.builtin.lineinfile:
         path: /etc/hosts
         regexp: ^127\.0\.0\.1 localhost
@@ -85,6 +86,7 @@
         - Reboot the server
 
     - name: Reboot the server
+      become: true
       ansible.builtin.reboot:
         msg: Reboot initiated by Ansible due to hostname change
         connect_timeout: 5
@@ -97,7 +99,6 @@
   hosts:
     - edge
     - server
-  become: "{{ do_become }}"
   tags:
     - netplan
     - init
@@ -109,7 +110,6 @@
     - edge
     - hbd
     - server
-  become: "{{ do_become }}"
   tags:
     - docker
     - init
@@ -172,7 +172,6 @@
 
 - name: Install ZFS
   hosts: server
-  become: "{{ do_become }}"
   tags: [never, init]
   roles:
     - role: zfs
@@ -189,7 +188,7 @@
       ansible.builtin.include_role:
         name: geerlingguy.containerd
         apply:
-          become: "{{ do_become }}"
+          become: true
     - name: Include Kubernetes role
       ansible.builtin.include_role:
         name: kubernetes
@@ -198,18 +197,19 @@
   hosts:
     - server
     - node04
-  become: "{{ do_become }}"
   tags:
     - init
     - update
 
   tasks:
     - name: Get dependencies for NFS
+      become: true
       when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
       ansible.builtin.apt:
         name: nfs-common
 
     - name: Mount unraid media
+      become: true
       ansible.posix.mount:
         src: 10.0.0.30:/mnt/user/data/media/
         path: /mnt/user/data/media/
@@ -219,7 +219,6 @@
 
 - name: Update host
   hosts: all
-  become: "{{ do_become }}"
   tags:
     - init
     - update
@@ -227,15 +226,17 @@
   tasks:
     # https://www.cyberciti.biz/faq/ansible-apt-update-all-packages-on-ubuntu-debian-linux/
     - name: Update packages
+      become: true
       when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
       ansible.builtin.apt:
-        update_cache: "True"
-        force_apt_get: "True"
+        update_cache: "true"
+        force_apt_get: "true"
         cache_valid_time: 3600
-        upgrade: "True"
-        autoremove: "True"
+        upgrade: "true"
+        autoremove: "true"
 
     - name: Remove Ubuntu ESM apt spam
+      become: true
       when: ansible_distribution == 'Ubuntu'
       ansible.builtin.copy:
         content: |
@@ -243,11 +244,13 @@
         dest: /etc/apt/apt.conf.d/20apt-esm-hook.conf
 
     - name: Remove motd
+      become: true
       ansible.builtin.file:
         path: /etc/motd
         state: absent
 
     - name: Remove update-motd
+      become: true
       ansible.builtin.file:
         path: /etc/update-motd.d/{{ item }}
         state: absent
@@ -265,7 +268,7 @@
       when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
 
     - name: Place MoTD
-      become: "{{ do_become }}"
+      become: true
       when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
       ansible.builtin.copy:
         content: |
@@ -284,6 +287,7 @@
         get_md5: no
 
     - name: Reboot the server
+      become: true
       throttle: 1
       when: reboot_required_file.stat.exists and (ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian')
       ansible.builtin.reboot:
@@ -296,12 +300,11 @@
 
 - name: Cleanup
   hosts: all
-  become: "{{ do_become }}"
   tags:
     - always
   tasks:
     - name: Start unattended-upgr
-      become: True
+      become: true
       when: unattended_upgr.changed
       ansible.builtin.service:
         name: unattended-upgrades

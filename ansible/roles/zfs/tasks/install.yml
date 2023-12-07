@@ -1,5 +1,5 @@
 - name: Install packages
-  become: "{{ do_become }}"
+  become: true
   ansible.builtin.apt:
     name: "{{ item }}={{ zfs_ver }}"
     state: present
@@ -7,7 +7,7 @@
     - zfsutils-linux
 
 - name: Hold ZFS version
-  become: "{{ do_become }}"
+  become: true
   ansible.builtin.dpkg_selections:
     name: "{{ item }}"
     selection: hold

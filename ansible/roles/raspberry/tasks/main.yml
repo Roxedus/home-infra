@@ -1,5 +1,5 @@
 - name: Install packages
-  become: "{{ do_become }}"
+  become: true
   ansible.builtin.apt:
     name: "{{ item }}"
   loop:
@@ -8,14 +8,14 @@
     - "{{ 'vlan' if raspberry_is_vlaned else '' }}"
 
 - name: Add the 802.1q module
-  become: "{{ do_become }}"
+  become: true
   when: raspberry_is_vlaned
   community.general.modprobe:
     name: 8021q
     state: present
 
 - name: Place PoE fan file
-  become: "{{ do_become }}"
+  become: true
   ansible.builtin.copy:
     content: |
       # Ansible managed
@@ -31,7 +31,7 @@
     dest: /boot/firmware/usercfg.txt
 
 - name: Deny dhcp by dhcpcd
-  become: "{{ do_become }}"
+  become: true
   when: raspberry_is_vlaned
   ansible.builtin.lineinfile:
     path: /etc/dhcpcd.conf

@@ -1,18 +1,18 @@
 - name: Add repo for non-free firmware
   when: ansible_distribution == 'Debian'
-  become: True
+  become: true
   ansible.builtin.apt_repository:
     filename: debian-non-free
     repo: "{{ item  }}"
     mode: 0666
-    update_cache: True
+    update_cache: true
   loop:
     - deb http://deb.debian.org/debian/ {{ ansible_facts.distribution_release }} non-free
     - deb-src http://deb.debian.org/debian/ {{ ansible_facts.distribution_release }} non-free
 
 - name: Install firmwares
   when: ansible_distribution == 'Debian'
-  become: True
+  become: true
   ansible.builtin.apt:
     name:
       - firmware-realtek
@@ -23,7 +23,7 @@
 
 - name: Install firmwares
   when: ansible_distribution == 'Ubuntu'
-  become: True
+  become: true
   ansible.builtin.apt:
     name:
       - i965-va-driver-shaders

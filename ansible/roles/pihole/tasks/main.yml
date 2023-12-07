@@ -17,7 +17,7 @@
   ansible.builtin.include_tasks: configure.yml
 
 - name: Place MoTD
-  become: True
+  become: true
   when: pihole_bin.stat.exists
   ansible.builtin.copy:
     src: motd.sh

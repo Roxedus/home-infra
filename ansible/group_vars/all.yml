@@ -2,8 +2,6 @@ ansible_become_password: "{{ secret_sudo }}"
 
 ntp_timezone: Europe/Oslo
 
-do_become: True
-
 box_omp: True
 box_chezmoi: False
 box_is_appliance: False

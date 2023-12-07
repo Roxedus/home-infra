@@ -1,17 +1,17 @@
-box_omp: False
-box_chezmoi: False
+box_omp: false
+box_chezmoi: false
 
-chezmoi_config: False
+chezmoi_config: false
 chezmoi_age: ""
 
-box_is_appliance: False
+box_is_appliance: false
 
 user:
   username: myfantasticuser
   groupname: myfantasticgroup
-  home: yes
+  home: true
   uid: "1000"
   gid: "1000"
-  dotfiles: True
+  dotfiles: true
   github: myfantasticgithub
   password: encrypted shadow password # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/user_module.html#parameter-password

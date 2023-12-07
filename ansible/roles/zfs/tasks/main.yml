@@ -8,7 +8,7 @@
   include_tasks: install.yml
 
 - name: Give user passwordless access to ZFS commands
-  become: "{{ do_become }}"
+  become: true
   lineinfile:
     path: /etc/sudoers.d/zfs
     line: "{{ item }} ALL=(ALL) NOPASSWD: /usr/sbin/zfs,/usr/sbin/zpool"

@@ -1,5 +1,5 @@
 - name: Get dependencies for PiHole
-  become: True
+  become: true
   ansible.builtin.apt:
     name:
       - cron
@@ -30,10 +30,10 @@
     state: present
 
 - name: Checkout PiHole
-  become: True
+  become: true
   ansible.builtin.git: # noqa: latest
     repo: https://github.com/pi-hole/pi-hole.git
-    clone: yes
+    clone: true
     dest: /etc/.pihole
     depth: 1
     umask: "022"

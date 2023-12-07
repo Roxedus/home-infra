@@ -1,7 +1,7 @@
 - name: Try Netplan
   register: netplan_try
   changed_when: netplan_try.rc == 0
-  become: True
+  become: true
   ansible.builtin.shell: |
     tmux new-session -d -s ansible-netplan
     tmux send-keys -t ansible-netplan: "netplan try" "Enter"
@@ -12,14 +12,14 @@
   listen: Set host fact
   set_fact:
     ansible_ssh_host: "{{ (netplan_addresses | first) | split('/') | first }}"
-  changed_when: True
+  changed_when: true
   notify:
     - Test Netplan
 
 - name: Test Netplan
   register: netplan_test
   changed_when: netplan_test.rc == 0
-  become: True
+  become: true
   ansible.builtin.shell: |
     tmux send-keys -t ansible-netplan: "Enter"
     tmux kill-session -t ansible-netplan:

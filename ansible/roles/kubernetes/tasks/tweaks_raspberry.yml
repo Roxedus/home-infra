@@ -1,21 +1,21 @@
 - name: Add cgroup directives to boot command line config
-  become: True
+  become: true
   ansible.builtin.lineinfile:
     path: /boot/firmware/cmdline.txt
     regexp: ((.)+?)(\scgroup_\w+=\w+)*$
     line: \1 cgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory
-    backrefs: True
+    backrefs: true
   notify:
     - Kube | boot options changed
 
 - name: Set GPU memory split to 16 MB
-  become: True
+  become: true
   community.general.ini_file:
     path: /boot/firmware/config.txt
     section: pi4
     option: gpu_mem
     value: 16
-    create: True
+    create: true
     mode: 0644
   notify:
     - Kube | boot options changed

@@ -5,7 +5,7 @@
 
 - name: Set up dnsmasq hosts
   register: dnsmasq_hosts
-  become: True
+  become: true
   ansible.builtin.template:
     src: hosts.custom.j2
     group: root
@@ -16,7 +16,7 @@
 - name: Set up dnsmasq rules
   when: dnsmasq_setup.stat.isdir is defined and dnsmasq_setup.stat.isdir
   register: dnsmasq
-  become: True
+  become: true
   ansible.builtin.template:
     src: 02-custom.conf.j2
     group: root
@@ -31,7 +31,7 @@
 
 - name: Restart PiHole systems
   when: (dnsmasq.changed or dnsmasq_hosts.changed) and pihole_bin.stat.exists
-  become: True
+  become: true
   register: pihole_restart
   changed_when: pihole_restart.rc != 0
   ansible.builtin.command:
