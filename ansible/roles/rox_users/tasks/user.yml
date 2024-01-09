@@ -1,11 +1,12 @@
 - name: Ensure groups exists
+  become: true
   ansible.builtin.group:
     name: "{{ user.groupname | default(user.username) }}"
     gid: "{{ user.gid | default(omit) }}"
     state: present
 
 - name: Add users
-  no_log: true
+  become: true
   ansible.builtin.user:
     name: "{{ user.username }}"
     uid: "{{ user.uid | default(omit) }}"

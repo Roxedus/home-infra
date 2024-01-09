@@ -56,14 +56,19 @@
 
   roles:
     - role: geerlingguy.ntp
+      become: true
     - role: bodsch.snapd
+      become: true
       when: ansible_distribution == 'Ubuntu'
     - role: geerlingguy.security
+      become: true
       when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
     - role: prometheus.prometheus.node_exporter
+      become: true
       when: prom_node_exporter
   tasks:
     - name: Install packages
+      become: true
       when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
       ansible.builtin.apt:
         name: "{{ package_list }}"
@@ -115,6 +120,7 @@
     - init
   roles:
     - role: geerlingguy.docker
+      become: true
       when: ansible_distribution == 'Ubuntu'
 
 - name: Board specific setup
