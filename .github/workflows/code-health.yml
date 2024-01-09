@@ -30,7 +30,7 @@ jobs:
       - name: Get changed files
         id: changed-files
         # kics-scan ignore-line
-        uses: tj-actions/changed-files@v40.2.3
+        uses: tj-actions/changed-files@v41.0.1
         with:
           files_ignore_separator: ","
 
