@@ -238,7 +238,7 @@
         update_cache: "true"
         force_apt_get: "true"
         cache_valid_time: 3600
-        upgrade: "true"
+        upgrade: "yes"
         autoremove: "true"
 
     - name: Remove Ubuntu ESM apt spam
