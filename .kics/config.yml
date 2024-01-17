@@ -2,6 +2,7 @@ path: .
 exclude-paths:
   - kubernetes/flux/flux-system/gotk-components.yaml
   - kubernetes
+  - ansible/roles/edge/files
 # secrets-regexes-path: .kics/rules.json
 # include-queries:
 #   - a88baa34-e2ad-44ea-ad6f-8cac87bc7c71
