@@ -5,6 +5,11 @@
     "github>bjw-s/renovate-config:semantic-commits",
     "github>bjw-s/renovate-config:automerge-github-actions"
   ],
+  "docker-compose": {
+    "fileMatch": [
+      "^ansible/roles/edge/files/.*\\.ya?ml$"
+    ]
+  },
   "flux": {
     "fileMatch": [
       "kubernetes/*/.+\\.yaml$"
