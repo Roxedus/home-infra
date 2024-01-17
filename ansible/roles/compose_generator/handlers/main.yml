@@ -1,0 +1,4 @@
+- name: Restart {{ docker_service }}
+  ansible.builtin.shell: # noqa command-instead-of-shell
+    chdir: "{{ docker_appdata_path }}/{{ docker_service }}"
+    cmd: "{{ docker_update_command }}"

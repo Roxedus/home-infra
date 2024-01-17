@@ -1,0 +1,51 @@
+{{ ansible_managed | comment }}
+
+services:
+{% for service, definition in compose.services.items() %}
+
+{%- set filtered={} -%}
+
+{%- if compose["x-skip-globals"] is defined -%}
+{%- for k, v in compose_globals["services"].items() -%}
+{%- set x=(filtered.__setitem__(k, v) if filtered is defined else {k:v}) if k not in compose["x-skip-globals"] -%}
+{%- endfor -%}
+{%- endif -%}
+
+{%- set components=definition | combine( filtered if filtered != {} else compose_globals["services"], recursive=True) -%}
+
+
+{%- set seq=[] -%}
+{%- set map=[] %}
+{%- set lists=[] %}
+
+{%- for comp in components -%}
+{% set seq=(seq.append(comp)) if (components[comp] | type_debug == 'dict' ) else seq -%}
+{% set lists=(lists.append(comp)) if (components[comp] | type_debug == 'list' ) else lists -%}
+{% set map=(map.append(comp)) if ((components[comp] | type_debug == 'str' ) or (components[comp] | type_debug == 'AnsibleUnicode') or (components[comp] | type_debug == 'AnsibleUnsafeText') ) else map -%}
+{% endfor %}
+  {{ service }}:
+{% for item in map %}
+    {{ item }}: {{ components[item] }}
+{% endfor -%}
+
+{%- for component in lists %}
+    {{ component }}:
+{% for item in (definition[component] | default([]) + (compose_globals["services"][component] if compose["x-skip-globals"] is defined and component not in compose["x-skip-globals"] or compose["x-skip-globals"] is not defined) | default([])) %}
+      - {{ item | replace("[service_name]", service) }}
+{% endfor -%}
+{%- endfor -%}
+
+{%- for item in seq %}
+    {{ item }}:
+{% set itemer=components[item] | to_json | from_json | to_nice_yaml(indent=2, width=1337) %}
+{{ itemer | indent(width=6, first=True) | replace("[service_name]", service) }}
+{%- endfor -%}
+
+{%- endfor %}
+
+{% set nets=compose["networks"] | default(compose_globals["networks"]) if compose.networks is defined or compose_globals.networks is defined else none %}
+{% if nets is defined %}
+networks:
+{% set netify=nets | to_json | from_json | to_nice_yaml(indent=2, width=1337) %}
+{{ netify | indent(width=2, first=True)}}
+{% endif %}

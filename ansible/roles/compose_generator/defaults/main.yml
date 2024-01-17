@@ -1,0 +1,12 @@
+---
+docker_appdata_path: /opt/docker/appdata
+
+docker_user:
+docker_group:
+
+docker_service: {}
+docker_update_command: |
+  docker compose pull && docker compose down --remove-orphans && docker compose rm && docker compose up -d
+
+docker_compose_file_mask: 0664
+docker_compose_directory_mask: 0775
