@@ -1,0 +1,3 @@
+docker_appdata_path: /opt/docker/appdata
+docker_user:
+docker_group:

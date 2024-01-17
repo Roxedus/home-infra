@@ -1,0 +1,43 @@
+x-skip-globals: [environment, volumes]
+
+services:
+  traefik:
+    container_name: traefik
+    user: "{{ users.0.uid }}:{{ users.0.gid }}"
+    image: traefik:v2.10.7
+    read_only: "true"
+    environment:
+      TZ: "{{ ntp_timezone }}"
+      CF_DNS_API_TOKEN: "{{ secret_cloudflare.apikey }}"
+      TRAEFIK_CERTIFICATESRESOLVERS_LE_ACME_EMAIL: "{{ secret_cloudflare.email }}"
+    ports:
+      - 80:8080
+      - 443:8443
+    networks:
+      - default
+      - proxy
+    volumes:
+      - "{{ docker_appdata_path }}/{{ docker_service }}/config:/etc/traefik"
+  dockerproxy-traefik:
+    image: tecnativa/docker-socket-proxy
+    container_name: dockerproxy-traefik
+    read_only: "true"
+    tmpfs:
+      - /run
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - proxy
+    environment:
+      - CONTAINERS=1
+
+networks:
+  default: "{{ compose_globals.networks.default }}"
+  proxy:
+    internal: true
+    labels:
+      ansible.managed: "true"
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.19.0.32/29

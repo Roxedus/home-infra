@@ -74,6 +74,7 @@ netplan_dns:
   - 10.0.0.31
   - 10.0.0.32
 netplan_gateway4: 10.0.0.1
+netplan_cidr: 10.0.0.0/24
 netplan_search: ["{{ secret_local_domain }}"]
 
 secret_local_domain: !vault |

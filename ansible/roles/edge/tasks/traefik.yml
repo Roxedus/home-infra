@@ -1,0 +1,37 @@
+- name: Create traefik directory
+  become: true
+  ansible.builtin.file:
+    path: "{{ docker_appdata_path }}/traefik/config"
+    state: directory
+    mode: "{{ docker_compose_directory_mask }}"
+    owner: "{{ docker_user }}"
+    group: "{{ docker_group }}"
+
+- name: Set up Traefik
+  ansible.builtin.include_role:
+    name: compose_generator
+  vars:
+    docker_service: traefik
+
+- name: Traefik conf
+  ansible.builtin.template:
+    src: traefik/{{ item }}.yml.j2
+    dest: "{{ docker_appdata_path }}/traefik/config/{{ item }}.yml"
+    mode: "0775" # To prevent unnecessary nag in logs
+    owner: "{{ docker_user }}"
+    group: "{{ docker_group }}"
+  become: true
+  loop:
+    - file-provider
+    - traefik
+  notify: Restart traefik after config change
+
+- name: Touch traefik config files
+  become: true
+  ansible.builtin.file:
+    path: "{{ docker_appdata_path }}/traefik/config/acme.json"
+    state: "{{ 'touch' if lookup('file', '{{ docker_appdata_path }}/traefik/config/acme.json', errors='ignore') else 'file' }}"
+    mode: "0600"
+    owner: "{{ docker_user }}"
+    group: "{{ docker_group }}"
+  notify: Restart traefik after config change

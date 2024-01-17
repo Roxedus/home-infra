@@ -1,0 +1,18 @@
+- name: Create intranet network
+  community.docker.docker_network:
+    name: "{{ compose_globals.networks.default.name }}"
+    driver_options:
+      com.docker.network.bridge.name: "{{ compose_globals.networks.default.name }}"
+    labels: "{{ compose_globals.networks.default.labels }}"
+
+- name: Create appdata directory
+  become: true
+  ansible.builtin.file:
+    path: "{{ docker_appdata_path }}"
+    state: directory
+    mode: "{{ docker_compose_directory_mask }}"
+    owner: "{{ docker_user }}"
+    group: "{{ docker_group }}"
+
+- name: Set up Traefik
+  ansible.builtin.include_tasks: traefik.yml

@@ -1,0 +1,3 @@
+- name: Restart traefik after config change
+  ansible.builtin.command:
+    cmd: docker restart traefik

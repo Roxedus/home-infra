@@ -1,0 +1,19 @@
+{{ ansible_managed | comment }}
+
+http:
+  routers:
+    dash:
+      entryPoints: web-secure
+      rule: Host(`dash.{{ secret_local_domain }}`)
+      service: api@internal
+      middlewares:
+        - home-block@file
+        - gzip@file
+
+  middlewares:
+    home-block:
+      ipWhiteList:
+        sourceRange:
+          - "{{ netplan_cidr }}"
+    gzip:
+      compress: {}
