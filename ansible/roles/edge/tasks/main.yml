@@ -16,3 +16,9 @@
 
 - name: Set up Traefik
   ansible.builtin.include_tasks: traefik.yml
+
+- name: Set up healthchecks
+  ansible.builtin.include_role:
+    name: compose_generator
+  vars:
+    docker_service: healthchecks
