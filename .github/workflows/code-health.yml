@@ -86,7 +86,7 @@ jobs:
 
       - name: Upload SARIF file
         if: ${{ github.ref == 'refs/heads/main' }}
-        uses: github/codeql-action/upload-sarif@d0c848438b4dba8892afa6ce5029800c3f9c747c
+        uses: github/codeql-action/upload-sarif@b96e5e1158e8b8f7694d677976037b27efd275d4
         with:
           sarif_file: results.sarif
           category: kics
