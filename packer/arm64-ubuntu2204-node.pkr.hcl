@@ -1,13 +1,13 @@
 packer {}
 
 source "arm" "ubuntu" {
-  file_urls = ["ubuntu-22.04-base.img"]
-  file_checksum_url     = "ubuntu-22.04-base.sha256"
-  file_target_extension = "img"
-  file_checksum_type    = "sha256"
-  image_build_method    = "reuse"
-  image_size            = "3.1G"
-  image_type            = "dos"
+  file_urls                    = ["ubuntu-22.04-base.img"]
+  file_checksum_url            = "ubuntu-22.04-base.sha256"
+  file_target_extension        = "img"
+  file_checksum_type           = "sha256"
+  image_build_method           = "reuse"
+  image_size                   = "3.1G"
+  image_type                   = "dos"
   image_chroot_env             = ["PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"]
   qemu_binary_source_path      = "/usr/bin/qemu-aarch64-static"
   qemu_binary_destination_path = "/usr/bin/qemu-aarch64-static"
@@ -31,20 +31,26 @@ source "arm" "ubuntu" {
 
 build {
   source "base.arm.ubuntu" {
-    image_path = "ubuntu-22.04-${var.type}-${format("node%02.0f", var.node)}.img"
+    image_path = "ubuntu-22.04-${var.type}-${local.node_hostname}.img"
   }
   provisioner "file" {
-    content     = replace(file("cloud-init/arm-ubuntu-kube/network-config"), "$node", var.node + 5)
+    content     = replace(file("cloud-init/arm-ubuntu-${var.type}/network-config"), "$node", local.node_ip)
     destination = "/boot/firmware/network-config"
   }
   provisioner "file" {
-    content     = replace(file("cloud-init/arm-ubuntu-kube/user-data"), "$node", format("node%02.0f", var.node))
+    content     = replace(file("cloud-init/arm-ubuntu-${var.type}/user-data"), "$node", local.node_hostname)
     destination = "/boot/firmware/user-data"
   }
 }
 
+locals {
+  node          = var.node
+  node_hostname = var.type == "kube" ? format("node%02.0f", var.node) : var.node
+  node_ip       = var.type == "kube" ? convert(var.node, number) + 5 : ""
+}
+
 variable "node" {
-  type    = number
+  type    = string
   default = 0
 }
 
