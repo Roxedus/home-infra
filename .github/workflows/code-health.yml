@@ -30,7 +30,7 @@ jobs:
       - name: Get changed files
         id: changed-files
         # kics-scan ignore-line
-        uses: tj-actions/changed-files@v42.0.0
+        uses: tj-actions/changed-files@v42.0.2
         with:
           files_ignore_separator: ","
 
@@ -86,7 +86,7 @@ jobs:
 
       - name: Upload SARIF file
         if: ${{ github.ref == 'refs/heads/main' }}
-        uses: github/codeql-action/upload-sarif@d13ca047ae14d02299ae648f2ba451622ecb7270
+        uses: github/codeql-action/upload-sarif@25f779c0f271790cfca54f1c5e868acc372ba6f1
         with:
           sarif_file: results.sarif
           category: kics
