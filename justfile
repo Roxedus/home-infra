@@ -82,7 +82,7 @@ _push_state:
         | yq e '.metadata.annotations["encoding"]="gzip"' - \
           > kubectl apply -f -
 
-_packer:= "cd " + packer_dir + "&& docker run --rm --privileged -v /dev:/dev -v ${PWD}:/build mkaczanowski/packer-builder-arm:1.0.7"
+_packer:= "cd " + packer_dir + "&& docker run --rm --privileged -v /dev:/dev -v ${PWD}:/build mkaczanowski/packer-builder-arm:1.0.9"
 
 # Initializes the local folder with a venv and packages
 git-init: _init-venv && _pip-install _pre-commit-install _galaxy-install _init-venv _init-terraform
