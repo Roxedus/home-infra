@@ -7,7 +7,7 @@ dnsmasq:
     - ip: 10.0.0.15
       host: server.{{ dmasq_local_domain }}
     - ip: 10.0.0.16
-      host: edge.{{ dmasq_local_domain }}
+      host: .{{ dmasq_local_domain }}
     - ip: 10.0.0.29
       host: code.roxedus.dev
     - ip: 10.0.0.29
