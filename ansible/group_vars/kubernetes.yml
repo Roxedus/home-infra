@@ -3,4 +3,6 @@ kube_apt: "{{ kube_release }}.4-00"
 containerd_config_default_write: true
 containerd_config_cgroup_driver_systemd: true
 
+raspberry_is_vlaned: True
+
 docker_apt_arch: "{{ apt_arch }}"

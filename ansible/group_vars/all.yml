@@ -12,8 +12,6 @@ prom_node_exporter: True
 
 chezmoi_age: "{{ secret_chezmoi_age }}"
 
-raspberry_is_vlaned: True
-
 apt_arch: "{{ _apt_arch.stdout }}"
 
 users:

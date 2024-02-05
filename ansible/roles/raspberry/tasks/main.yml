@@ -1,11 +1,12 @@
 - name: Install packages
   become: true
+  when: item is string
   ansible.builtin.apt:
     name: "{{ item }}"
   loop:
     - libraspberrypi-bin
-    - "{{ 'linux-modules-extra-raspi' if raspberry_is_vlaned else '' }}"
-    - "{{ 'vlan' if raspberry_is_vlaned else '' }}"
+    - "{{ 'linux-modules-extra-raspi' if raspberry_is_vlaned else false }}"
+    - "{{ 'vlan' if raspberry_is_vlaned else false }}"
 
 - name: Add the 802.1q module
   become: true
