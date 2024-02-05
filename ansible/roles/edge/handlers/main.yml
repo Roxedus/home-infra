@@ -2,6 +2,10 @@
   ansible.builtin.command:
     cmd: docker restart traefik
 
+- name: Restart syslog-ng after config change
+  ansible.builtin.command:
+    cmd: docker restart syslog-ng
+
 - name: Restart grafana after config change
   ansible.builtin.command:
     cmd: docker restart grafana

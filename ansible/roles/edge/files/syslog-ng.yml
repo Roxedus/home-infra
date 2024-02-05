@@ -1,0 +1,11 @@
+services:
+  syslog-ng:
+    image: lscr.io/linuxserver/syslog-ng:latest@sha256:0f5e0cae9b1f70313057d2e7b240495ccad57f9f8bb12911750c57d94e856d7d
+    container_name: syslog-ng
+    volumes:
+      - "{{ docker_appdata_path }}/{{ docker_service }}/config:/config"
+      - "{{ docker_appdata_path }}/{{ docker_service }}/log:/var/log"
+    ports:
+      - 514:5514/udp
+      - 601:6601/tcp
+      - 6514:6514/tcp

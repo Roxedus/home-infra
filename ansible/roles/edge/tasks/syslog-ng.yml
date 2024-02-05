@@ -1,0 +1,24 @@
+- name: Create Syslog-ng directory
+  become: true
+  ansible.builtin.file:
+    path: "{{ docker_appdata_path }}/syslog-ng/config"
+    state: directory
+    mode: "{{ docker_compose_directory_mask }}"
+    owner: "{{ docker_user }}"
+    group: "{{ docker_group }}"
+
+- name: Set up Syslog-ng
+  ansible.builtin.include_role:
+    name: compose_generator
+  vars:
+    docker_service: syslog-ng
+
+- name: Syslog-ng conf
+  ansible.builtin.template:
+    src: syslog-ng/syslog-ng.conf.j2
+    dest: "{{ docker_appdata_path }}/syslog-ng/config/syslog-ng.conf"
+    mode: "0775" # To prevent unnecessary nag in logs
+    owner: "{{ docker_user }}"
+    group: "{{ docker_group }}"
+  become: true
+  notify: Restart syslog-ng after config change
