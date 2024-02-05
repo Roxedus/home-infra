@@ -163,6 +163,8 @@
               - targets: # "{{ ((ansible_play_hosts_all | map('extract', hostvars, ['ansible_default_ipv4', 'address'])) | product([':9100'])) | map('join') }}"
                   - localhost:9100
                   - 10.0.0.15:9100
+                  - 10.0.0.31:9100
+                  - 10.0.0.32:9100
           - job_name: docker
             metrics_path: /metrics
             static_configs:
@@ -303,7 +305,7 @@
       when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
       ansible.builtin.stat:
         path: /var/run/reboot-required
-        get_md5: no
+        get_checksum: no
 
     - name: Reboot the server
       become: true
