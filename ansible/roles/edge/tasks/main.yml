@@ -17,6 +17,10 @@
 - name: Set up Traefik
   ansible.builtin.include_tasks: traefik.yml
 
+
+- name: Set up Grafana
+  ansible.builtin.include_tasks: grafana.yml
+
 - name: Set up healthchecks
   ansible.builtin.include_role:
     name: compose_generator

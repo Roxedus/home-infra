@@ -1,0 +1,31 @@
+x-skip-globals: [environment, volumes]
+
+services:
+  grafana:
+    container_name: grafana
+    user: "{{ users.0.uid }}:{{ users.0.gid }}"
+    image: grafana/grafana-oss
+    read_only: "true"
+    environment:
+      TZ: "{{ ntp_timezone }}"
+    ports:
+      - 3000:3000
+    volumes:
+      - "{{ docker_appdata_path }}/grafana/grafana:/var/lib/grafana"
+      - "{{ docker_appdata_path }}/grafana/provisioning:/etc/grafana/provisioning:ro"
+      - "{{ docker_appdata_path }}/grafana/dashboards:/etc/dashboards:ro"
+    labels:
+      traefik.enable: "true"
+    extra_hosts:
+      - host.docker.internal:host-gateway
+
+networks:
+  default: "{{ compose_globals.networks.default }}"
+  loki:
+    internal: true
+    labels:
+      ansible.managed: "true"
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.19.0.0/28

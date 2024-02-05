@@ -1,0 +1,44 @@
+- name: Create Grafana directories
+  become: true
+  ansible.builtin.file:
+    path: "{{ docker_appdata_path }}/grafana/{{ item }}"
+    state: directory
+    mode: "{{ docker_compose_directory_mask }}"
+    owner: "{{ docker_user }}"
+    group: "{{ docker_group }}"
+  loop:
+    - dashboards
+    - grafana
+    - provisioning/dashboards
+    - provisioning/datasources
+
+- name: Set up Grafana
+  ansible.builtin.include_role:
+    name: compose_generator
+  vars:
+    docker_service: grafana
+
+- name: Grafana provisioning
+  ansible.builtin.template:
+    src: grafana/{{ item }}
+    dest: "{{ docker_appdata_path }}/grafana/{{ item }}"
+    mode: "0775" # To prevent unnecessary nag in logs
+    owner: "{{ docker_user }}"
+    group: "{{ docker_group }}"
+  become: true
+  loop:
+    - provisioning/dashboards/dash.yaml
+    - provisioning/datasources/prometheus.yaml
+  notify: Restart grafana after config change
+
+- name: Download Grafana dashboards
+  ansible.builtin.get_url:
+    url: "{{ item.url }}"
+    dest: "{{ docker_appdata_path }}/grafana/dashboards/{{ item.name }}"
+    mode: "0775" # To prevent unnecessary nag in logs
+    owner: "{{ docker_user }}"
+    group: "{{ docker_group }}"
+  loop:
+    - url: https://grafana.com/api/dashboards/1860/revisions/33/download
+      name: NodeExporter.json
+  notify: Restart grafana after config change
