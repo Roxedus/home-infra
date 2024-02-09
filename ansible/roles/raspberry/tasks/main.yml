@@ -33,7 +33,6 @@
 
 - name: Deny dhcp by dhcpcd
   become: true
-  when: raspberry_is_vlaned
   ansible.builtin.lineinfile:
     path: /etc/dhcpcd.conf
     regexp: ^denyinterfaces eth0
