@@ -54,18 +54,6 @@
         update_cache: true
       changed_when: false
 
-  roles:
-    - role: geerlingguy.ntp
-      become: true
-    - role: bodsch.snapd
-      become: true
-      when: ansible_distribution == 'Ubuntu'
-    - role: geerlingguy.security
-      become: true
-      when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
-    - role: prometheus.prometheus.node_exporter
-      become: true
-      when: prom_node_exporter
   tasks:
     - name: Install packages
       become: true
@@ -100,6 +88,25 @@
         post_reboot_delay: 30
         test_command: uptime
 
+- name: Set up base
+  hosts: all
+  tags:
+    - base
+    - init
+
+
+  roles:
+    - role: geerlingguy.ntp
+      become: true
+    - role: bodsch.snapd
+      become: true
+      when: ansible_distribution == 'Ubuntu'
+    - role: geerlingguy.security
+      become: true
+      when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+    - role: prometheus.prometheus.node_exporter
+      become: true
+      when: prom_node_exporter
 - name: Setup Netplan
   hosts:
     - edge
