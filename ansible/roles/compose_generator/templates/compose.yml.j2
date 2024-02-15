@@ -21,7 +21,7 @@ services:
 {%- for comp in components -%}
 {% set seq=(seq.append(comp)) if (components[comp] | type_debug == 'dict' ) else seq -%}
 {% set lists=(lists.append(comp)) if (components[comp] | type_debug == 'list' ) else lists -%}
-{% set map=(map.append(comp)) if ((components[comp] | type_debug == 'str' ) or (components[comp] | type_debug == 'AnsibleUnicode') or (components[comp] | type_debug == 'AnsibleUnsafeText') ) else map -%}
+{% set map=(map.append(comp)) if ((components[comp] | type_debug == 'str' ) or (components[comp] | type_debug == 'AnsibleUnicode') or (components[comp] | type_debug == 'AnsibleUnsafeText') or (components[comp] | type_debug == 'bool') ) else map -%}
 {% endfor %}
   {{ service }}:
 {% for item in map %}
