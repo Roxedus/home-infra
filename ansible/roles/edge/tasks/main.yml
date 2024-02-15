@@ -28,3 +28,11 @@
     name: compose_generator
   vars:
     docker_service: healthchecks
+
+- name: Set up containers
+  ansible.builtin.include_role:
+    name: compose_generator
+  vars:
+    docker_service: "{{ item }}"
+  loop:
+    - vdi
