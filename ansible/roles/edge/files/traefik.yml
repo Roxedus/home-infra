@@ -4,7 +4,7 @@ services:
   traefik:
     container_name: traefik
     user: "{{ users.0.uid }}:{{ users.0.gid }}"
-    image: traefik:v2.10.7
+    image: traefik:v2.11.0
     read_only: "true"
     environment:
       TZ: "{{ ntp_timezone }}"
