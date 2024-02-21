@@ -21,6 +21,7 @@ ansible/.venv
 
 ### Ansible ###
 ansible/.galaxy_roles
+ansible/.galaxy_collections
 
 ### Terraform ###
 **/.terraform/*
