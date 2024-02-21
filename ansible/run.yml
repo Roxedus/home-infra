@@ -107,6 +107,106 @@
     - role: prometheus.prometheus.node_exporter
       become: true
       when: prom_node_exporter
+  tasks:
+    - name: Create healthcheck for host
+      when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+      register: local_healthcheck
+      community.healthchecksio.checks:
+        state: present
+        management_api_base_url: "{{ healthchecks_management_url }}/api/v3"
+        management_api_token: "{{ secret_healthchecks_api }}"
+        name: "{{ inventory_hostname | title }} uptime check"
+        channels: "{{ healthchecks_integration }}"
+        unique:
+          - name
+        tags:
+          - ansible
+          - "{{ inventory_hostname | title }}"
+        desc: Ansible host automated uptime check
+        schedule: "{{ healthcheck_schedule_minute }} * * * *"
+        tz: "{{ ntp_timezone }}"
+        grace: 360
+
+    - name: Create systemd service for healthcheck
+      when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+      become: true
+      ansible.builtin.copy:
+        content: |
+          # Ansible managed
+          [Unit]
+          Description=Runs curl to ping healthchecks
+          Wants=healthcheck.timer
+
+          [Service]
+          Type=oneshot
+          ExecStart=/usr/bin/curl -sSm 10 --retry 5 {{ healthchecks_management_url }}/ping/{{ local_healthcheck.uuid }}
+
+          [Install]
+          WantedBy=multi-user.target
+        dest: /etc/systemd/system/healthcheck.service
+      notify:
+        - Restart healthcheck timer
+
+    - name: Create systemd timer for healthcheck
+      when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+      become: true
+      ansible.builtin.copy:
+        content: |
+          # Ansible managed
+          [Unit]
+          Description=Schedules healthcheck
+          Requires=healthcheck.service
+
+          [Timer]
+          Unit=healthcheck.service
+          OnCalendar=*-*-* *:{{ healthcheck_schedule_minute }}:00
+
+          [Install]
+          WantedBy=timers.target
+        dest: /etc/systemd/system/healthcheck.timer
+      notify:
+        - Restart healthcheck timer
+
+    - name: Create systemd pause healthcheck on shutdown
+      when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+      become: true
+      ansible.builtin.copy:
+      # yamllint disable rule:line-length
+        content: |
+          # Ansible managed
+          [Unit]
+          Description=Pause healthcheck on shutdown
+          DefaultDependencies=no
+          After=final.target
+
+          [Service]
+          Type=oneshot
+          ExecStart=/usr/bin/curl -sSm 10 --retry 1 -X POST --header "X-Api-Key: {{ secret_healthchecks_api }}" --data "" {{ healthchecks_management_url }}/api/v3/checks/{{ local_healthcheck.uuid }}/pause
+
+          [Install]
+          WantedBy=final.target
+        # yamllint enable rule:line-length
+        dest: /etc/systemd/system/healthcheck-shutdown.service
+      notify:
+        - Enable healthcheck pause service
+
+  handlers:
+    - name: Restart healthcheck timer
+      become: true
+      ansible.builtin.systemd_service:
+        name: healthcheck.timer
+        state: started
+        enabled: true
+        daemon_reload: true
+
+    - name: Enable healthcheck pause service
+      become: true
+      ansible.builtin.systemd_service:
+        name: healthcheck-shutdown.service
+        enabled: true
+        state: started
+        daemon_reload: true
+
 - name: Setup Netplan
   hosts:
     - edge

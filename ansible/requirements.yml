@@ -18,3 +18,5 @@ roles:
 collections:
   - name: prometheus.prometheus
     version: 0.12.0
+  - name: git+https://github.com/Penagwin/community.healthchecksio.git,main
+    version: 1.3.1
