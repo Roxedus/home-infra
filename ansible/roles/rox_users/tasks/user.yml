@@ -7,6 +7,7 @@
 
 - name: Add users
   become: true
+  no_log: true
   ansible.builtin.user:
     name: "{{ user.username }}"
     uid: "{{ user.uid | default(omit) }}"

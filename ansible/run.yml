@@ -118,6 +118,9 @@
       when: (ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian') and inventory_hostname not in ['edge']
       become: true
       ansible.builtin.file:
+        owner: root
+        group: root
+        mode: 0755
         path: /etc/systemd/journal-upload.conf.d/
         state: directory
 
@@ -125,6 +128,9 @@
       become: true
       when: (ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian') and inventory_hostname not in ['edge']
       ansible.builtin.copy:
+        owner: root
+        group: root
+        mode: 0644
         content: |
           # Ansible managed
           [Upload]
@@ -166,6 +172,9 @@
       when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
       become: true
       ansible.builtin.copy:
+        owner: root
+        group: root
+        mode: 0644
         content: |
           # Ansible managed
           [Unit]
@@ -186,6 +195,9 @@
       when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
       become: true
       ansible.builtin.copy:
+        owner: root
+        group: root
+        mode: 0644
         content: |
           # Ansible managed
           [Unit]
@@ -206,6 +218,9 @@
       when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
       become: true
       ansible.builtin.copy:
+        owner: root
+        group: root
+        mode: 0644
         # yamllint disable rule:line-length
         content: |
           # Ansible managed

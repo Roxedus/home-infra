@@ -35,6 +35,9 @@
   when: ansible_distribution == 'Ubuntu'
   become: true
   ansible.builtin.file:
+    owner: root
+    group: root
+    mode: 0744
     path: /etc/systemd/journald.conf.d/
     state: directory
 
@@ -42,6 +45,9 @@
   become: true
   when: ansible_distribution == 'Ubuntu'
   ansible.builtin.copy:
+    owner: root
+    group: root
+    mode: 0644
     content: |
       # Ansible managed
       [Journal]
