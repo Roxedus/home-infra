@@ -11,6 +11,10 @@
     - grafana
     - provisioning/dashboards
     - provisioning/datasources
+    - loki
+    - loki/config
+    - loki/storage
+    - promtail
 
 - name: Set up Grafana
   ansible.builtin.include_role:
@@ -29,6 +33,7 @@
   loop:
     - provisioning/dashboards/dash.yaml
     - provisioning/datasources/prometheus.yaml
+    - provisioning/datasources/loki.yaml
   notify: Restart grafana after config change
 
 - name: Download Grafana dashboards
@@ -41,4 +46,21 @@
   loop:
     - url: https://grafana.com/api/dashboards/1860/revisions/33/download
       name: NodeExporter.json
+    - url: https://raw.githubusercontent.com/eko/pihole-exporter/v0.4.0/grafana/dashboard.json
+      name: PiholeExporter.json
   notify: Restart grafana after config change
+
+- name: Loki provisioning
+  ansible.builtin.template:
+    src: grafana/{{ item.src }}
+    dest: "{{ docker_appdata_path }}/grafana/{{ item.dest }}"
+    mode: "0775" # To prevent unnecessary nag in logs
+    owner: "{{ docker_user }}"
+    group: "{{ docker_group }}"
+  become: true
+  loop:
+    - src: loki/config.yaml
+      dest: loki/config/config.yaml
+    - src: promtail/config.yaml
+      dest: promtail/config.yaml
+  notify: Restart loki after config change

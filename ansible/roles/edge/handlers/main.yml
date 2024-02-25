@@ -9,3 +9,7 @@
 - name: Restart grafana after config change
   ansible.builtin.command:
     cmd: docker restart grafana
+
+- name: Restart loki after config change
+  ansible.builtin.shell: # noqa command-instead-of-shell
+    cmd: docker restart loki && docker restart promtail

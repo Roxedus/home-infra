@@ -8,16 +8,59 @@ services:
     read_only: "true"
     environment:
       TZ: "{{ ntp_timezone }}"
-    ports:
-      - 3000:3000
+      GF_INSTALL_PLUGINS: grafana-piechart-panel
+      GF_PATHS_PLUGINS: /tmp/graf_plugins
+    tmpfs:
+      - /tmp
+      - /run
+    # ports:
+    #   - 3000:3000
     volumes:
       - "{{ docker_appdata_path }}/grafana/grafana:/var/lib/grafana"
       - "{{ docker_appdata_path }}/grafana/provisioning:/etc/grafana/provisioning:ro"
       - "{{ docker_appdata_path }}/grafana/dashboards:/etc/dashboards:ro"
     labels:
       traefik.enable: "true"
+    networks:
+      - default
+      - loki
     extra_hosts:
       - host.docker.internal:host-gateway
+
+  loki:
+    image: grafana/loki:2.9.4
+    container_name: loki
+    user: "{{ users.0.uid }}:{{ users.0.gid }}"
+    read_only: "true"
+    tmpfs:
+      - /tmp
+      - /run
+    environment:
+      TZ: "{{ ntp_timezone }}"
+    ports:
+      - 3100:3100
+    volumes:
+      - "{{ docker_appdata_path }}/{{ docker_service }}/[service_name]/config:/config:ro"
+    # - "{{ docker_appdata_path }}/{{ docker_service }}/[service_name]/storage/:/tmp/loki:rw"
+    command: -config.file=/config/config.yaml
+    networks:
+      - loki
+
+  promtail:
+    image: grafana/promtail:2.9.4
+    container_name: promtail
+    read_only: "true"
+    tmpfs:
+      - /tmp
+      - /run
+    environment:
+      TZ: "{{ ntp_timezone }}"
+    volumes:
+      - "{{ docker_appdata_path }}/{{ docker_service }}/[service_name]:/config:ro"
+      - /var/log:/var/log:ro
+    command: -config.file=/config/config.yaml -log-config-reverse-order # -config.expand-env=true
+    networks:
+      - loki
 
 networks:
   default: "{{ compose_globals.networks.default }}"
