@@ -94,7 +94,6 @@
     - base
     - init
 
-
   roles:
     - role: geerlingguy.ntp
       become: true
@@ -207,7 +206,7 @@
       when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
       become: true
       ansible.builtin.copy:
-      # yamllint disable rule:line-length
+        # yamllint disable rule:line-length
         content: |
           # Ansible managed
           [Unit]
@@ -277,12 +276,14 @@
   tags:
     - init
     - update
+    - raspberry
   tasks:
     - name: Include ZimaBoard role
       ansible.builtin.include_role:
         name: zimaboard
       when: ansible_facts.board_name is match("ZimaBoard")
     - name: Include raspberry role
+      tags: raspberry
       ansible.builtin.include_role:
         name: raspberry
       when: ansible_facts.kernel.endswith("-raspi")
@@ -290,7 +291,7 @@
 - name: Provision Edge server
   hosts: edge
   tags:
-    - prometheus
+    - monitor
     - update
     - init
 
