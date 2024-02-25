@@ -8,7 +8,7 @@
       "handlers/*.ya?ml"
     ],
     "https://raw.githubusercontent.com/ansible/ansible-lint/main/src/ansiblelint/schemas/ansible.json#/$defs/playbook": [
-      "run.ya?ml"
+      "playbooks/*.ya?ml"
     ],
     "https://raw.githubusercontent.com/ansible/ansible-lint/main/src/ansiblelint/schemas/ansible.json#/$defs/inventory": [
       "inventory.ya?ml",
