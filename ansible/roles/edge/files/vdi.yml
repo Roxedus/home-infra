@@ -14,8 +14,6 @@ services:
     shm_size: 1gb
     ports:
       - 3320:3000
-    devices:
-      - /dev/dri:/dev/dri
     labels:
       traefik.enable: "false"
       traefik.http.routers.webcord-vdi.rule: Host(`vdi.{{ secret_local_domain }}`) && PathPrefix(`/webcord`)
@@ -32,8 +30,6 @@ services:
     shm_size: 1gb
     ports:
       - 3321:3000
-    devices:
-      - /dev/dri:/dev/dri
     labels:
       traefik.enable: "false"
       traefik.http.routers.element-vdi.rule: Host(`vdi.{{ secret_local_domain }}`) && PathPrefix(`/element`)
