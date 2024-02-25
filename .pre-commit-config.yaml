@@ -9,17 +9,16 @@ repos:
         name: Ensure vault is encrypted
         language: script
         entry: .pre-commit/ansible-vault-encrypted.sh
+
+      - id: ansible-lint
+        name: Ansible-lint
+        description: This hook runs ansible-lint.
+        pass_filenames: false
+        language: script
+        entry: .pre-commit/ansible-lint.sh
+
   - repo: https://github.com/adrienverge/yamllint.git
     rev: v1.35.1
     hooks:
       - id: yamllint
         types: [file, yaml]
-# - repo: https://github.com/ansible/ansible-lint
-#   rev: v6.17.0
-#   hooks:
-#     - id: ansible-lint
-#       args:
-#         - --nocolor
-#         - -p
-#         - --project-dir
-#         - ansible

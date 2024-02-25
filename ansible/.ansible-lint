@@ -1,6 +1,7 @@
 exclude_paths:
-  - .venv
+  - .galaxy_collections
   - .galaxy_roles
+  - .venv
 
 skip_list:
   - yaml
