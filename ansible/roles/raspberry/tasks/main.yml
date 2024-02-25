@@ -31,6 +31,25 @@
     mode: 0644
     dest: /boot/firmware/usercfg.txt
 
+- name: Create journald override directory
+  when: ansible_distribution == 'Ubuntu'
+  become: true
+  ansible.builtin.file:
+    path: /etc/systemd/journald.conf.d/
+    state: directory
+
+- name: Create journald override
+  become: true
+  when: ansible_distribution == 'Ubuntu'
+  ansible.builtin.copy:
+    content: |
+      # Ansible managed
+      [Journal]
+      ForwardToSyslog=no
+    dest: /etc/systemd/journald.conf.d/override.conf
+  notify:
+    - Restart systemd-journald
+
 - name: Deny dhcp by dhcpcd
   become: true
   ansible.builtin.lineinfile:

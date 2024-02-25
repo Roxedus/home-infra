@@ -108,6 +108,42 @@
       become: true
       when: prom_node_exporter
   tasks:
+    - name: Install packages
+      become: true
+      when: (ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian') and inventory_hostname not in ['edge']
+      ansible.builtin.apt:
+        name: systemd-journal-remote
+        state: present
+
+    - name: Create systemd-journal-upload config directory
+      when: (ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian') and inventory_hostname not in ['edge']
+      become: true
+      ansible.builtin.file:
+        path: /etc/systemd/journal-upload.conf.d/
+        state: directory
+
+    - name: Create systemd-journal-remote override
+      become: true
+      when: (ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian') and inventory_hostname not in ['edge']
+      ansible.builtin.copy:
+        content: |
+          # Ansible managed
+          [Upload]
+          URL=http://10.0.0.16:19532
+        dest: /etc/systemd/journal-upload.conf.d/url.conf
+      notify:
+        - Restart systemd-journal-upload
+
+    - name: Make sure systemd-journal-upload is running
+      when: (ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian') and inventory_hostname not in ['edge']
+      ansible.builtin.systemd_service:
+        state: started
+        name: systemd-journal-upload
+        enabled: true
+        masked: false
+      notify:
+        - Restart systemd-journal-upload
+
     - name: Create healthcheck for host
       when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
       register: local_healthcheck
@@ -191,6 +227,12 @@
         - Enable healthcheck pause service
 
   handlers:
+    - name: Restart systemd-journal-upload
+      become: true
+      ansible.builtin.systemd_service:
+        name: systemd-journal-upload
+        state: started
+
     - name: Restart healthcheck timer
       become: true
       ansible.builtin.systemd_service:
@@ -251,6 +293,44 @@
     - prometheus
     - update
     - init
+
+  tasks:
+    - name: Create journald remote directory
+      when: ansible_distribution == 'Ubuntu'
+      become: true
+      ansible.builtin.file:
+        path: /var/log/journal/remote/
+        state: directory
+
+    - name: Create systemd-journal-remote override directory
+      when: ansible_distribution == 'Ubuntu'
+      become: true
+      ansible.builtin.file:
+        path: /etc/systemd/system/systemd-journal-remote.service.d/
+        state: directory
+
+    - name: Create systemd-journal-remote override
+      become: true
+      when: ansible_distribution == 'Ubuntu'
+      ansible.builtin.copy:
+        content: |
+          # Ansible managed
+          [Service]
+          ExecStart=
+          ExecStart=/lib/systemd/systemd-journal-remote --listen-http=-3 --output=/var/log/journal/remote/
+        dest: /etc/systemd/system/systemd-journal-remote.service.d/override.conf
+      notify:
+        - Restart systemd-journal-remote
+
+    - name: Make sure systemd-journal-remote is running
+      ansible.builtin.systemd_service:
+        state: started
+        name: systemd-journal-remote
+        enabled: true
+        masked: false
+      notify:
+        - Restart systemd-journal-remote
+
   roles:
     - role: prometheus.prometheus.prometheus
       vars:
@@ -276,7 +356,14 @@
             metrics_path: /metrics
             static_configs:
               - targets:
-                  - localhost:9323
+
+  handlers:
+    - name: Restart systemd-journal-remote
+      become: true
+      ansible.builtin.service:
+        name: systemd-journal-remote
+        state: restarted
+        enabled: true
 
 - name: Configure Edge server
   hosts: edge
