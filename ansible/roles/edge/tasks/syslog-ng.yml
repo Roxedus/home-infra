@@ -1,11 +1,14 @@
 - name: Create Syslog-ng directory
   become: true
   ansible.builtin.file:
-    path: "{{ docker_appdata_path }}/syslog-ng/config"
+    path: "{{ docker_appdata_path }}/syslog-ng/{{ item }}"
     state: directory
     mode: "{{ docker_compose_directory_mask }}"
     owner: "{{ docker_user }}"
     group: "{{ docker_group }}"
+  loop:
+    - log
+    - config
 
 - name: Set up Syslog-ng
   ansible.builtin.include_role:
