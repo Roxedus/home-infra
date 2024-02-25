@@ -4,15 +4,31 @@
       ".github/worflows/*.ya?ml"
     ],
     "https://raw.githubusercontent.com/ansible/ansible-lint/main/src/ansiblelint/schemas/ansible.json#/$defs/tasks": [
-      "ansible/roles/**/tasks/*.ya?ml"
+      "tasks/*.ya?ml",
+      "handlers/*.ya?ml"
     ],
     "https://raw.githubusercontent.com/ansible/ansible-lint/main/src/ansiblelint/schemas/ansible.json#/$defs/playbook": [
-      "ansible/run.ya?ml"
+      "run.ya?ml"
+    ],
+    "https://raw.githubusercontent.com/ansible/ansible-lint/main/src/ansiblelint/schemas/ansible.json#/$defs/inventory": [
+      "inventory.ya?ml",
+      "inventory/*.ya?ml",
+      "hosts.ya?ml",
+    ],
+    "https://raw.githubusercontent.com/ansible/ansible-lint/main/src/ansiblelint/schemas/ansible.json#/$defs/requirements": [
+      "requirements.ya?ml"
+    ],
+    "https://raw.githubusercontent.com/ansible/ansible-lint/main/src/ansiblelint/schemas/ansible.json#/$defs/vars": [
+      "playbooks/vars/*.ya?ml",
+      "vars/*.ya?ml",
+      "defaults/*.ya?ml",
+      "host_vars/*.ya?ml",
+      "group_vars/*.ya?ml"
     ]
   },
-  "ansible.python.activationScript": "ansible/.venv/bin/activate",
   "yaml.customTags": [
     "!vault"
   ],
-  "ansible.python.interpreterPath": "/home/roxedus/projects/home-infra/ansible/.venv/bin/python3"
+  "ansible.python.activationScript": ".vscode/ansible-ext-activate.sh",
+  "ansible.python.interpreterPath": "ansible/.venv/bin/python3",
 }
