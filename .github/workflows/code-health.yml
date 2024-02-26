@@ -73,7 +73,7 @@ jobs:
       contents: read
       security-events: write
       statuses: write
-    needs: [yaml]
+    needs: [yaml, meta]
     steps:
       - uses: actions/checkout@v4.1.1
 
@@ -101,7 +101,7 @@ jobs:
       contents: read
       security-events: write
       statuses: write
-    needs: [yaml]
+    needs: [yaml, meta]
     steps:
       - uses: actions/checkout@v4.1.1
 
@@ -109,6 +109,7 @@ jobs:
         working-directory: ansible/
         run: |
           pip install $(grep wheel requirements.txt)
+          pip install $(grep ansible requirements.txt)
           pip install $(grep ansible-lint requirements.txt)
           sed -i 's/vault_password_file/#vault_password_file/g' ansible.cfg
 
