@@ -67,12 +67,13 @@ jobs:
   kics:
     name: Run kics
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
     permissions:
       checks: write
       contents: read
       security-events: write
       statuses: write
-    needs: [meta]
+    needs: [yaml]
     steps:
       - uses: actions/checkout@v4.1.1
 
@@ -90,3 +91,34 @@ jobs:
         with:
           sarif_file: results.sarif
           category: kics
+
+  ansible-lint:
+    name: Run kics
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    permissions:
+      checks: write
+      contents: read
+      security-events: write
+      statuses: write
+    needs: [yaml]
+    steps:
+      - uses: actions/checkout@v4.1.1
+
+      - name: Install Ansible-lint
+        working-directory: ansible/
+        run: |
+          pip install $(grep wheel requirements.txt)
+          pip install $(grep ansible-lint requirements.txt)
+          sed -i 's/vault_password_file/#vault_password_file/g' ansible.cfg
+
+      - name: Run Ansible-Lint
+        working-directory: ansible/
+        run: ansible-lint -p --nocolor --sarif-file results.sarif
+
+      - name: Upload SARIF file
+        if: ${{ github.ref == 'refs/heads/main' }}
+        uses: github/codeql-action/upload-sarif@905ae4af531685eaee37e94f46845bf4c420dc62
+        with:
+          sarif_file: ansible/results.sarif
+          category: ansible
