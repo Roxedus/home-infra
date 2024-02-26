@@ -1,3 +1,4 @@
-docker_appdata_path: /opt/docker/appdata
-docker_user:
-docker_group:
+edge_docker_appdata_path: /opt/docker/appdata
+edge_docker_user: docker
+edge_docker_group: docker
+edge_docker_mode: 0664

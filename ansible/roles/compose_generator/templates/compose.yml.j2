@@ -1,17 +1,17 @@
 {{ ansible_managed | comment }}
 
 services:
-{% for service, definition in compose.services.items() %}
+{% for service, definition in compose_generator_compose.services.items() %}
 
 {%- set filtered={} -%}
 
-{%- if compose["x-skip-globals"] is defined -%}
-{%- for k, v in compose_globals["services"].items() -%}
-{%- set x=(filtered.__setitem__(k, v) if filtered is defined else {k:v}) if k not in compose["x-skip-globals"] -%}
+{%- if compose_generator_compose["x-skip-globals"] is defined -%}
+{%- for k, v in compose_generator_globals["services"].items() -%}
+{%- set x=(filtered.__setitem__(k, v) if filtered is defined else {k:v}) if k not in compose_generator_compose["x-skip-globals"] -%}
 {%- endfor -%}
 {%- endif -%}
 
-{%- set components=definition | combine( filtered if filtered != {} else compose_globals["services"], recursive=True) -%}
+{%- set components=definition | combine( filtered if filtered != {} else compose_generator_globals["services"], recursive=True) -%}
 
 
 {%- set seq=[] -%}
@@ -30,7 +30,7 @@ services:
 
 {%- for component in lists %}
     {{ component }}:
-{% for item in (definition[component] | default([]) + (compose_globals["services"][component] if compose["x-skip-globals"] is defined and component not in compose["x-skip-globals"] or compose["x-skip-globals"] is not defined) | default([])) %}
+{% for item in (definition[component] | default([]) + (compose_generator_globals["services"][component] if compose_generator_compose["x-skip-globals"] is defined and component not in compose_generator_compose["x-skip-globals"] or compose_generator_compose["x-skip-globals"] is not defined) | default([])) %}
       - {{ item | replace("[service_name]", service) }}
 {% endfor -%}
 {%- endfor -%}
@@ -43,7 +43,7 @@ services:
 
 {%- endfor %}
 
-{% set nets=compose["networks"] | default(compose_globals["networks"]) if compose.networks is defined or compose_globals.networks is defined else none %}
+{% set nets=compose_generator_compose["networks"] | default(compose_generator_globals["networks"]) if compose_generator_compose.networks is defined or compose_generator_globals.networks is defined else none %}
 {% if nets is defined %}
 networks:
 {% set netify=nets | to_json | from_json | to_nice_yaml(indent=2, width=1337) %}

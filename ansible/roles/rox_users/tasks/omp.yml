@@ -10,7 +10,7 @@
   register: omp_ver
 
 - name: Get latest release of OMP
-  delegate_to: 127.0.0.1
+  delegate_to: 127.0.0.1 # Run on the control node to avoid installing the GitHub module on the target
   community.general.github_release:
     user: JanDeDobbeleer
     repo: oh-my-posh
@@ -29,10 +29,10 @@
 - name: Add OMP to bash
   ansible.builtin.lineinfile:
     mode: 0664
-    path: /home/{{ user.username }}/.bashrc
+    path: /home/{{ rox_users_user.username }}/.bashrc
     search_string: oh-my-posh
     line: >
       eval "$(oh-my-posh init bash
-      {% if user.dotfiles %} --config https://raw.githubusercontent.com/{{ user.github }}/dotfiles/main/private_dot_config/oh-my-posh.yaml{% endif %}
+      {% if rox_users_user.dotfiles %} --config https://raw.githubusercontent.com/{{ rox_users_user.github }}/dotfiles/main/private_dot_config/oh-my-posh.yaml{% endif %}
       )"
     create: true

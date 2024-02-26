@@ -1,12 +1,19 @@
 ---
-docker_appdata_path: /opt/docker/appdata
+compose_generator_appdata_path: /opt/docker/appdata
 
-docker_user:
-docker_group:
+compose_generator_gid: 1000
+compose_generator_group: docker
+compose_generator_password:
+compose_generator_uid: 1000
+compose_generator_user: docker
 
-docker_service: {}
-docker_update_command: |
+compose_generator_timezone: UTC
+
+compose_generator_service: {}
+compose_generator_update_command: |
   docker compose pull && docker compose down --remove-orphans && docker compose rm && docker compose up -d
 
-docker_compose_file_mask: 0664
-docker_compose_directory_mask: 0775
+compose_generator_runas: "{{ compose_generator_uid }}:{{ compose_generator_gid }}"
+
+compose_generator_compose_file_mask: 0664
+compose_generator_compose_directory_mask: 0775

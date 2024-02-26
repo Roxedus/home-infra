@@ -1,25 +1,25 @@
-- name: Create {{ docker_service }} directory # noqa name[template]
+- name: Create {{ compose_generator_service }} directory # noqa name[template]
   ansible.builtin.file:
-    path: "{{ docker_appdata_path }}/{{ docker_service }}"
+    path: "{{ compose_generator_appdata_path }}/{{ compose_generator_service }}"
     state: directory
-    owner: "{{ docker_user }}"
-    group: "{{ docker_group }}"
-    mode: "{{ docker_compose_directory_mask }}"
+    owner: "{{ compose_generator_user }}"
+    group: "{{ compose_generator_group }}"
+    mode: "{{ compose_generator_compose_directory_mask }}"
   become: true
 
-- name: Read {{ docker_service }} compose definition # noqa name[template]
+- name: Read {{ compose_generator_service }} compose definition # noqa name[template]
   ansible.builtin.include_vars:
-    file: files/{{ docker_service }}.yml
-    name: compose
+    file: files/{{ compose_generator_service }}.yml
+    name: compose_generator_compose
 
-- name: Install {{ docker_service }} compose file # noqa name[template]
+- name: Install {{ compose_generator_service }} compose file # noqa name[template]
   ansible.builtin.template:
     src: compose.yml.j2
-    dest: "{{ docker_appdata_path }}/{{ docker_service }}/compose.yaml"
-    mode: "{{ docker_compose_file_mask }}"
-    owner: "{{ docker_user }}"
-    group: "{{ docker_group }}"
+    dest: "{{ compose_generator_appdata_path }}/{{ compose_generator_service }}/compose.yaml"
+    mode: "{{ compose_generator_compose_file_mask }}"
+    owner: "{{ compose_generator_user }}"
+    group: "{{ compose_generator_group }}"
     validate: docker compose -f %s config
   notify:
-    - Restart {{ docker_service }}
+    - Restart {{ compose_generator_service }}
   become: true

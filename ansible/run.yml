@@ -32,7 +32,7 @@
         name: rox_users
       with_items: "{{ users }}"
       loop_control:
-        loop_var: user
+        loop_var: rox_users_user
 
     - name: Install Homebrew
       ansible.builtin.include_role:
@@ -398,7 +398,7 @@
   roles:
     - role: pihole
     - role: pihole_updatelist
-    - role: dnsmasq_server
+    - role: dnsmasq
     - role: unbound
 
 - name: Install ZFS

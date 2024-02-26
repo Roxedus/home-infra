@@ -3,11 +3,11 @@ x-skip-globals: [environment, volumes]
 services:
   traefik:
     container_name: traefik
-    user: "{{ users.0.uid }}:{{ users.0.gid }}"
+    user: "{{ compose_generator_runas }}"
     image: traefik:v2.11.0
     read_only: "true"
     environment:
-      TZ: "{{ ntp_timezone }}"
+      TZ: "{{ compose_generator_timezone }}"
       CF_DNS_API_TOKEN: "{{ secret_cloudflare.apikey }}"
       TRAEFIK_CERTIFICATESRESOLVERS_LE_ACME_EMAIL: "{{ secret_cloudflare.email }}"
     ports:
@@ -17,7 +17,7 @@ services:
       - default
       - proxy
     volumes:
-      - "{{ docker_appdata_path }}/{{ docker_service }}/config:/etc/traefik"
+      - "{{ edge_docker_appdata_path }}/{{ compose_generator_service }}/config:/etc/traefik"
   dockerproxy-traefik:
     image: tecnativa/docker-socket-proxy
     container_name: dockerproxy-traefik

@@ -1,2 +1,8 @@
-kube_release: "1.25"
-kube_apt: "{{ kube_release }}.5-00"
+kubernetes_release: "1.25"
+kubernetes_apt: "{{ kubernetes_release }}.5-00"
+
+kubernetes_management_user: admin
+
+kubernetes_systemd_resolved_ini:
+  - part: DNS
+    value: 1.1.1.1

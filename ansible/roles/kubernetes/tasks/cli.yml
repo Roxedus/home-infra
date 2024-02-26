@@ -10,7 +10,7 @@
   register: nerd_ver
 
 - name: Get latest release of Nerdctl
-  delegate_to: 127.0.0.1
+  delegate_to: 127.0.0.1 # Run on the control node to avoid installing the GitHub module on the target
   community.general.github_release:
     user: containerd
     repo: nerdctl
@@ -31,7 +31,7 @@
   when: is_controlplane is defined
   ansible.builtin.lineinfile:
     mode: 0644
-    path: /home/{{ users.0.username }}/.bashrc
+    path: /home/{{ kubernetes_management_user }}/.bashrc
     line: "{{ item }}"
     create: true
   with_items:

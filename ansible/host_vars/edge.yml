@@ -42,22 +42,27 @@ docker_daemon_options:
   metrics-addr: 127.0.0.1:9323
   no-new-privileges: true
 
-docker_service: {}
-docker_appdata_path: /opt/docker/appdata
-docker_user: "{{ users.0.username }}"
-docker_group: "{{ users.0.groupname }}"
-docker_compose_file_mask: 0775
-docker_compose_directory_mask: 0775
+compose_generator_service: {}
+compose_generator_timezone: "{{ ntp_timezone }}"
+compose_generator_appdata_path: /opt/docker/appdata
+compose_generator_compose_file_mask: 0775
+compose_generator_compose_directory_mask: 0775
 
-compose_globals:
+compose_generator_user: "{{ users.0.username }}"
+compose_generator_group: "{{ users.0.groupname }}"
+compose_generator_uid: "{{ users.0.uid }}"
+compose_generator_gid: "{{ users.0.gid }}"
+compose_generator_password: "{{ users.0.password }}"
+
+compose_generator_globals:
   services:
     hostname: "{{ inventory_hostname }}"
     environment:
-      PUID: "{{ users.0.uid }}"
-      PGID: "{{ users.0.gid }}"
-      TZ: "{{ ntp_timezone }}"
+      PUID: "{{ compose_generator_uid }}"
+      PGID: "{{ compose_generator_gid }}"
+      TZ: "{{ compose_generator_timezone }}"
     volumes:
-      - "{{ docker_appdata_path }}/{{ docker_service }}/config:/config"
+      - "{{ compose_generator_appdata_path }}/{{ compose_generator_service }}/config:/config"
     restart: unless-stopped
     labels:
       ansible.managed: "true"
@@ -68,3 +73,7 @@ compose_globals:
       labels:
         com.docker.compose.network: default
         ansible.managed: "true"
+
+edge_generator_appdata_path: "{{ compose_generator_appdata_path}}"
+edge_docker_user: "{{ compose_generator_user }}"
+edge_docker_group: "{{ compose_generator_group }}"

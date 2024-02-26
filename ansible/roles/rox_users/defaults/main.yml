@@ -1,12 +1,12 @@
-box_omp: false
-box_chezmoi: false
+rox_users_box_omp: false
+rox_users_box_chezmoi: false
 
-chezmoi_config: false
-chezmoi_age: ""
+rox_users_chezmoi_config: false
+rox_users_chezmoi_age: ""
 
-box_is_appliance: false
+rox_users_box_is_appliance: false
 
-user:
+rox_users_user:
   username: myfantasticuser
   groupname: myfantasticgroup
   home: true

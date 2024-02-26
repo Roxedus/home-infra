@@ -1,11 +1,11 @@
 - name: Create traefik directory
   become: true
   ansible.builtin.file:
-    path: "{{ docker_appdata_path }}/traefik/config"
+    path: "{{ edge_docker_appdata_path }}/traefik/config"
     state: directory
-    mode: "{{ docker_compose_directory_mask }}"
-    owner: "{{ docker_user }}"
-    group: "{{ docker_group }}"
+    mode: "{{ edge_docker_mode }}"
+    owner: "{{ edge_docker_user }}"
+    group: "{{ edge_docker_group }}"
 
 - name: Set up Traefik
   ansible.builtin.include_role:
@@ -16,10 +16,10 @@
 - name: Traefik conf
   ansible.builtin.template:
     src: traefik/{{ item }}.yml.j2
-    dest: "{{ docker_appdata_path }}/traefik/config/{{ item }}.yml"
+    dest: "{{ edge_docker_appdata_path }}/traefik/config/{{ item }}.yml"
     mode: "0775" # To prevent unnecessary nag in logs
-    owner: "{{ docker_user }}"
-    group: "{{ docker_group }}"
+    owner: "{{ edge_docker_user }}"
+    group: "{{ edge_docker_group }}"
   become: true
   loop:
     - file-provider
@@ -29,9 +29,9 @@
 - name: Touch traefik config files
   become: true
   ansible.builtin.file:
-    path: "{{ docker_appdata_path }}/traefik/config/acme.json"
-    state: "{{ 'touch' if lookup('file', '{{ docker_appdata_path }}/traefik/config/acme.json', errors='ignore') else 'file' }}"
+    path: "{{ edge_docker_appdata_path }}/traefik/config/acme.json"
+    state: "{{ 'touch' if lookup('file', '{{ edge_docker_appdata_path }}/traefik/config/acme.json', errors='ignore') else 'file' }}"
     mode: "0600"
-    owner: "{{ docker_user }}"
-    group: "{{ docker_group }}"
+    owner: "{{ edge_docker_user }}"
+    group: "{{ edge_docker_group }}"
   notify: Restart traefik after config change

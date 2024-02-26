@@ -1,4 +1,6 @@
-- name: Restart {{ docker_service }}
+- name: Restart {{ compose_generator_service }}
+  register: restart_compose_generator_service
   ansible.builtin.shell: # noqa command-instead-of-shell
-    chdir: "{{ docker_appdata_path }}/{{ docker_service }}"
-    cmd: "{{ docker_update_command }}"
+    chdir: "{{ compose_generator_appdata_path }}/{{ compose_generator_service }}"
+    cmd: "{{ compose_generator_update_command }}"
+  changed_when: restart_compose_generator_service.rc != 0

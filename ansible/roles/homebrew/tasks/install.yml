@@ -13,8 +13,8 @@
     path: /home/linuxbrew/.linuxbrew/
     state: directory
     mode: "0755"
-    owner: "{{ users.0.username }}"
-    group: "{{ users.0.groupname }}"
+    owner: "{{ homebrew_user }}"
+    group: "{{ homebrew_group }}"
 
 - name: Download Homebrew install script
   ansible.builtin.get_url:
@@ -29,7 +29,7 @@
   changed_when: install_result.rc == 0
   become: false
   environment:
-    NONINTERACTIVE: 1
+    NONINTERACTIVE: "true"
 
 - name: Remove temporary directory
   ansible.builtin.file:

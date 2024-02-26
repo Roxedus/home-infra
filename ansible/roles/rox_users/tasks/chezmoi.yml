@@ -1,18 +1,18 @@
 - name: Check if Chezmoi is installed
   become: false
   ansible.builtin.stat:
-    path: /home/{{ user.username }}/.local/bin/chezmoi
+    path: /home/{{ rox_users_user.username }}/.local/bin/chezmoi
   register: chezmoi_bin
 
 - name: Create folders
   become: false
   register: chezmoi_create
   ansible.builtin.file:
-    path: /home/{{ user.username }}/{{ item }}
+    path: /home/{{ rox_users_user.username }}/{{ item }}
     state: directory
     mode: "0775"
-    owner: "{{ user.username }}"
-    group: "{{ user.groupname }}"
+    owner: "{{ rox_users_user.username }}"
+    group: "{{ rox_users_user.groupname }}"
   loop:
     - .local/bin
     - .config/chezmoi
@@ -23,43 +23,43 @@
   become: false
   ansible.builtin.get_url:
     url: https://github.com/twpayne/chezmoi/releases/latest/download/chezmoi-linux-{{ apt_arch }}
-    dest: /home/{{ user.username }}/.local/bin/chezmoi
+    dest: /home/{{ rox_users_user.username }}/.local/bin/chezmoi
     mode: 0755
-    owner: "{{ user.username }}"
-    group: "{{ user.groupname }}"
+    owner: "{{ rox_users_user.username }}"
+    group: "{{ rox_users_user.groupname }}"
 
 - name: Create Chezmoi config
-  when: chezmoi_config
+  when: rox_users_chezmoi_config
   become: false
   ansible.builtin.copy:
     mode: "0760"
-    content: "{{ chezmoi_config }}"
-    dest: /home/{{ user.username }}/.config/chezmoi/chezmoi.yml
-    owner: "{{ user.username }}"
-    group: "{{ user.groupname }}"
+    content: "{{ rox_users_chezmoi_config }}"
+    dest: /home/{{ rox_users_user.username }}/.config/chezmoi/chezmoi.yml
+    owner: "{{ rox_users_user.username }}"
+    group: "{{ rox_users_user.groupname }}"
 
 - name: Create Chezmoi age file
   become: false
   ansible.builtin.copy:
     mode: "0760"
-    content: "{{ chezmoi_age }}"
-    dest: /home/{{ user.username }}/.config/chezmoi/key.age
-    owner: "{{ user.username }}"
-    group: "{{ user.groupname }}"
+    content: "{{ rox_users_chezmoi_age }}"
+    dest: /home/{{ rox_users_user.username }}/.config/chezmoi/key.age
+    owner: "{{ rox_users_user.username }}"
+    group: "{{ rox_users_user.groupname }}"
 
 - name: Init Chezmoi
-  ansible.builtin.command: .local/bin/chezmoi init {{ user.github }}
+  ansible.builtin.command: .local/bin/chezmoi init {{ rox_users_user.github }}
   register: init_result
   when: chezmoi_create.changed and chezmoi_download.changed
   changed_when: init_result.rc == 0
   become: false
   environment:
-    NONINTERACTIVE: 1
+    NONINTERACTIVE: "true"
 
 - name: Check if Chezmoi is initialized
   become: false
   ansible.builtin.stat:
-    path: /home/{{ user.username }}/.local/share/chezmoi/
+    path: /home/{{ rox_users_user.username }}/.local/share/chezmoi/
   register: chezmoi_init
 
 - name: Apply Chezmoi

@@ -4,7 +4,7 @@
   register: dnsmasq_setup
 
 - name: Set up dnsmasq hosts
-  register: dnsmasq_hosts
+  register: dnsmasq_hosts_file
   become: true
   ansible.builtin.template:
     src: hosts.custom.j2
@@ -30,10 +30,10 @@
   register: pihole_bin
 
 - name: Restart PiHole systems
-  when: (dnsmasq.changed or dnsmasq_hosts.changed) and pihole_bin.stat.exists
+  when: (dnsmasq.changed or dnsmasq_hosts_file.changed) and pihole_bin.stat.exists
   become: true
-  register: pihole_restart
-  changed_when: pihole_restart.rc != 0
+  register: dnsmasq_pihole_restart
+  changed_when: dnsmasq_pihole_restart.rc != 0
   ansible.builtin.command:
     argv:
       - pihole

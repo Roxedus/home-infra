@@ -1,6 +1,8 @@
-pihole_update: True
+pihole_updatelist_run: True
 
-dnsmasq:
+raspberry_forward_syslog: False
+
+dnsmasq_hosts:
   aliases:
     - ip: 10.0.0.1
       host: gateway.{{ dnsmasq_local_domain }}

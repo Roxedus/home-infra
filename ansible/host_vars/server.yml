@@ -2,12 +2,14 @@ set_hostname: server
 netplan_addresses: [10.0.0.15/24]
 netplan_dhcp: false
 
-box_chezmoi: True
-box_omp: False
+rox_users_box_chezmoi: True
+rox_users_box_omp: False
 
 homebrew: True
+homebrew_user: "{{ users.0.username }}"
+homebrew_group: "{{ users.0.groupname }}"
 
-chezmoi_config: |
+rox_users_chezmoi_config: |
 
   data:
     integration:
@@ -72,4 +74,4 @@ users:
     zfs: True
 
 zfs_ver: 2.1.5-1ubuntu6~22.04.2
-zfs_users: "{{ users|selectattr('zfs', 'true')|map(attribute='username') }}"
+zfs_users: "{{ users | selectattr('zfs', 'true') | map(attribute='username') }}"

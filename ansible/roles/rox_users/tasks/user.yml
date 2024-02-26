@@ -1,22 +1,22 @@
 - name: Ensure groups exists
   become: true
   ansible.builtin.group:
-    name: "{{ user.groupname | default(user.username) }}"
-    gid: "{{ user.gid | default(omit) }}"
+    name: "{{ rox_users_user.groupname | default(rox_users_user.username) }}"
+    gid: "{{ rox_users_user.gid | default(omit) }}"
     state: present
 
 - name: Add users
   become: true
   no_log: true
   ansible.builtin.user:
-    name: "{{ user.username }}"
-    uid: "{{ user.uid | default(omit) }}"
-    group: "{{ user.groupname | default(user.username) }}"
-    shell: "{{ user.shell | default('/bin/bash') }}"
-    move_home: "{{ user.home | default(omit) }}"
-    password: "{{ user.password | password_hash('sha512', user.username ) | default(omit) }}"
+    name: "{{ rox_users_user.username }}"
+    uid: "{{ rox_users_user.uid | default(omit) }}"
+    group: "{{ rox_users_user.groupname | default(rox_users_user.username) }}"
+    shell: "{{ rox_users_user.shell | default('/bin/bash') }}"
+    move_home: "{{ rox_users_user.home | default(omit) }}"
+    password: "{{ rox_users_user.password | password_hash('sha512', rox_users_user.username ) | default(omit) }}"
 
 - name: Add a Github key ssh key
   ansible.posix.authorized_key:
-    user: "{{ user.username }}"
-    key: https://github.com/{{ user.github }}.keys
+    user: "{{ rox_users_user.username }}"
+    key: https://github.com/{{ rox_users_user.github }}.keys

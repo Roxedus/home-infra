@@ -1,32 +1,32 @@
 - name: Provision new user
-  when: not box_is_appliance
+  when: not rox_users_box_is_appliance
   ansible.builtin.include_tasks: user.yml
 
 - name: Adapt root user
-  when: box_is_appliance
+  when: rox_users_box_is_appliance
   ansible.builtin.include_tasks: is_root.yml
 
 - name: Install OhMyPosh
-  when: box_omp
+  when: rox_users_box_omp
   ansible.builtin.include_tasks: omp.yml
 
 - name: Install Chezmoi
-  when: box_chezmoi
+  when: rox_users_box_chezmoi
   ansible.builtin.include_tasks: chezmoi.yml
 
 - name: Basic VI
-  when: not box_chezmoi
+  when: not rox_users_box_chezmoi
   ansible.builtin.lineinfile:
     mode: 0644
-    path: /home/{{ user.username }}/.vimrc
+    path: /home/{{ rox_users_user.username }}/.vimrc
     line: set nocompatible
     create: true
 
 - name: Basic tmux
-  when: not box_chezmoi
+  when: not rox_users_box_chezmoi
   ansible.builtin.copy:
     mode: 0644
-    dest: /home/{{ user.username }}/.tmux.conf
+    dest: /home/{{ rox_users_user.username }}/.tmux.conf
     content: |
       # Enable mouse control (clickable windows, panes, resizable panes)
       set -g mouse on
@@ -45,7 +45,7 @@
 
 - name: Configure login for tmux session
   ansible.builtin.blockinfile:
-    path: /home/{{ user.username }}/.profile
+    path: /home/{{ rox_users_user.username }}/.profile
     marker: "# ANSIBLE MANAGED BLOCK {mark}"
     insertbefore: "# if running bash"
     block: |

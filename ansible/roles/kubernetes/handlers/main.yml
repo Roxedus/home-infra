@@ -42,13 +42,7 @@
     option: "{{item.part}}"
     value: "{{item.value}}"
     no_extra_spaces: true
-  with_items:
-    - part: DNS
-      value: 10.0.0.31
-    - part: FallbackDNS
-      value: 10.0.0.32
-    - part: Domains
-      value: rostvik.home
+  with_items: "{{ kubernetes_systemd_resolved_ini }}"
   notify:
     - Kube | systemd-resolved changed
 

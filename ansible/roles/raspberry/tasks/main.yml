@@ -43,7 +43,9 @@
 
 - name: Create journald override
   become: true
-  when: ansible_distribution == 'Ubuntu'
+  when:
+    - ansible_distribution == 'Ubuntu'
+    - not raspberry_forward_syslog
   ansible.builtin.copy:
     owner: root
     group: root

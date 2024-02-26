@@ -1,11 +1,11 @@
 - name: Create Grafana directories
   become: true
   ansible.builtin.file:
-    path: "{{ docker_appdata_path }}/grafana/{{ item }}"
+    path: "{{ edge_docker_appdata_path }}/grafana/{{ item }}"
     state: directory
-    mode: "{{ docker_compose_directory_mask }}"
-    owner: "{{ docker_user }}"
-    group: "{{ docker_group }}"
+    mode: "{{ edge_docker_mode }}"
+    owner: "{{ edge_docker_user }}"
+    group: "{{ edge_docker_group }}"
   loop:
     - dashboards
     - grafana
@@ -20,15 +20,15 @@
   ansible.builtin.include_role:
     name: compose_generator
   vars:
-    docker_service: grafana
+    compose_generator_service: grafana
 
 - name: Grafana provisioning
   ansible.builtin.template:
     src: grafana/{{ item }}
-    dest: "{{ docker_appdata_path }}/grafana/{{ item }}"
+    dest: "{{ edge_docker_appdata_path }}/grafana/{{ item }}"
     mode: "0775" # To prevent unnecessary nag in logs
-    owner: "{{ docker_user }}"
-    group: "{{ docker_group }}"
+    owner: "{{ edge_docker_user }}"
+    group: "{{ edge_docker_group }}"
   become: true
   loop:
     - provisioning/dashboards/dash.yaml
@@ -39,9 +39,9 @@
 - name: Download Grafana dashboards
   ansible.builtin.get_url:
     url: "{{ item.url }}"
-    dest: "{{ docker_appdata_path }}/grafana/dashboards/{{ item.name }}"
+    dest: "{{ edge_docker_appdata_path }}/grafana/dashboards/{{ item.name }}"
     mode: "0775" # To prevent unnecessary nag in logs
-    owner: "{{ docker_user }}"
+    owner: "{{ edge_docker_user }}"
     group: "{{ docker_group }}"
   loop:
     - url: https://grafana.com/api/dashboards/1860/revisions/33/download
@@ -53,10 +53,10 @@
 - name: Loki provisioning
   ansible.builtin.template:
     src: grafana/{{ item.src }}
-    dest: "{{ docker_appdata_path }}/grafana/{{ item.dest }}"
+    dest: "{{ edge_docker_appdata_path }}/grafana/{{ item.dest }}"
     mode: "0775" # To prevent unnecessary nag in logs
-    owner: "{{ docker_user }}"
-    group: "{{ docker_group }}"
+    owner: "{{ edge_docker_user }}"
+    group: "{{ edge_docker_group }}"
   become: true
   loop:
     - src: loki/config.yaml

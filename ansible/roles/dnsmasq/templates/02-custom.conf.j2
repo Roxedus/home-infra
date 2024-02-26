@@ -2,15 +2,15 @@
 # http://www.thekelleys.org.uk/dnsmasq/docs/dnsmasq-man.html
 addn-hosts=/etc/hosts.custom
 
-{% for alias in dnsmasq.aliases %}
+{% for alias in dnsmasq_hosts.aliases %}
 address=/{{ alias.host }}/{{ alias.ip }}
 {% endfor %}
 
-{% for srv in dnsmasq.srv %}
+{% for srv in dnsmasq_hosts.srv %}
 srv-host=_{{ srv.service }}._{{ srv.protocol | default("tcp") | upper }}.{{ srv.domain }},{{ srv.url | default(srv.service + "." + srv.domain) }},{{ srv.port }}
 {% endfor %}
 
-{% for server in dnsmasq.servers %}
+{% for server in dnsmasq_hosts.servers %}
 {% if server.reverse|default(False) %}
 rev-server={{ server.mask }},{{ server.gateway }}
 {% endif %}

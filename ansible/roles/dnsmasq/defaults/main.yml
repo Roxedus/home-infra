@@ -1,6 +1,6 @@
 dnsmasq_local_domain: local
 
-dnsmasq:
+dnsmasq_hosts:
   aliases:
     - ip: 10.0.0.1
       host: router.{{ dnsmasq_local_domain }}

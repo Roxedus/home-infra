@@ -3,11 +3,11 @@ x-skip-globals: [environment, volumes]
 services:
   grafana:
     container_name: grafana
-    user: "{{ users.0.uid }}:{{ users.0.gid }}"
+    user: "{{ compose_generator_runas }}"
     image: grafana/grafana-oss
     read_only: "true"
     environment:
-      TZ: "{{ ntp_timezone }}"
+      TZ: "{{ compose_generator_timezone }}"
       GF_INSTALL_PLUGINS: grafana-piechart-panel
       GF_PATHS_PLUGINS: /tmp/graf_plugins
     tmpfs:
@@ -16,9 +16,9 @@ services:
     # ports:
     #   - 3000:3000
     volumes:
-      - "{{ docker_appdata_path }}/grafana/grafana:/var/lib/grafana"
-      - "{{ docker_appdata_path }}/grafana/provisioning:/etc/grafana/provisioning:ro"
-      - "{{ docker_appdata_path }}/grafana/dashboards:/etc/dashboards:ro"
+      - "{{ edge_docker_appdata_path }}/grafana/grafana:/var/lib/grafana"
+      - "{{ edge_docker_appdata_path }}/grafana/provisioning:/etc/grafana/provisioning:ro"
+      - "{{ edge_docker_appdata_path }}/grafana/dashboards:/etc/dashboards:ro"
     labels:
       traefik.enable: "true"
     networks:
@@ -30,18 +30,18 @@ services:
   loki:
     image: grafana/loki:2.9.4
     container_name: loki
-    user: "{{ users.0.uid }}:{{ users.0.gid }}"
+    user: "{{ compose_generator_runas }}"
     read_only: "true"
     tmpfs:
       - /tmp
       - /run
     environment:
-      TZ: "{{ ntp_timezone }}"
+      TZ: "{{ compose_generator_timezone }}"
     ports:
       - 3100:3100
     volumes:
-      - "{{ docker_appdata_path }}/{{ docker_service }}/[service_name]/config:/config:ro"
-    # - "{{ docker_appdata_path }}/{{ docker_service }}/[service_name]/storage/:/tmp/loki:rw"
+      - "{{ edge_docker_appdata_path }}/{{ compose_generator_service }}/[service_name]/config:/config:ro"
+    # - "{{ edge_docker_appdata_path }}/{{ compose_generator_service }}/[service_name]/storage/:/tmp/loki:rw"
     command: -config.file=/config/config.yaml
     networks:
       - loki
@@ -54,9 +54,9 @@ services:
       - /tmp
       - /run
     environment:
-      TZ: "{{ ntp_timezone }}"
+      TZ: "{{ compose_generator_timezone }}"
     volumes:
-      - "{{ docker_appdata_path }}/{{ docker_service }}/[service_name]:/config:ro"
+      - "{{ edge_docker_appdata_path }}/{{ compose_generator_service }}/[service_name]:/config:ro"
       - /var/log:/var/log:ro
     command: -config.file=/config/config.yaml -log-config-reverse-order # -config.expand-env=true
     networks:

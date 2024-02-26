@@ -1,11 +1,11 @@
 - name: Create Syslog-ng directory
   become: true
   ansible.builtin.file:
-    path: "{{ docker_appdata_path }}/syslog-ng/{{ item }}"
+    path: "{{ edge_docker_appdata_path }}/syslog-ng/{{ item }}"
     state: directory
-    mode: "{{ docker_compose_directory_mask }}"
-    owner: "{{ docker_user }}"
-    group: "{{ docker_group }}"
+    mode: "{{ edge_docker_mode }}"
+    owner: "{{ edge_docker_user }}"
+    group: "{{ edge_docker_group }}"
   loop:
     - log
     - config
@@ -19,9 +19,9 @@
 - name: Syslog-ng conf
   ansible.builtin.template:
     src: syslog-ng/syslog-ng.conf.j2
-    dest: "{{ docker_appdata_path }}/syslog-ng/config/syslog-ng.conf"
+    dest: "{{ edge_docker_appdata_path }}/syslog-ng/config/syslog-ng.conf"
     mode: "0775" # To prevent unnecessary nag in logs
-    owner: "{{ docker_user }}"
-    group: "{{ docker_group }}"
+    owner: "{{ edge_docker_user }}"
+    group: "{{ edge_docker_group }}"
   become: true
   notify: Restart syslog-ng after config change
