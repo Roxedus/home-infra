@@ -31,8 +31,10 @@
     mode: 0664
     path: /home/{{ rox_users_user.username }}/.bashrc
     search_string: oh-my-posh
+    # yamllint disable rule:line-length
     line: >
       eval "$(oh-my-posh init bash
       {% if rox_users_user.dotfiles %} --config https://raw.githubusercontent.com/{{ rox_users_user.github }}/dotfiles/main/private_dot_config/oh-my-posh.yaml{% endif %}
       )"
+    # yamllint enable rule:line-length
     create: true
