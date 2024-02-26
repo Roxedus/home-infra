@@ -1,5 +1,10 @@
 ansible_become_password: "{{ secret_sudo }}"
 
+main_password: "{{ secret_sudo | default('dummy') }}"
+main_domain: "{{ secret_local_domain | default('local') }}"
+healthchecks_api: "{{ secret_healthchecks_api | default('dummy') }}"
+healthchecks_ping: "{{ secret_healthchecks_ping | default('dummy') }}"
+
 ntp_timezone: Europe/Oslo
 
 box_omp: True
@@ -73,7 +78,7 @@ netplan_dns:
   - 10.0.0.32
 netplan_gateway4: 10.0.0.1
 netplan_cidr: 10.0.0.0/24
-netplan_search: ["{{ secret_local_domain }}"]
+netplan_search: ["{{ main_domain }}"]
 
 healthchecks_management_url: http://10.0.0.16:8000
 healthchecks_integration: 35f9ef7d-7251-4e4d-8f7a-292c9892464b

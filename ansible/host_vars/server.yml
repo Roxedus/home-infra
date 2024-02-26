@@ -68,7 +68,7 @@ users:
     shell: /usr/bin/zsh
     dotfiles: True
     github: Roxedus
-    password: "{{ secret_sudo }}"
+    password: "{{ main_password }}"
     zfs: True
 
 zfs_ver: 2.1.5-1ubuntu6~22.04.2

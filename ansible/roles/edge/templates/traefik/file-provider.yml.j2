@@ -4,7 +4,7 @@ http:
   routers:
     dash:
       entryPoints: web-secure
-      rule: Host(`dash.{{ secret_local_domain }}`)
+      rule: Host(`dash.{{ main_domain }}`)
       service: api@internal
       middlewares:
         - home-block@file

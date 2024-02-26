@@ -5,7 +5,7 @@ services:
     environment:
       APPRISE_ENABLED: "True"
       DEBUG: "False"
-      SITE_ROOT: https://healthchecks.{{ secret_local_domain }}
+      SITE_ROOT: https://healthchecks.{{ main_domain }}
       SITE_NAME: Rostvik Estate Healthchecks
       SUPERUSER_EMAIL: me@roxedus.dev
       SUPERUSER_PASSWORD: "{{ users.0.password }}"

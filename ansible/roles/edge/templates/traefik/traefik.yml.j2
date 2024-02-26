@@ -44,9 +44,9 @@ entryPoints:
       tls: &TLS
         certresolver: le
         domains:
-          - main: "{{ secret_local_domain }}"
+          - main: "{{ main_domain }}"
             sans:
-              - "*.{{ secret_local_domain }}"
+              - "*.{{ main_domain }}"
     forwardedHeaders:
       trustedIPs: *CFIPs
 
@@ -56,7 +56,7 @@ providers:
     watch: true
     exposedByDefault: false
     network: intranet
-    defaultRule: "{{ 'Host(`{{ index .Labels' + ' \\\"com.docker.compose.service\\\"}}.' + secret_local_domain + '`)'}}"
+    defaultRule: "{{ 'Host(`{{ index .Labels' + ' \\\"com.docker.compose.service\\\"}}.' + main_domain + '`)'}}"
   file:
     filename: /etc/traefik/file-provider.yml
 

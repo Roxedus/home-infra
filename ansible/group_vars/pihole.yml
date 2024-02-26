@@ -3,11 +3,11 @@ pihole_update: True
 dnsmasq:
   aliases:
     - ip: 10.0.0.1
-      host: gateway.{{ dmasq_local_domain }}
+      host: gateway.{{ dnsmasq_local_domain }}
     - ip: 10.0.0.15
-      host: server.{{ dmasq_local_domain }}
+      host: server.{{ dnsmasq_local_domain }}
     - ip: 10.0.0.16
-      host: .{{ dmasq_local_domain }}
+      host: .{{ dnsmasq_local_domain }}
     - ip: 10.0.0.29
       host: code.roxedus.dev
     - ip: 10.0.0.29
@@ -15,19 +15,19 @@ dnsmasq:
     - ip: 10.0.0.29
       host: lsio.roxedus.dev
     - ip: 10.0.0.29
-      host: "{{ secret_wan_domain }}"
+      host: "{{ secret_wan_domain | default('wan') }}"
     - ip: 10.0.0.29
-      host: .{{ secret_wan_domain }}
+      host: .{{ secret_wan_domain | default('wan') }}
     - ip: 10.0.0.30
-      host: "{{ secret_unraid_uuid }}.myunraid.net"
+      host: "{{ secret_unraid_uuid | default('dummy') }}.myunraid.net"
     - ip: 10.0.0.30
-      host: .{{ secret_unraid_uuid }}.myunraid.net
+      host: .{{ secret_unraid_uuid | default('dummy') }}.myunraid.net
     - ip: 10.0.0.31
-      host: pihole1.{{ dmasq_local_domain }}
+      host: pihole1.{{ dnsmasq_local_domain }}
     - ip: 10.0.0.32
-      host: pihole2.{{ dmasq_local_domain }}
+      host: pihole2.{{ dnsmasq_local_domain }}
     - ip: 10.0.0.35
-      host: pve.{{ dmasq_local_domain }}
+      host: pve.{{ dnsmasq_local_domain }}
     - ip: 10.0.2.40
       host: roxedus.com
     - ip: 10.0.2.40
@@ -36,19 +36,19 @@ dnsmasq:
   srv:
     - service: VLMCS
       protocol: TCP
-      domain: "{{ dmasq_local_domain }}"
+      domain: "{{ dnsmasq_local_domain }}"
       url: 10.0.0.29
       port: 1688
 
   servers:
     - gateway: 10.0.0.1
-      host: "{{ dmasq_local_domain }}"
+      host: "{{ dnsmasq_local_domain }}"
       mask: 10.0.0.0/24
       reverse: True
     - gateway: 10.0.2.1
-      host: "{{ dmasq_local_domain }}"
+      host: "{{ dnsmasq_local_domain }}"
       mask: 10.0.2.0/26
       reverse: True
 
 pihole:
-  password: "{{ secret_sudo }}"
+  password: "{{ main_password }}"

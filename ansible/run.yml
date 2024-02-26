@@ -155,7 +155,7 @@
       community.healthchecksio.checks:
         state: present
         management_api_base_url: "{{ healthchecks_management_url }}/api/v3"
-        management_api_token: "{{ secret_healthchecks_api }}"
+        management_api_token: "{{ healthchecks_api }}"
         name: "{{ inventory_hostname | title }} uptime check"
         channels: "{{ healthchecks_integration }}"
         unique:
@@ -231,7 +231,7 @@
 
           [Service]
           Type=oneshot
-          ExecStart=/usr/bin/curl -sSm 10 --retry 1 -X POST --header "X-Api-Key: {{ secret_healthchecks_api }}" --data "" {{ healthchecks_management_url }}/api/v3/checks/{{ local_healthcheck.uuid }}/pause
+          ExecStart=/usr/bin/curl -sSm 10 --retry 1 -X POST --header "X-Api-Key: {{ healthchecks_api }}" --data "" {{ healthchecks_management_url }}/api/v3/checks/{{ local_healthcheck.uuid }}/pause
 
           [Install]
           WantedBy=final.target
