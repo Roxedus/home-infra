@@ -50,6 +50,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4.1.1
 
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('ansible/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-yamllint
+
       - name: Set up Python
         uses: actions/setup-python@v5.0.0
         with:
@@ -104,6 +111,20 @@ jobs:
     needs: [yaml, meta]
     steps:
       - uses: actions/checkout@v4.1.1
+
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('ansible/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-ansible
+
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/ansible-compat
+          key: ${{ runner.os }}-pip-${{ hashFiles('ansible/requirements.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-galaxy
 
       - name: Install Ansible-lint
         working-directory: ansible/
