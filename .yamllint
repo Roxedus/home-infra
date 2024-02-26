@@ -3,6 +3,7 @@ extends: default
 ignore: |
   .venv/
   .galaxy_roles/
+  .galaxy_collections/
   kubernetes/flux/flux-system/gotk-components.yaml
   kubernetes/flux/flux-system/gotk-sync.yaml
   kubernetes/.sops/*.yaml

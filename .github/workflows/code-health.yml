@@ -93,7 +93,7 @@ jobs:
           category: kics
 
   ansible-lint:
-    name: Run kics
+    name: Run Ansible Lint
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     permissions:
