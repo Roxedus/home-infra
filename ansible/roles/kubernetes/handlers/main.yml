@@ -39,8 +39,8 @@
     mode: 0644
     path: /etc/systemd/resolved.conf
     section: Resolve
-    option: "{{item.part}}"
-    value: "{{item.value}}"
+    option: "{{ item.part }}"
+    value: "{{ item.value }}"
     no_extra_spaces: true
   with_items: "{{ kubernetes_systemd_resolved_ini }}"
   notify:

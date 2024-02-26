@@ -315,6 +315,9 @@
       when: ansible_distribution == 'Ubuntu'
       become: true
       ansible.builtin.file:
+        owner: root
+        group: root
+        mode: 0755
         path: /var/log/journal/remote/
         state: directory
 
@@ -322,6 +325,9 @@
       when: ansible_distribution == 'Ubuntu'
       become: true
       ansible.builtin.file:
+        owner: root
+        group: root
+        mode: 0755
         path: /etc/systemd/system/systemd-journal-remote.service.d/
         state: directory
 
@@ -329,6 +335,9 @@
       become: true
       when: ansible_distribution == 'Ubuntu'
       ansible.builtin.copy:
+        owner: root
+        group: root
+        mode: 0644
         content: |
           # Ansible managed
           [Service]
@@ -470,6 +479,9 @@
       become: true
       when: ansible_distribution == 'Ubuntu'
       ansible.builtin.copy:
+        owner: root
+        group: root
+        mode: 0644
         content: |
           # Ansible managed
         dest: /etc/apt/apt.conf.d/20apt-esm-hook.conf
@@ -534,7 +546,7 @@
   tags:
     - always
   tasks:
-    - name: Start unattended-upgr
+    - name: Start unattended-upgr # noqa no-handler
       become: true
       when: unattended_upgr.changed
       ansible.builtin.service:

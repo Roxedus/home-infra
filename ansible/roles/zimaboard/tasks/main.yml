@@ -3,7 +3,7 @@
   become: true
   ansible.builtin.apt_repository:
     filename: debian-non-free
-    repo: "{{ item  }}"
+    repo: "{{ item }}"
     mode: 0666
     update_cache: true
   loop:

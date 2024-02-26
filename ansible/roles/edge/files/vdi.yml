@@ -5,7 +5,7 @@ services:
     image: ghcr.io/linuxserver/webcord:v4.7.1-ls56@sha256:bf19941d04b6b85f0f79442e47503a5c9b14bc62aace9011bb7d94811cbb7936
     container_name: webcord
     volumes:
-      - "{{ edge_docker_appdata_path }}/{{ docker_service }}/[service_name]:/config"
+      - "{{ edge_docker_appdata_path }}/{{ compose_generator_service }}/[service_name]:/config"
     environment:
       NO_DECOR: "true"
       SUBFOLDER: /webcord/
@@ -21,7 +21,7 @@ services:
     image: docker.io/roxedus/playground:element
     container_name: element
     volumes:
-      - "{{ edge_docker_appdata_path }}/{{ docker_service }}/[service_name]:/config"
+      - "{{ edge_docker_appdata_path }}/{{ compose_generator_service }}/[service_name]:/config"
     environment:
       NO_DECOR: "true"
       SUBFOLDER: /element/

@@ -9,6 +9,12 @@ prefix="ansible/"
 #   arr+=("${_file#"${prefix}"}")
 # done
 
+source ansible/.venv/bin/activate
+
 cd $prefix
 
-ansible-lint --force-color -p
+sed -i 's/vault_password_file/#vault_password_file/g' ansible.cfg
+
+ansible-lint --nocolor -p -vv
+
+sed -i 's/#vault_password_file/vault_password_file/g' ansible.cfg

@@ -69,4 +69,4 @@
   changed_when: init_result.rc == 0
   become: false
   environment:
-    NONINTERACTIVE: 1
+    NONINTERACTIVE: "true"

@@ -1,15 +1,23 @@
 - name: Restart traefik after config change
+  register: traefik_restart
+  changed_when: traefik_restart.rc == 0
   ansible.builtin.command:
     cmd: docker restart traefik
 
 - name: Restart syslog-ng after config change
+  register: syslog_restart
+  changed_when: syslog_restart.rc == 0
   ansible.builtin.command:
     cmd: docker restart syslog-ng
 
 - name: Restart grafana after config change
+  register: grafana_restart
+  changed_when: grafana_restart.rc == 0
   ansible.builtin.command:
     cmd: docker restart grafana
 
 - name: Restart loki after config change
+  register: loki_restart
+  changed_when: loki_restart.rc == 0
   ansible.builtin.shell: # noqa command-instead-of-shell
     cmd: docker restart loki && docker restart promtail

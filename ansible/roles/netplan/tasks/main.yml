@@ -20,16 +20,18 @@
     state: present
 
 - name: Capturing Existing Configurations
-  find:
+  ansible.builtin.find:
     paths: /etc/netplan
     patterns: "*.yml,*.yaml"
   register: _netplan_configs
 
-- debug: var=_netplan_configs
+- name: List Existing Configurations
+  ansible.builtin.debug:
+    var: _netplan_configs
   when: debug is defined and ( debug | bool )
 
 - name: Removing Existing Configurations
-  file:
+  ansible.builtin.file:
     path: "{{ item['path'] }}"
     state: absent
   become: true

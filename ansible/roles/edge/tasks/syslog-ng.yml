@@ -14,7 +14,7 @@
   ansible.builtin.include_role:
     name: compose_generator
   vars:
-    docker_service: syslog-ng
+    compose_generator_service: syslog-ng
 
 - name: Syslog-ng conf
   ansible.builtin.template:

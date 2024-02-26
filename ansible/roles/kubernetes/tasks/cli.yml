@@ -21,7 +21,7 @@
   when: not nerd_bin.stat.exists or nerd_rel.tag != ( "v" + (nerd_ver.stdout | replace("nerdctl version ", "")))
   become: true
   ansible.builtin.unarchive:
-    src: https://github.com/containerd/nerdctl/releases/download/{{ nerd_rel.tag }}/nerdctl-{{ nerd_rel.tag | replace("v","") }}-linux-{{ apt_arch }}.tar.gz
+    src: https://github.com/containerd/nerdctl/releases/download/{{ nerd_rel.tag }}/nerdctl-{{ nerd_rel.tag | replace("v", "") }}-linux-{{ apt_arch }}.tar.gz
     dest: /usr/local/bin
     include: nerdctl
     remote_src: true

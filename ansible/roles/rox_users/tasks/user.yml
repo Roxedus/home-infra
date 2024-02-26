@@ -14,7 +14,7 @@
     group: "{{ rox_users_user.groupname | default(rox_users_user.username) }}"
     shell: "{{ rox_users_user.shell | default('/bin/bash') }}"
     move_home: "{{ rox_users_user.home | default(omit) }}"
-    password: "{{ rox_users_user.password | password_hash('sha512', rox_users_user.username ) | default(omit) }}"
+    password: "{{ rox_users_user.password | password_hash('sha512', rox_users_user.username) | default(omit) }}"
 
 - name: Add a Github key ssh key
   ansible.posix.authorized_key:

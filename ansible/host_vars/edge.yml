@@ -74,6 +74,6 @@ compose_generator_globals:
         com.docker.compose.network: default
         ansible.managed: "true"
 
-edge_generator_appdata_path: "{{ compose_generator_appdata_path}}"
+edge_generator_appdata_path: "{{ compose_generator_appdata_path }}"
 edge_docker_user: "{{ compose_generator_user }}"
 edge_docker_group: "{{ compose_generator_group }}"

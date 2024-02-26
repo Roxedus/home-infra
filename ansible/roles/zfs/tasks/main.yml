@@ -5,11 +5,11 @@
 
 - name: Install ZFS
   when: not zfs_bin.stat.exists
-  include_tasks: install.yml
+  ansible.builtin.include_tasks: install.yml
 
 - name: Give user passwordless access to ZFS commands
   become: true
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/sudoers.d/zfs
     line: "{{ item }} ALL=(ALL) NOPASSWD: /usr/sbin/zfs,/usr/sbin/zpool"
     regexp: ^{{ item }} .*/usr/sbin/zfs,/usr/sbin/zpool$
