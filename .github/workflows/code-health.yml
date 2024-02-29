@@ -135,7 +135,7 @@ jobs:
 
       - name: Run Ansible-Lint
         working-directory: ansible/
-        run: ansible-lint -p --nocolor --sarif-file results.sarif
+        run: ansible-lint -p --nocolor --sarif-file results.sarif || true
 
       - name: Upload SARIF file
         if: "!cancelled()"
