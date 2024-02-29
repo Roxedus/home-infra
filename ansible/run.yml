@@ -248,10 +248,10 @@
         path: /etc/fail2ban/jail.d/defaults-debian.conf
         line: backend = systemd
       when: ansible_distribution == 'Debian' and ansible_distribution_major_version | int >= 12
-      notify: restart fail2ban
+      notify: Restart fail2ban
 
   handlers:
-    - name: restart fail2ban
+    - name: Restart fail2ban
       become: true
       ansible.builtin.systemd_service:
         name: fail2ban
