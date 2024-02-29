@@ -150,7 +150,8 @@
         - Restart systemd-journal-upload
 
     - name: Create healthcheck for host
-      when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+      when: ansible_facts.service_mgr == "systemd"
+      delegate_to: 127.0.0.1
       register: local_healthcheck
       community.healthchecksio.checks:
         state: present
@@ -167,6 +168,32 @@
         schedule: "{{ healthcheck_schedule_minute }} * * * *"
         tz: "{{ ntp_timezone }}"
         grace: 360
+
+    - name: Create systemd pause healthcheck on shutdown
+      when: ansible_facts.service_mgr == "systemd"
+      become: true
+      ansible.builtin.copy:
+        owner: root
+        group: root
+        mode: 0644
+        # yamllint disable rule:line-length
+        content: |
+          # Ansible managed
+          [Unit]
+          Description=Pause healthcheck on shutdown
+          DefaultDependencies=no
+          After=final.target
+
+          [Service]
+          Type=oneshot
+          ExecStart=/usr/bin/curl -sSm 10 --retry 1 -X POST --header "X-Api-Key: {{ healthchecks_api }}" --data "" {{ healthchecks_management_url }}/api/v3/checks/{{ local_healthcheck.uuid }}/pause
+
+          [Install]
+          WantedBy=final.target
+        # yamllint enable rule:line-length
+        dest: /etc/systemd/system/healthcheck-shutdown.service
+      notify:
+        - Enable healthcheck pause service
 
     - name: Create systemd service for healthcheck
       when: ansible_facts.service_mgr == "systemd"
