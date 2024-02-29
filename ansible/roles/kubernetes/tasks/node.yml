@@ -157,7 +157,7 @@
     dest: /etc/apt/keyrings/kubernetes.gpg_armored
 
 - name: De-Armor Kubernetes GPG key
-  when: kubernetes_key.changed
+  when: kubernetes_key.changed # noqa no-handler
   ansible.builtin.shell: # noqa command-instead-of-module
     cmd: |
       set -o pipefail
