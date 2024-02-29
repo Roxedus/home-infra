@@ -11,6 +11,7 @@ repos:
         entry: .pre-commit/ansible-vault-encrypted.sh
 
       - id: ansible-lint
+        files: ^ansible/
         name: Ansible-lint
         description: This hook runs ansible-lint.
         pass_filenames: false
