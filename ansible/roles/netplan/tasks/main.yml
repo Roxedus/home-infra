@@ -3,6 +3,7 @@
   become: true
   ansible.builtin.apt_repository:
     repo: ppa:rmescandon/yq
+    codename: "{{ 'jammy' if ansible_distribution == 'Debian' else '' }}"
 
 - name: Update apt cache
   when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
@@ -11,13 +12,33 @@
     update_cache: true
   changed_when: false
 
+- name: Install Netplan
+  become: true
+  when: ansible_distribution == 'Debian'
+  ansible.builtin.apt:
+    name:
+      - netplan.io
+    state: present
+
 - name: Install YQ and tmux
+  become: true
   when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
   ansible.builtin.apt:
     name:
       - yq
       - tmux
     state: present
+
+- name: Deny dhcp by dhcpcd
+  become: true
+  when: not netplan_4_dhcp
+  ansible.builtin.lineinfile:
+    path: /etc/dhcpcd.conf
+    regexp: ^denyinterfaces {{ netplan_interface }}
+    line: denyinterfaces {{ netplan_interface }}
+    owner: root
+    group: root
+    mode: 0644
 
 - name: Capturing Existing Configurations
   ansible.builtin.find:

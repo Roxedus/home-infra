@@ -71,7 +71,7 @@ security_sudoers_passwordless:
 security_sudoers_passworded:
   - "{{ users | selectattr('passwordless', 'false') | map(attribute='username') }}"
 
-netplan_dhcp: True
+netplan_4_dhcp: True
 netplan_dns:
   - 10.0.0.31
   - 10.0.0.32

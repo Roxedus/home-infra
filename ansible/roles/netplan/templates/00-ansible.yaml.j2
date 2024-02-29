@@ -5,8 +5,16 @@ network:
   ethernets:
     {{ netplan_interface }}:
       dhcp-identifier: mac
-      dhcp4: {{ netplan_dhcp }}
-{% if not netplan_dhcp %}
+      dhcp4: {{ netplan_4_dhcp }}
+      dhcp6: {{ netplan_6_dhcp}}
+{% if netplan_vlan %}
+      optional: True
+  vlans:
+    vlan.{{ netplan_vlan }}:
+      id: {{ netplan_vlan }}
+      link: {{ netplan_interface }}
+{% endif %}
+{% if not netplan_4_dhcp %}
       addresses: {{ netplan_addresses }}
       gateway4: {{ netplan_gateway4 }}
 {% endif %}

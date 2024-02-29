@@ -3,9 +3,11 @@ netplan_custom: false
 netplan_config_file: /etc/netplan/00-ansible-config.yaml
 
 netplan_addresses: []
-netplan_dhcp: false
+netplan_4_dhcp: false
 netplan_dns: []
 netplan_gateway4: ""
 netplan_interface: "{{  ansible_default_ipv4.alias }}"
 netplan_ipv4: ""
 netplan_search: []
+netplan_vlan: ""
+netplan_6_dhcp: false
