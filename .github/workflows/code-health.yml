@@ -141,6 +141,6 @@ jobs:
         if: "!cancelled()"
         uses: github/codeql-action/upload-sarif@baf3361f3137806df1a78c598d1256f83cb89a23
         with:
-          checkout_path: ansible/
+          checkout_path: ${{ github.workspace }}/ansible/
           sarif_file: ansible/results.sarif
           category: ansible

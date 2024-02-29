@@ -152,6 +152,7 @@
   register: kubernetes_key
   become: true
   ansible.builtin.get_url:
+    mode: 0644
     url: https://pkgs.k8s.io/core:/stable:/v{{ kubernetes_release }}/deb/Release.key
     dest: /etc/apt/keyrings/kubernetes.gpg_armored
 
