@@ -44,6 +44,7 @@
       bind -n M-Down select-pane -D
 
 - name: Configure login for tmux session
+  # https://github.com/JanDeDobbeleer/oh-my-posh/issues/1308#issuecomment-979091694
   ansible.builtin.blockinfile:
     path: /home/{{ rox_users_user.username }}/.profile
     marker: "# ANSIBLE MANAGED BLOCK {mark}"
@@ -54,8 +55,8 @@
         unset LC_tmux_session
 
         if tmux has-session -t "$session" 2>/dev/null; then
-          exec tmux attach-session -t "$session"
+          exec tmux -u attach-session -t "$session"
         else
-          exec tmux new-session -s "$session"
+          exec tmux -u new-session -s "$session"
         fi
       fi
