@@ -15,6 +15,10 @@ cd $prefix
 
 sed -i 's/vault_password_file/#vault_password_file/g' ansible.cfg
 
-ansible-lint --nocolor -p -vv
+ansible-lint --nocolor -p
+
+real_exit=$?
 
 sed -i 's/#vault_password_file/vault_password_file/g' ansible.cfg
+
+exit $real_exit
