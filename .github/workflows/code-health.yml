@@ -139,7 +139,7 @@ jobs:
         run: ansible-lint -p --nocolor --sarif-file results.sarif
 
       - name: Upload SARIF file
-        if: ${{ github.ref == 'refs/heads/main' }}
+        if: ${{ github.ref == 'refs/heads/main' }} && always()
         uses: github/codeql-action/upload-sarif@baf3361f3137806df1a78c598d1256f83cb89a23
         with:
           sarif_file: ansible/results.sarif
