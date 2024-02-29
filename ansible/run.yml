@@ -241,33 +241,22 @@
       notify:
         - Restart healthcheck timer
 
-    - name: Create systemd pause healthcheck on shutdown
-      when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+  post_tasks:
+    - name: Fix debian sshd logfile path # https://github.com/geerlingguy/ansible-role-security/pull/122#issuecomment-1959357173
       become: true
-      ansible.builtin.copy:
-        owner: root
-        group: root
-        mode: 0644
-        # yamllint disable rule:line-length
-        content: |
-          # Ansible managed
-          [Unit]
-          Description=Pause healthcheck on shutdown
-          DefaultDependencies=no
-          After=final.target
-
-          [Service]
-          Type=oneshot
-          ExecStart=/usr/bin/curl -sSm 10 --retry 1 -X POST --header "X-Api-Key: {{ healthchecks_api }}" --data "" {{ healthchecks_management_url }}/api/v3/checks/{{ local_healthcheck.uuid }}/pause
-
-          [Install]
-          WantedBy=final.target
-        # yamllint enable rule:line-length
-        dest: /etc/systemd/system/healthcheck-shutdown.service
-      notify:
-        - Enable healthcheck pause service
+      ansible.builtin.lineinfile:
+        path: /etc/fail2ban/jail.d/defaults-debian.conf
+        line: backend = systemd
+      when: ansible_distribution == 'Debian' and ansible_distribution_major_version | int >= 12
+      notify: restart fail2ban
 
   handlers:
+    - name: restart fail2ban
+      become: true
+      ansible.builtin.systemd_service:
+        name: fail2ban
+        state: started
+
     - name: Restart systemd-journal-upload
       become: true
       ansible.builtin.systemd_service:
