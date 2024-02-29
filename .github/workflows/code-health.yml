@@ -135,12 +135,12 @@ jobs:
 
       - name: Run Ansible-Lint
         working-directory: ansible/
-        run: ansible-lint -p --nocolor --sarif-file results.sarif || true
+        run: ansible-lint -p --nocolor --sarif-file ../ansible.sarif || true
 
       - name: Upload SARIF file
         if: "!cancelled()"
         uses: github/codeql-action/upload-sarif@baf3361f3137806df1a78c598d1256f83cb89a23
         with:
           checkout_path: ${{ github.workspace }}/ansible
-          sarif_file: ansible/results.sarif
+          sarif_file: ansible.sarif
           category: ansible

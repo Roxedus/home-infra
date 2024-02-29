@@ -1,7 +1,7 @@
 - name: Look for Systemd SWAP units
   when: ansible_facts.service_mgr == "systemd"
-  ansible.builtin.shell: # noqa command-instead-of-module
-    cmd: | # noqa risky-shell-pipe
+  ansible.builtin.shell: # noqa command-instead-of-module risky-shell-pipe
+    cmd: |
       systemctl list-unit-files --type swap -q | grep -i swap | awk '{print $1}'
     executable: /bin/bash
   register: swap_service
