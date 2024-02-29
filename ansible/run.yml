@@ -107,15 +107,15 @@
       become: true
       when: prom_node_exporter
   tasks:
-    - name: Install packages
+    - name: Install systemd-journal-upload
       become: true
-      when: (ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian') and inventory_hostname not in ['edge']
+      when: ansible_facts.service_mgr == "systemd" and inventory_hostname not in ['edge']
       ansible.builtin.apt:
         name: systemd-journal-remote
         state: present
 
     - name: Create systemd-journal-upload config directory
-      when: (ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian') and inventory_hostname not in ['edge']
+      when: ansible_facts.service_mgr == "systemd" and inventory_hostname not in ['edge']
       become: true
       ansible.builtin.file:
         owner: root
@@ -126,7 +126,7 @@
 
     - name: Create systemd-journal-remote override
       become: true
-      when: (ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian') and inventory_hostname not in ['edge']
+      when: ansible_facts.service_mgr == "systemd" and inventory_hostname not in ['edge']
       ansible.builtin.copy:
         owner: root
         group: root
@@ -140,7 +140,7 @@
         - Restart systemd-journal-upload
 
     - name: Make sure systemd-journal-upload is running
-      when: (ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian') and inventory_hostname not in ['edge']
+      when: ansible_facts.service_mgr == "systemd" and inventory_hostname not in ['edge']
       ansible.builtin.systemd_service:
         state: started
         name: systemd-journal-upload
@@ -169,7 +169,7 @@
         grace: 360
 
     - name: Create systemd service for healthcheck
-      when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+      when: ansible_facts.service_mgr == "systemd"
       become: true
       ansible.builtin.copy:
         owner: root
@@ -192,7 +192,7 @@
         - Restart healthcheck timer
 
     - name: Create systemd timer for healthcheck
-      when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+      when: ansible_facts.service_mgr == "systemd"
       become: true
       ansible.builtin.copy:
         owner: root
