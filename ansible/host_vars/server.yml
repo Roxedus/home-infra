@@ -1,6 +1,6 @@
 set_hostname: server
 netplan_addresses: [10.0.0.15/24]
-netplan_dhcp: false
+netplan_4_dhcp: false
 
 rox_users_box_chezmoi: True
 rox_users_box_omp: False

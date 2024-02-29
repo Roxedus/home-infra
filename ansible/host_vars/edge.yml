@@ -1,6 +1,6 @@
 set_hostname: edge
 netplan_addresses: [10.0.0.16/24]
-netplan_dhcp: false
+netplan_4_dhcp: false
 
 secret_cloudflare:
   apikey: !vault |
