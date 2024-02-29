@@ -1,6 +1,9 @@
 - name: Look for Systemd SWAP units
   when: ansible_facts.service_mgr == "systemd"
-  ansible.builtin.shell: set -o pipefail && systemctl list-unit-files --type swap -q | grep -i swap | awk '{print $1}' # noqa command-instead-of-module
+  ansible.builtin.shell: # noqa command-instead-of-module
+    cmd: | # noqa risky-shell-pipe
+      systemctl list-unit-files --type swap -q | grep -i swap | awk '{print $1}'
+    executable: /bin/bash
   register: swap_service
   changed_when: swap_service.rc != 0
   become: true
@@ -32,6 +35,7 @@
 
 - name: Install systemd dependencies
   become: true
+  when: ansible_distribution == 'Debian'
   ansible.builtin.apt:
     name:
       - systemd-resolved
@@ -144,31 +148,40 @@
     regexp: ^#@{HOMEDIRS}+=
     create: true
 
-- name: Add Apt signing key for Google and Libcontainers
+- name: Add Apt signing key for Kubernetes
+  register: kubernetes_key
   become: true
-  ansible.builtin.apt_key:
-    url: "{{ item }}"
-    state: present
-  loop:
-    - https://packages.cloud.google.com/apt/doc/apt-key.gpg
+  ansible.builtin.get_url:
+    url: https://pkgs.k8s.io/core:/stable:/v{{ kubernetes_release }}/deb/Release.key
+    dest: /etc/apt/keyrings/kubernetes.gpg_armored
 
-- name: Add repo for Google and Libcontainers
+- name: De-Armor Kubernetes GPG key
+  when: kubernetes_key.changed
+  ansible.builtin.shell: # noqa command-instead-of-module
+    cmd: |
+      set -o pipefail
+      gpg --dearmor < /etc/apt/keyrings/kubernetes.gpg_armored > /usr/share/keyrings/kubernetes.gpg
+    executable: /bin/bash
+  become: true
+  no_log: true
+  args:
+    creates: /usr/share/keyrings/docker-archive-keyring.gpg
+
+- name: Add repo for Kubernetes
   become: true
   ansible.builtin.apt_repository:
-    filename: Kubernetes
-    repo: deb {{ item }}
+    filename: kubernetes
+    repo: deb [signed-by=/usr/share/keyrings/kubernetes.gpg] https://pkgs.k8s.io/core:/stable:/v{{ kubernetes_release }}/deb/ /
     mode: 0666
     update_cache: true
-  loop:
-    - https://apt.kubernetes.io/ kubernetes-xenial main
 
 - name: Install kubernetes packages
   become: true
   ansible.builtin.apt:
     name:
-      - kubectl={{ kube_apt }}
-      - kubelet={{ kube_apt }}
-      - kubeadm={{ kube_apt }}
+      - kubectl={{ kubernetes_apt }}
+      - kubelet={{ kubernetes_apt }}
+      - kubeadm={{ kubernetes_apt }}
       - fuse-overlayfs
       - nfs-common
       - open-iscsi
