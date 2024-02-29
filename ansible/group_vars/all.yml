@@ -47,6 +47,7 @@ package_list:
   - python3-pip
   - software-properties-common
   - tmux
+  - vim
   - wget
 
 dnsmasq_local_domain: "{{ main_domain }}"
