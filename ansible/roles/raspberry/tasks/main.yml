@@ -57,13 +57,3 @@
     dest: /etc/systemd/journald.conf.d/override.conf
   notify:
     - Restart systemd-journald
-
-- name: Deny dhcp by dhcpcd
-  become: true
-  ansible.builtin.lineinfile:
-    path: /etc/dhcpcd.conf
-    regexp: ^denyinterfaces eth0
-    line: denyinterfaces eth0
-    owner: root
-    group: root
-    mode: 0644
