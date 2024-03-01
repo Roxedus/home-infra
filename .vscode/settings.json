@@ -30,5 +30,5 @@
     "!vault"
   ],
   "ansible.python.activationScript": ".vscode/ansible-ext-activate.sh",
-  "ansible.python.interpreterPath": "ansible/.venv/bin/python3",
+  "ansible.python.interpreterPath": "/home/roxedus/projects/home-infra/ansible/.venv/bin/python3",
 }
