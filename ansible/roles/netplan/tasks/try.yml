@@ -1,0 +1,29 @@
+- name: Try Netplan config
+  register: netplan_try
+  changed_when: netplan_try.rc == 0
+  become: true
+  ansible.builtin.shell: |
+    tmux new-session -d -s ansible-netplan
+    tmux send-keys -t ansible-netplan: "netplan try --timeout 120" "Enter"
+
+- name: Set ssh fact
+  listen: Set host fact
+  ansible.builtin.set_fact:
+    ansible_ssh_host: "{{ (netplan_addresses | first) | split('/') | first }}"
+
+- name: Reset ssh connection to allow new IP
+  ansible.builtin.meta: reset_connection
+  delegate_to: 127.0.0.1
+
+- name: Wait for Netplan
+  ansible.builtin.wait_for_connection:
+    timeout: 120
+    delay: 2
+
+- name: Test Netplan
+  register: netplan_test
+  changed_when: netplan_test.rc == 0
+  become: true
+  ansible.builtin.shell: |
+    tmux send-keys -t ansible-netplan: "Enter"
+    tmux kill-session -t ansible-netplan:
