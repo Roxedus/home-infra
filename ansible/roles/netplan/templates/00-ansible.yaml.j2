@@ -2,6 +2,9 @@
 
 network:
   version: 2
+{% if ansible_distribution == 'Debian' %}
+  renderer: networkd
+{% endif %}
   ethernets:
     {{ netplan_interface }}:
       dhcp-identifier: mac
@@ -16,7 +19,9 @@ network:
 {% endif %}
 {% if not netplan_4_dhcp %}
       addresses: {{ netplan_addresses }}
-      gateway4: {{ netplan_gateway4 }}
+      routes:
+      - to: default
+        via: {{ netplan_gateway4 }}
 {% endif %}
 {% if netplan_dns or netplan_search %}
       nameservers:

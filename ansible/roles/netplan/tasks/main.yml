@@ -40,6 +40,32 @@
     group: root
     mode: 0644
 
+- name: Look for Netplan conversion
+  become: true
+  when: ansible_distribution == 'Debian'
+  ansible.builtin.stat:
+    path: /etc/network/interfaces.netplan-converted
+  register: _netplan_dir
+
+- name: Run Netplan migration
+  when: not _netplan_dir.stat.exists
+  become: true
+  ansible.builtin.command:
+    environment:
+      ENABLE_TEST_COMMANDS: "1"
+    argv:
+      - netplan
+      - migrate
+    creates: /etc/netplan/10-ifupdown.yaml
+
+- name: Uninstall ifupdown
+  when: not _netplan_dir.stat.exists
+  become: true
+  ansible.builtin.apt:
+    name:
+      - ifupdown
+    state: absent
+
 - name: Capturing Existing Configurations
   ansible.builtin.find:
     paths: /etc/netplan
