@@ -6,7 +6,7 @@ netplan_addresses: []
 netplan_4_dhcp: false
 netplan_dns: []
 netplan_gateway4: ""
-netplan_interface: "{{  ansible_default_ipv4.alias }}"
+netplan_interface: "{{  (ansible_facts | dict2items | selectattr('value.pciid', 'defined') | selectattr('value.macaddress', '==', ansible_default_ipv4.macaddress))[0].value.device }}" # yamllint disable-line rule:line-length
 netplan_ipv4: ""
 netplan_search: []
 netplan_vlan: ""
