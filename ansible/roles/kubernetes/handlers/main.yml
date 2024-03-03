@@ -32,20 +32,6 @@
     post_reboot_delay: 30
     test_command: uptime
 
-- name: Kube | systemd-resolved installed
-  become: True
-  register: systemd_resolved
-  community.general.ini_file:
-    mode: 0644
-    path: /etc/systemd/resolved.conf
-    section: Resolve
-    option: "{{ item.part }}"
-    value: "{{ item.value }}"
-    no_extra_spaces: true
-  with_items: "{{ kubernetes_systemd_resolved_ini }}"
-  notify:
-    - Kube | systemd-resolved changed
-
 - name: Kube | systemd-resolved changed
   become: True
   ansible.builtin.service:

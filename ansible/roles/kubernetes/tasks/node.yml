@@ -40,8 +40,20 @@
     name:
       - systemd-resolved
     state: present
+
+- name: Kube | systemd-resolved setup
+  become: True
+  register: systemd_resolved
+  community.general.ini_file:
+    mode: 0644
+    path: /etc/systemd/resolved.conf
+    section: Resolve
+    option: "{{ item.part }}"
+    value: "{{ item.value }}"
+    no_extra_spaces: true
+  with_items: "{{ kubernetes_systemd_resolved_ini }}"
   notify:
-    - Kube | systemd-resolved installed
+    - Kube | systemd-resolved changed
 
 - name: Add propogation to systemd
   become: true
