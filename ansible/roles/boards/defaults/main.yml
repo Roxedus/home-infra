@@ -1,0 +1,7 @@
+boards_intel_drivers_skus:
+  - model: i9-13900H
+    driver: intel-media-va-driver
+  - model: N3450
+    driver: i965-va-driver-shaders
+
+boards_intel_drivers: "{{ (boards_intel_drivers_skus | community.general.json_query('[*].model')) | select('in', ((dict(['core', 'manufacturer', 'model'] | zip(ansible_processor)) | dict2items | selectattr('value', 'contains', 'Intel(R)'))[0].value)) }}" # yamllint disable-line rule:line-length

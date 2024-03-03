@@ -1,0 +1,10 @@
+- name: Add repo for non-free firmware
+  become: true
+  ansible.builtin.apt_repository:
+    filename: debian-non-free
+    repo: "{{ item }}"
+    mode: 0666
+    update_cache: true
+  loop:
+    - deb http://deb.debian.org/debian/ {{ ansible_facts.distribution_release }} non-free
+    - deb-src http://deb.debian.org/debian/ {{ ansible_facts.distribution_release }} non-free

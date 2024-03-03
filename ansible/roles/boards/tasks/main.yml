@@ -1,0 +1,26 @@
+- name: Include Debian unfree
+  when:
+    - ansible_distribution == 'Debian'
+    - ansible_facts.board_name is match("ZimaBoard") or boards_intel_drivers
+  ansible.builtin.include_tasks: debian-unfree.yml
+
+- name: Install Intel drivers
+  when:
+    - boards_intel_drivers
+  become: true
+  ansible.builtin.apt:
+    name:
+      - "{{ boards_intel_drivers_skus | community.general.json_query('[?model==`' + (boards_intel_drivers | first) + '`].driver') | first }}"
+      - intel-gpu-tools
+      - vainfo
+    state: present
+
+- name: Install ZimaBoard Firmwares
+  when:
+    - ansible_distribution == 'Debian'
+    - ansible_facts.board_name is match("ZimaBoard")
+  become: true
+  ansible.builtin.apt:
+    name:
+      - firmware-realtek
+    state: present

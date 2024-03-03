@@ -308,11 +308,12 @@
     - init
     - update
     - raspberry
+    - boards
   tasks:
-    - name: Include ZimaBoard role
+    - name: Include boards
+      tags: boards
       ansible.builtin.include_role:
-        name: zimaboard
-      when: ansible_facts.board_name is match("ZimaBoard")
+        name: boards
     - name: Include raspberry role
       tags: raspberry
       ansible.builtin.include_role:
