@@ -40,3 +40,5 @@ ansible/.galaxy_collections
 .kics/*
 !.kics/config.yml
 !.kics/rules.json
+
+.kubernetes/*
