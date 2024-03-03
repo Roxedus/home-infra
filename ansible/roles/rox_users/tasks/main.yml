@@ -36,7 +36,7 @@
       set -g mouse on
 
       set-option -g set-titles on
-      set-option -g set-titles-string "#{host} > #{pane_title}"
+      set-option -g set-titles-string "#{host} > #{window_name}"
 
       # split panes using | and -
       bind | split-window -h
