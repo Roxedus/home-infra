@@ -107,7 +107,7 @@
       become: true
       when: prom_node_exporter
     - role: netplan
-      when: netplan_addresses is defined or netplan_custom is defined
+      when: netplan_addresses or netplan_custom
 
   tasks:
     - name: Install systemd-journal-upload
