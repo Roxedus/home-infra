@@ -106,6 +106,9 @@
     - role: prometheus.prometheus.node_exporter
       become: true
       when: prom_node_exporter
+    - role: netplan
+      when: netplan_addresses is defined or netplan_custom is defined
+
   tasks:
     - name: Install systemd-journal-upload
       become: true
@@ -279,16 +282,6 @@
         enabled: true
         state: started
         daemon_reload: true
-
-- name: Setup Netplan
-  hosts:
-    - edge
-    - server
-  tags:
-    - netplan
-    - init
-  roles:
-    - role: netplan
 
 - name: Install docker
   hosts:
