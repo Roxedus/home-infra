@@ -38,6 +38,7 @@
     line: denyinterfaces {{ netplan_interface }}
     owner: root
     group: root
+    create: yes
     mode: 0644
 
 - name: Look for Netplan conversion
@@ -48,7 +49,9 @@
   register: _netplan_dir
 
 - name: Run Netplan migration
-  when: not _netplan_dir.stat.exists
+  when:
+    - ansible_distribution == 'Debian'
+    - not _netplan_dir.stat.exists
   become: true
   ansible.builtin.command:
     environment:
@@ -59,7 +62,9 @@
     creates: /etc/netplan/10-ifupdown.yaml
 
 - name: Uninstall ifupdown
-  when: not _netplan_dir.stat.exists
+  when:
+    - ansible_distribution == 'Debian'
+    - not _netplan_dir.stat.exists
   become: true
   ansible.builtin.apt:
     name:
