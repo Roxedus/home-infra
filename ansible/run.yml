@@ -140,6 +140,7 @@
         - Restart systemd-journal-upload
 
     - name: Make sure systemd-journal-upload is running
+      become: true
       when: ansible_facts.service_mgr == "systemd" and inventory_hostname not in ['edge']
       ansible.builtin.systemd_service:
         state: started
