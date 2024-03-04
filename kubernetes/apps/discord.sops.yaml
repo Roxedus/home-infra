@@ -4,7 +4,7 @@ metadata:
     name: discord-url
     namespace: flux-system
 data:
-    address: ENC[AES256_GCM,data:RFH+e98UKvXmbypMiSkGRq54pzJg1jDmjABcVbsrmsAviiveTLHrn7zvaAOZm6rxiAv63rmAfqyImsbV5Vns43ROwzx+Q/5h976HG/5/Erfmbc4dCKgsIgJgNq8EXFCIzewmk/wV78RB8b0yfMM4lDLgfIxoelwTHJ8H1/97TIOExH/6LH56wZQOTk/2wmZl7plsm2Zc3oofuonfoafujzO4f1g=,iv:c78sLLiT3M00awubMZDFYhP2wnmoemF2abIJVOBTFZo=,tag:c4TR1sMj610uYIAh9G3Fyg==,type:str]
+    address: ENC[AES256_GCM,data:YlxCP612HjfQMiY6o3k+Pj8QNbYDfqBHguYtrW3K38QDRPEj67ADTd+OWOPGa37QuVACE2IwMzJRJr+2YZkluwWZrvkm/DcNsLia114Ccuq9UjxxE03L56gqZSbmO0plHGYr69ZxSGW7reQiDFhv90Xaoz3TvEodfa0YUThDf198B75YkM8bDbgkKu6r8KW7DKiVebAJE0h8zWnHuWQQ6Fo7lMQ=,iv:OsYBmp4Ok8Pg8D08OK9ZzSea2dp2X1qJU8SP5P53t/c=,tag:o0DfCd5RbmGrqK1TKd5ndQ==,type:str]
 sops:
     kms: []
     gcp_kms: []
@@ -14,14 +14,14 @@ sops:
         - recipient: age1hkstmc7v8yq2th9zu4vwqc4z6umg47fzam7aduatxnjg8eqzt9fsur4f5u
           enc: |
             -----BEGIN AGE ENCRYPTED FILE-----
-            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBKeGZpWkRHZnh5NmxZeVNG
-            eWU3c3dodXFPV0lSTzNNT0ljZUNtRDdETkRjCnlicDlYczMyYnpWVVZoZ28yQ1Ez
-            R01xYWNpVTYzQXZZNGh3cFNzUE1jSTgKLS0tIFZJL01aZFZUc0cwNFFqeDVBWUE4
-            SHYzc0J4eVEzRmpOWUlRS29pN3E1VFUKzkXwXRcH2IYooMuxADi69u6v1uHkyJnQ
-            gCS9luU5PMdNbtIwRfdBgph21v53B5atuozcJTiC6WGBGKHeeLcQ1Q==
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBwdGExNTF1ZkY4bldteVoz
+            ZzB0b09BbGJaRVZycDU0SWoyZnlCaGQ1eFU0CjgwVWdibkMzaDBrRGM2dzl3MGph
+            ZFg4QWpQS0FsRlNUbUJhbExaWWdRbjgKLS0tIGQydDN3bUtpRkkvV3NhREJFQzdn
+            MmlWNGFZM2FZcUNQTFpIRWFkNVRrVUUKYZ1E0xOHSlSXpSol+e+sp9qfleXh0vTU
+            Qs+HrUGYpZB3/rQXFnZnW/GZ3eqf5DV+LjV+/+sasuqbcpMvhZ2v9A==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2024-03-04T00:17:43Z"
-    mac: ENC[AES256_GCM,data:v4Y5ka0JC+hy+1ik4j2LIZS6JHzbRiqCzG9f5pACLB2yCxZqfDuBL5RkCPaLKSQr92sQd4Zw+xcJ1GlHWJtFBSqrcc5dENPxAH+c+L+msh1GG0ZBVKHe2ttFQeJCIjVxDUfbTEi1iwK8ATLAA1tB4FRa/n1Qf6y+heeyWjM7n6k=,iv:hlxOf+ZoOQKV9TRLCd4oMhAbVixL7I9ufK58EFa4y60=,tag:/rZ9GVC6PsFLnwfMAAwm1g==,type:str]
+    lastmodified: "2024-03-04T00:40:14Z"
+    mac: ENC[AES256_GCM,data:yjSXQuTae7Y2tMUp2ltxXT6jujFfHyv20UwD1XYeRqXUuAInJQ4O8nVBjsTXAIe6ullikAW84SUlC2/AWZPlGChbB1GJeSbm4LgR1XHvQH942Dwh36yTQ+W9va0HdbkXmit5IJmBjMYKeDgC+bf77bVDIHcdAJslFgJOL7N3xIc=,iv:CtrSFqc62O67EHkpWs8YTWmeGYYezNmVuM56gxwf6sM=,tag:wcI6B169HZMXYjIb1y7BIQ==,type:str]
     pgp: []
     encrypted_regex: ^(data|stringData)$
     version: 3.8.1
