@@ -36,6 +36,15 @@
     remote_src: true
     mode: 0755
 
+- name: Download Hubble-cli
+  become: true
+  ansible.builtin.unarchive:
+    src: https://github.com/cilium/hubble/releases/latest/download/hubble-linux-{{ apt_arch }}.tar.gz
+    dest: /usr/local/bin
+    include: hubble
+    remote_src: true
+    mode: 0755
+
 - name: Add kubectl alias to bash
   when: is_controlplane is defined
   ansible.builtin.lineinfile:
