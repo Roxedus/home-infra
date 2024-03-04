@@ -21,7 +21,7 @@ metadata:
 spec:
   interval: 10m0s
   path: ./kubernetes/flux
-  prune: false
+  prune: true
   sourceRef:
     kind: GitRepository
     name: cluster
