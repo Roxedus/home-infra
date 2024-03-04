@@ -1,0 +1,8 @@
+---
+ipam:
+  mode: kubernetes
+  operator:
+    clusterPoolIPv4PodCIDRList: 172.16.0.0/12
+k8sServiceHost: 10.0.2.5
+k8sServicePort: 6443
+kubeProxyReplacement: true
