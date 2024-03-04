@@ -32,7 +32,11 @@ afact *host="":
 
 # Crypts a kubernetes value
 kcrypt *args="":
-  sops --encrypt --in-place kubernetes/.sops/{{args}}.yaml
+  sops --encrypt --in-place kubernetes/{{args}}.sops.yaml
+
+# Crypts a kubernetes value
+sops_mac *args="":
+  EDITOR="vim -es +'norm Go' +':wq'"  sops --ignore-mac kubernetes/"{{args}}".sops.yaml
 
 # Runs terraform apply
 tf *args="":

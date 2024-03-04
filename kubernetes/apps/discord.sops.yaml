@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Secret
+metadata:
+    name: discord-url
+    namespace: flux-system
+data:
+    address: ENC[AES256_GCM,data:RFH+e98UKvXmbypMiSkGRq54pzJg1jDmjABcVbsrmsAviiveTLHrn7zvaAOZm6rxiAv63rmAfqyImsbV5Vns43ROwzx+Q/5h976HG/5/Erfmbc4dCKgsIgJgNq8EXFCIzewmk/wV78RB8b0yfMM4lDLgfIxoelwTHJ8H1/97TIOExH/6LH56wZQOTk/2wmZl7plsm2Zc3oofuonfoafujzO4f1g=,iv:c78sLLiT3M00awubMZDFYhP2wnmoemF2abIJVOBTFZo=,tag:c4TR1sMj610uYIAh9G3Fyg==,type:str]
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age:
+        - recipient: age1hkstmc7v8yq2th9zu4vwqc4z6umg47fzam7aduatxnjg8eqzt9fsur4f5u
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBKeGZpWkRHZnh5NmxZeVNG
+            eWU3c3dodXFPV0lSTzNNT0ljZUNtRDdETkRjCnlicDlYczMyYnpWVVZoZ28yQ1Ez
+            R01xYWNpVTYzQXZZNGh3cFNzUE1jSTgKLS0tIFZJL01aZFZUc0cwNFFqeDVBWUE4
+            SHYzc0J4eVEzRmpOWUlRS29pN3E1VFUKzkXwXRcH2IYooMuxADi69u6v1uHkyJnQ
+            gCS9luU5PMdNbtIwRfdBgph21v53B5atuozcJTiC6WGBGKHeeLcQ1Q==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2024-03-04T00:17:43Z"
+    mac: ENC[AES256_GCM,data:v4Y5ka0JC+hy+1ik4j2LIZS6JHzbRiqCzG9f5pACLB2yCxZqfDuBL5RkCPaLKSQr92sQd4Zw+xcJ1GlHWJtFBSqrcc5dENPxAH+c+L+msh1GG0ZBVKHe2ttFQeJCIjVxDUfbTEi1iwK8ATLAA1tB4FRa/n1Qf6y+heeyWjM7n6k=,iv:hlxOf+ZoOQKV9TRLCd4oMhAbVixL7I9ufK58EFa4y60=,tag:/rZ9GVC6PsFLnwfMAAwm1g==,type:str]
+    pgp: []
+    encrypted_regex: ^(data|stringData)$
+    version: 3.8.1
