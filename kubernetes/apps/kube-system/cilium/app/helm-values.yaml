@@ -6,3 +6,9 @@ ipam:
 k8sServiceHost: 10.0.2.5
 k8sServicePort: 6443
 kubeProxyReplacement: true
+l2announcements:
+  enabled: true
+k8sClientRateLimit:
+  qps: 28
+  burst: 32.5
+devices: { enp+.eth+ } # yamllint disable-line rule:braces
