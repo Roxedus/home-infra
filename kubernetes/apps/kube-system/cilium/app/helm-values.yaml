@@ -12,3 +12,9 @@ k8sClientRateLimit:
   qps: 28
   burst: 32.5
 devices: { enp+.eth+ } # yamllint disable-line rule:braces
+hubble:
+  enabled: true
+  relay:
+    enabled: true
+  ui:
+    enabled: true
