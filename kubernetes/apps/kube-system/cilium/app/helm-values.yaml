@@ -1,6 +1,6 @@
 ---
 ipam:
-  mode: kubernetes
+  mode: cluster-pool
   operator:
     clusterPoolIPv4PodCIDRList: 172.16.0.0/12
 k8sServiceHost: 10.0.2.5
@@ -11,7 +11,7 @@ l2announcements:
 k8sClientRateLimit:
   qps: 28
   burst: 32
-devices: {enp+, eth+}
+# devices: { enp+, eth+ }
 hubble:
   enabled: true
   relay:
@@ -22,3 +22,7 @@ hubble:
     rollOutPods: true
     service:
       type: LoadBalancer
+externalIPs.enabled: true
+loadBalancer.algorithm: maglev
+routingMode: native
+ipv4NativeRoutingCIDR: 10.0.2.0/16
