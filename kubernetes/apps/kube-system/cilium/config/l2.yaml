@@ -18,4 +18,4 @@ spec:
   allowFirstLastIPs: "Yes"
   blocks:
     - start: 10.0.2.40
-      stop: 10.0.2.54 # DHCP starts at .55
+      stop: 10.0.2.47
