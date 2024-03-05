@@ -10,6 +10,7 @@ network:
       dhcp-identifier: mac
       dhcp4: {{ netplan_4_dhcp }}
       dhcp6: {{ netplan_6_dhcp}}
+      accept-ra: {{ netplan_6_dhcp}}
 {% if netplan_vlan %}
       optional: True
   vlans:
