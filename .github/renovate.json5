@@ -15,17 +15,12 @@
       "kubernetes/*/.+\\.yaml$"
     ]
   },
-  "ignorePaths": [
-    "kubernetes/", // ignore all kubernetes files
-    "kubernetes/infrastructure/controllers/longhorn.yaml"
-  ],
   "pre-commit": {
     "enabled": true
   },
   "packageRules": [
     {
       "matchPaths": [
-        "kubernetes/infrastructure/controllers/**",
         "kubernetes/flux/flux-system/**"
       ],
       "matchUpdateTypes": [
@@ -37,11 +32,6 @@
       "matchPackageNames": [
         "yamllint",
         "adrienverge/yamllint"
-      ]
-    },
-    {
-      "matchPackageNames": [
-        "ansible-lint"
       ]
     }
   ]
