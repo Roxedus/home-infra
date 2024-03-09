@@ -10,15 +10,15 @@ kubernetes_systemd_resolved_ini:
     value: 10.0.0.31
   - part: FallbackDNS
     value: 10.0.0.32
-  - part: Domains
-    value: kube.{{ main_domain }} {{ main_domain }}
+  # - part: Domains
+  #   value: kube.{{ main_domain }} {{ main_domain }}
 
 prom_node_exporter: False
 
 raspberry_is_vlaned: True
 
 netplan_gateway4: 10.0.2.1
-netplan_search: ["kube.{{ main_domain }}"]
+netplan_search: []
 netplan_4_dhcp: false
 netplan_6_dhcp: false
 netplan_vlan: 2
