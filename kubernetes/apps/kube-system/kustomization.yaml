@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - ./cilium/ks.yaml
   - ./metrics-server/ks.yaml
+  - ./node-feature-discovery/ks.yaml
