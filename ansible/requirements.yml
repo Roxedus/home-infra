@@ -8,7 +8,7 @@ roles:
   - name: geerlingguy.ntp
     version: 2.3.3
   - name: geerlingguy.pip
-    version: 3.0.2
+    version: 3.0.3
   - name: geerlingguy.security
     version: 2.2.2
   - name: geerlingguy.containerd
