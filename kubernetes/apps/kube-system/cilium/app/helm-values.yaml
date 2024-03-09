@@ -14,9 +14,8 @@ k8sClientRateLimit:
 # devices: { enp+, eth+ }
 hubble:
   enabled: true
-  relay:
-    enabled: true
-    rollOutPods: true
+  #relay:
+  #  enabled: true
   ui:
     enabled: true
     rollOutPods: true
@@ -24,5 +23,5 @@ hubble:
       type: LoadBalancer
 externalIPs.enabled: true
 loadBalancer.algorithm: maglev
-routingMode: native
-ipv4NativeRoutingCIDR: 10.0.2.0/16
+# routingMode: native
+# ipv4NativeRoutingCIDR: 10.0.2.0/16
