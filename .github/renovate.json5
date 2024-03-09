@@ -16,7 +16,7 @@
     ]
   },
   "ignorePaths": [
-    "kubernetes/flux/flux-system/gotk.*.yaml"
+    "kubernetes/flux/flux-system/**"
   ],
   "pre-commit": {
     "enabled": true
