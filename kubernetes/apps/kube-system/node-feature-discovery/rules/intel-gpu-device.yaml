@@ -14,7 +14,7 @@ spec:
           matchExpressions:
             class:
               op: In
-              value: [0300, 0380]
+              value: ["0300", "0380"] # yamllint disable-line rule:quoted-strings
             vendor:
               op: In
-              value: [8086]
+              value: ["8086"] # yamllint disable-line rule:quoted-strings
