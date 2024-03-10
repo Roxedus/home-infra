@@ -10,7 +10,7 @@
   become: true
   ansible.builtin.apt:
     name:
-      - "{{ boards_intel_drivers_skus | community.general.json_query('[?model==`' + (boards_intel_drivers | first) + '`].driver') | first }}"
+      - "{{ boards_intel_drivers }}"
       - intel-gpu-tools
       - vainfo
     state: present

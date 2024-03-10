@@ -4,4 +4,10 @@ boards_intel_drivers_skus:
   - model: N3450
     driver: i965-va-driver-shaders
 
-boards_intel_drivers: "{{ (boards_intel_drivers_skus | community.general.json_query('[*].model')) | select('in', ((dict(['core', 'manufacturer', 'model'] | zip(ansible_processor)) | dict2items | selectattr('value', 'contains', 'Intel(R)'))[0].value)) }}" # yamllint disable-line rule:line-length
+boards_intel_driver_detection_mapped_models: "{{ boards_intel_drivers_skus | community.general.json_query('[*].model') }}"
+boards_intel_driver_detection_proc: "{{ dict(['core', 'manufacturer', 'model'] | zip(ansible_processor)) | dict2items }}"
+boards_intel_driver_detection_found: "{{ boards_intel_driver_detection_proc | selectattr('value', 'contains', 'Intel(R)') }}"
+boards_intel_driver_detection_value: "{{ boards_intel_driver_detection_found | community.general.json_query('[*].value | [0]') }}"
+boards_intel_driver_detection_cpu: "{{ boards_intel_driver_detection_mapped_models | select('in', boards_intel_driver_detection_value) | join }}"
+
+boards_intel_drivers: "{{ boards_intel_drivers_skus | community.general.json_query('[?model==`' + (boards_intel_driver_detection_cpu) + '`].driver | [0]') }}"
