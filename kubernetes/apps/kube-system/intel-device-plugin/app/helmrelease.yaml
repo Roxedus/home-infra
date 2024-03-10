@@ -25,3 +25,5 @@ spec:
   dependsOn:
     - name: node-feature-discovery
       namespace: kube-system
+    - name: cert-manager
+      namespace: cert-manager
