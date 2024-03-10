@@ -40,3 +40,4 @@
     argv:
       - pihole-updatelists
       - --update
+      - --yes
