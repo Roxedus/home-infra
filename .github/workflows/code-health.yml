@@ -85,7 +85,7 @@ jobs:
       - uses: actions/checkout@v4.1.1
 
       - name: Run kics Scan
-        uses: Checkmarx/kics-github-action@2917c267e1a4776ce049113d67ed07a49d0dd881
+        uses: Checkmarx/kics-github-action@6d1dc926531d3b1cc943b17927b66f405bf94e93
         with:
           path: ${{ needs.meta.outputs.check_files }}
           config_path: .kics/config.yml
