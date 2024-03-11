@@ -45,8 +45,8 @@ docker_daemon_options:
 compose_generator_service: {}
 compose_generator_timezone: "{{ ntp_timezone }}"
 compose_generator_appdata_path: /opt/docker/appdata
-compose_generator_compose_file_mask: 0775
-compose_generator_compose_directory_mask: 0775
+compose_generator_compose_file_mask: "0664"
+compose_generator_compose_directory_mask: "0774"
 
 compose_generator_user: "{{ users.0.username }}"
 compose_generator_group: "{{ users.0.groupname }}"
@@ -77,3 +77,5 @@ compose_generator_globals:
 edge_generator_appdata_path: "{{ compose_generator_appdata_path }}"
 edge_docker_user: "{{ compose_generator_user }}"
 edge_docker_group: "{{ compose_generator_group }}"
+edge_docker_file_mode: "{{ compose_generator_compose_file_mask }}"
+edge_docker_dir_mode: "{{ compose_generator_compose_directory_mask }}"

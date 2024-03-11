@@ -32,7 +32,7 @@ services:
       - CONTAINERS=1
 
 networks:
-  default: "{{ compose_globals.networks.default }}"
+  default: "{{ compose_generator_globals.networks.default }}"
   proxy:
     internal: true
     labels:

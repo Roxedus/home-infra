@@ -3,7 +3,7 @@
   ansible.builtin.file:
     path: "{{ edge_docker_appdata_path }}/traefik/config"
     state: directory
-    mode: "{{ edge_docker_mode }}"
+    mode: "{{ edge_docker_dir_mode }}"
     owner: "{{ edge_docker_user }}"
     group: "{{ edge_docker_group }}"
 
@@ -17,7 +17,7 @@
   ansible.builtin.template:
     src: traefik/{{ item }}.yml.j2
     dest: "{{ edge_docker_appdata_path }}/traefik/config/{{ item }}.yml"
-    mode: "0775" # To prevent unnecessary nag in logs
+    mode: "{{ edge_docker_file_mode }}"
     owner: "{{ edge_docker_user }}"
     group: "{{ edge_docker_group }}"
   become: true

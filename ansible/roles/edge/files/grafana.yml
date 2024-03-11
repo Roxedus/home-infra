@@ -63,7 +63,7 @@ services:
       - loki
 
 networks:
-  default: "{{ compose_globals.networks.default }}"
+  default: "{{ compose_generator_globals.networks.default }}"
   loki:
     internal: true
     labels:

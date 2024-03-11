@@ -10,7 +10,7 @@
   ansible.builtin.file:
     path: "{{ edge_docker_appdata_path }}"
     state: directory
-    mode: "{{ edge_docker_mode }}"
+    mode: "{{ edge_docker_dir_mode }}"
     owner: "{{ edge_docker_user }}"
     group: "{{ edge_docker_group }}"
 

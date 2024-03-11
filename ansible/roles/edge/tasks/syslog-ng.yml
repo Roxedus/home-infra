@@ -3,7 +3,7 @@
   ansible.builtin.file:
     path: "{{ edge_docker_appdata_path }}/syslog-ng/{{ item }}"
     state: directory
-    mode: "{{ edge_docker_mode }}"
+    mode: "{{ edge_docker_dir_mode }}"
     owner: "{{ edge_docker_user }}"
     group: "{{ edge_docker_group }}"
   loop:
@@ -20,7 +20,7 @@
   ansible.builtin.template:
     src: syslog-ng/syslog-ng.conf.j2
     dest: "{{ edge_docker_appdata_path }}/syslog-ng/config/syslog-ng.conf"
-    mode: "0775" # To prevent unnecessary nag in logs
+    mode: "{{ edge_docker_file_mode }}"
     owner: "{{ edge_docker_user }}"
     group: "{{ edge_docker_group }}"
   become: true

@@ -1,4 +1,5 @@
 edge_docker_appdata_path: /opt/docker/appdata
 edge_docker_user: docker
 edge_docker_group: docker
-edge_docker_mode: 0664
+edge_docker_file_mode: 0664
+edge_docker_dir_mode: 0775
