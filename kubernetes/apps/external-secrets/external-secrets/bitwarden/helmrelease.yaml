@@ -37,7 +37,7 @@ spec:
                   name: bitwarden-secret
             probes:
               liveness:
-                enabled: true
+                enabled: false
                 custom: true
                 spec:
                   periodSeconds: 120
