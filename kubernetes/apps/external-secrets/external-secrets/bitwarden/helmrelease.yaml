@@ -48,7 +48,7 @@ spec:
                         -c,
                         curl -X POST -s http://127.0.0.1:8087/sync | jq -e '.success == true',
                       ]
-                  timeoutSeconds: 5
+                  timeoutSeconds: 8
               readiness:
                 enabled: false
               startup:
