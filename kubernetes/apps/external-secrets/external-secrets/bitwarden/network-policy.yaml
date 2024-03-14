@@ -27,7 +27,9 @@ spec:
       toPorts:
         - ports:
             - port: "53"
-              protocol: UDP
+              protocol: ANY
           rules:
             dns:
               - matchPattern: "*"
+    - toFQDNs:
+        - matchName: api.bitwarden.com
