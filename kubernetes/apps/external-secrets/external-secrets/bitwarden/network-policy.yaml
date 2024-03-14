@@ -20,7 +20,3 @@ spec:
       toPorts:
         - ports:
             - port: "443"
-    - toEndpoints:
-        - matchLabels:
-            app.kubernetes.io/name: external-secrets
-            io.kubernetes.pod.namespace: external-secrets
