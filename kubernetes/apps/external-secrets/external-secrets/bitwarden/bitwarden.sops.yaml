@@ -1,0 +1,29 @@
+apiVersion: v1
+data:
+    BW_HOST: ENC[AES256_GCM,data:xC3ztM8qELlZQmz+fDTCysLWsTY=,iv:VmFJmiAv6XeRT1JT4JJfKX3hJcPC7XIM7gG+BA1bg68=,tag:E7X7PkyY2slmMXBsN9IaCw==,type:str]
+    BW_PASSWORD: ENC[AES256_GCM,data:gSmnke4uK+Ka2wMWEDCvNo5KWp0Ay2E0GjCPnjez7t9MSrrtahyxJ6b466l7/mWq0HSSnFVajkYhklsmVmXM7zAKHuObNAxvsACPYNKOndAhjI74OuaJDFvDXTOerVp4S31P/XD1HcvbCde+kvUxWWplGfT36VOzQ233CjwGUGjUPzhgPjwvXMc0K+WahsuZuRQzPOS09E0loO+oQFMhQA2oFOlIFyVDWKKMfDBKKYs=,iv:U9zJEX7wWN0KRGBxkO41a8HFWqKmk8xtaMR+ymSUauA=,tag:fEzRbKLzESDoKwGEo29+2Q==,type:str]
+    BW_USER: ENC[AES256_GCM,data:zItxNcRriBJVfi6uoxSH66oOJUH0SALI,iv:IpP+TpEBIn6c961Mnh+9TF6XNmYWzbc4PZrYx8eCFok=,tag:eQ1Vp9s+FwENKPxZASyP0w==,type:str]
+kind: Secret
+metadata:
+    name: bitwarden-secret
+    namespace: flux-system
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age:
+        - recipient: age1hkstmc7v8yq2th9zu4vwqc4z6umg47fzam7aduatxnjg8eqzt9fsur4f5u
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSA3RmhnbjVvMzVpOFQ2SnVa
+            YmlMUW9lVlpPbit4a0p6dW12VHZORklUTVNzCkd1SFYxczV6NmpwcUpLNUc2SXhU
+            T253eUltS0p0UWtaWVhFeWx2dWw0S2cKLS0tIEFESEZWL2Exbk9uelJaQkhkNDF1
+            c3o1bzFTQlRLQ2ZPUUNLdGgvOXNJVUUKK01N69YEkXCDMiYjvmeTaa1QMiwtx5Vp
+            ugM2CusycslCJoeHjLGetJDFWrGr4kcdcAsLzCaASGg2k9A0IWjz5g==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2024-03-14T22:25:49Z"
+    mac: ENC[AES256_GCM,data:He0DbO5vVnsqKcHQv/z/VY2ANbRNLMxZev0Gmql72JayHxT7/SSlSBgaLG6JQK0dAKMVIU9L4dZFsRQOYt3up4AZH6kjZkW/pkD9x0XUXCVXA5a/iMPqygTH2PDq85RlxrUdqeWxmZD8RrnBxnZZNl1XVGRNzJTUdk8GnJBFOoY=,iv:JK1FZBexNKfd7j8KryJH5DG1fKTyuuCroSI01kTLjE0=,tag:WffoBI1bbI1rqE6nfT0B6g==,type:str]
+    pgp: []
+    encrypted_regex: ^(data|stringData)$
+    version: 3.8.1

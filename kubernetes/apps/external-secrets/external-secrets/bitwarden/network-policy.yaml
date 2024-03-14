@@ -1,0 +1,26 @@
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: external-secrets-to-bw
+  namespace: external-secrets
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/instance: bitwarden
+      app.kubernetes.io/name: bitwarden
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            app.kubernetes.io/instance: external-secrets
+            app.kubernetes.io/name: external-secrets
+            k8s:io.kubernetes.pod.namespace: external-secrets
+  egress:
+    - toCIDRSet:
+        - cidr: 10.0.0.0/24
+      toPorts:
+        - ports:
+            - port: "443"
+    - toEndpoints:
+        - matchLabels:
+            app.kubernetes.io/name: external-secrets
+            io.kubernetes.pod.namespace: external-secrets
