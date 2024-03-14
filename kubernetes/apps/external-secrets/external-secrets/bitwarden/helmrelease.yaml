@@ -29,6 +29,9 @@ spec:
       bitwarden:
         containers:
           app:
+            command:
+              - sleep
+              - infinity
             image:
               repository: ghcr.io/roxedus/bw
               tag: 2024.2.1@sha256:842ac46da4c5cf9824b386418663605f27880924a2f5968027ba3ed9586ef122
