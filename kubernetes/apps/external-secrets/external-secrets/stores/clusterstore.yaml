@@ -43,11 +43,11 @@ spec:
     webhook:
       url: http://bitwarden:8087/object/item/{{ .remoteRef.key }}
       result:
-        jsonPath: |
+        jsonPath: >-
           {{- if .data.notes }}
-          .data.notes
+          $.data.notes
           {{- else if .data.login }}
-          .data.login.{{ .remoteRef.property }}
+          $.data.login.{{ .remoteRef.property }}
           {{- else if .data.fields }}
-          .data.fields[?@.name=="{{ .remoteRef.property }}"].value
+          $.data.fields[?@.name=="{{ .remoteRef.property }}"].value
           {{- end }}
