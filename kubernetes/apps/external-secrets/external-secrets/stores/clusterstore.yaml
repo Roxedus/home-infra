@@ -44,11 +44,11 @@ spec:
       url: http://bitwarden:8087/object/item/{{ .remoteRef.key }}
       result:
         jsonPath: >-
-          {{- if .data.fields }}
+          {{- if .data.data.fields }}
           $.data.fields[?@.name=="{{ .remoteRef.property }}"].value
-          {{- else if .data.notes -}}
+          {{- else if .data.data.notes -}}
           $.data.notes
-          {{- else if .data.login -}}
+          {{- else if .data.data.login -}}
           $.data.login.{{ .remoteRef.property -}}
           {{- else -}}
           $.data.id
