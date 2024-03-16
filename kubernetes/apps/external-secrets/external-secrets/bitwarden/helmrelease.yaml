@@ -25,6 +25,10 @@ spec:
     remediation:
       retries: 3
   values:
+    defaultPodOptions:
+      securityContext:
+        readOnlyRootFilesystem: true
+        runAsNonRoot: true
     controllers:
       bitwarden:
         containers:
@@ -63,3 +67,9 @@ spec:
         ports:
           http:
             port: 8087
+    persistence:
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - name: tmp
+            mountPath: /tmp
