@@ -73,6 +73,5 @@ spec:
     persistence:
       tmp:
         type: emptyDir
-        size: 1Gi
         globalMounts:
           - path: /tmp
