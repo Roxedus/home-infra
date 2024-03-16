@@ -1,55 +1,35 @@
-# ---
-# apiVersion: external-secrets.io/v1beta1
-# kind: ClusterSecretStore
-# metadata:
-#   name: bitwarden-login
-# spec:
-#   provider:
-#     webhook:
-#       url: http://bitwarden:8087/object/item/{{ .remoteRef.key }}
-#       headers:
-#         Content-Type: application/json
-#       result:
-#         jsonPath: $.data.login.{{ .remoteRef.property }}
-# ---
-# apiVersion: external-secrets.io/v1beta1
-# kind: ClusterSecretStore
-# metadata:
-#   name: bitwarden-fields
-# spec:
-#   provider:
-#     webhook:
-#       url: http://bitwarden:8087/object/item/{{ .remoteRef.key }}
-#       result:
-#         jsonPath: $.data.fields[?@.name=="{{ .remoteRef.property }}"].value
-# ---
-# apiVersion: external-secrets.io/v1beta1
-# kind: ClusterSecretStore
-# metadata:
-#   name: bitwarden-notes
-# spec:
-#   provider:
-#     webhook:
-#       url: http://bitwarden:8087/object/item/{{ .remoteRef.key }}
-#       result:
-#         jsonPath: $.data.notes
 ---
 apiVersion: external-secrets.io/v1beta1
 kind: ClusterSecretStore
 metadata:
-  name: bitwarden
+  name: bitwarden-login
+spec:
+  provider:
+    webhook:
+      url: http://bitwarden:8087/object/item/{{ .remoteRef.key }}
+      headers:
+        Content-Type: application/json
+      result:
+        jsonPath: $.data.login.{{ .remoteRef.property }}
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ClusterSecretStore
+metadata:
+  name: bitwarden-fields
 spec:
   provider:
     webhook:
       url: http://bitwarden:8087/object/item/{{ .remoteRef.key }}
       result:
-        jsonPath: >-
-          {{- if .result.data.fields }}
-          $.data.fields[?@.name=="{{ .remoteRef.property }}"].value
-          {{- else if .result.data.notes -}}
-          $.data.notes
-          {{- else if .result.data.login -}}
-          $.data.login.{{ .remoteRef.property -}}
-          {{- else -}}
-          $.data.id
-          {{- end -}}
+        jsonPath: $.data.fields[?@.name=="{{ .remoteRef.property }}"].value
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ClusterSecretStore
+metadata:
+  name: bitwarden-notes
+spec:
+  provider:
+    webhook:
+      url: http://bitwarden:8087/object/item/{{ .remoteRef.key }}
+      result:
+        jsonPath: $.data.notes
