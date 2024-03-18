@@ -1,7 +1,7 @@
 kubernetes_release: 1.29
 kubernetes_apt: "{{ kubernetes_release }}.2-1.1"
 
-containerd_config_default_write: true
+containerd_config_default_write: false
 containerd_config_cgroup_driver_systemd: true
 
 kubernetes_management_user: "{{ users.0.username }}"
@@ -10,8 +10,8 @@ kubernetes_systemd_resolved_ini:
     value: 10.0.0.31
   - part: FallbackDNS
     value: 10.0.0.32
-  # - part: Domains
-  #   value: kube.{{ main_domain }} {{ main_domain }}
+# - part: Domains
+#   value: kube.{{ main_domain }} {{ main_domain }}
 
 prom_node_exporter: False
 

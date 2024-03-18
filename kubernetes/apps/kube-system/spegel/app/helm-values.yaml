@@ -1,0 +1,12 @@
+---
+spegel:
+  containerdSock: /run/containerd/containerd.sock
+  registries:
+    - https://docker.io
+    - https://ghcr.io
+    - https://quay.io
+    - https://registry.k8s.io
+    - https://k8s.gcr.io
+service:
+  registry:
+    hostPort: 29999

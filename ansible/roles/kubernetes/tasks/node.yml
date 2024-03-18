@@ -66,6 +66,30 @@
   notify:
     - Kube | docker options changed
 
+- name: Set up containerd registry path for spegel
+  become: true
+  ansible.builtin.lineinfile:
+    insertafter: .*\[plugins."io.containerd.grpc.v1.cri".registry\]$
+    search_string: config_path
+    line: '      config_path = "/etc/containerd/certs.d"' # yamllint disable-line rule:quoted-strings
+    state: present
+    path: /etc/containerd/config.toml
+    mode: 0644
+  notify:
+    - Kube | containerd options changed
+
+- name: Set up containerd layers for spegel
+  become: true
+  ansible.builtin.lineinfile:
+    insertafter: .*\[plugins."io.containerd.grpc.v1.cri".containerd\]$
+    search_string: discard_unpacked_layers
+    line: "      discard_unpacked_layers = false"
+    state: present
+    path: /etc/containerd/config.toml
+    mode: 0644
+  notify:
+    - Kube | containerd options changed
+
 - name: Check if Raspberrypi
   ansible.builtin.shell: cat /sys/firmware/devicetree/base/model || /bin/true
   register: rpi_data

@@ -14,6 +14,14 @@
   changed_when: false
   failed_when: false
 
+- name: Kube | containerd options changed
+  become: True
+  ansible.builtin.service:
+    name: containerd.service
+    state: restarted
+  changed_when: false
+  failed_when: false
+
 - name: Kube | sysctl --system
   become: True
   ansible.builtin.command: sysctl --system
