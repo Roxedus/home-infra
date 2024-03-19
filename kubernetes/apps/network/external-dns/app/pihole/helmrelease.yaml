@@ -81,7 +81,7 @@ spec:
       name: *app
     service:
       app:
-        controller: external-dns-pihole
+        controller: *app
         ports:
           http:
             port: *port
@@ -178,7 +178,7 @@ spec:
       name: *app
     service:
       app:
-        controller: external-dns-pihole
+        controller: *app
         ports:
           http:
             port: *port
