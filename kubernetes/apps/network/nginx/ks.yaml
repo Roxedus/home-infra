@@ -11,7 +11,7 @@ spec:
       app.flux-system.io/name: *app
   dependsOn:
     - name: cert-manager-issuers
-  path: ./flux-system/apps/network/nginx/certificates
+  path: ./kubernetes/apps/network/nginx/certificates
   prune: false
   sourceRef:
     kind: GitRepository
@@ -34,7 +34,7 @@ spec:
 #   dependsOn:
 #     - name: external-secrets-stores
 #     - name: nginx-certificates
-#   path: ./flux-system/apps/network/nginx/external
+#   path: ./kubernetes/apps/network/nginx/external
 #   prune: false
 #   sourceRef:
 #     kind: GitRepository
@@ -56,7 +56,7 @@ spec:
       app.flux-system.io/name: *app
   dependsOn:
     - name: nginx-certificates
-  path: ./flux-system/apps/network/nginx/internal
+  path: ./kubernetes/apps/network/nginx/internal
   prune: false
   sourceRef:
     kind: GitRepository
