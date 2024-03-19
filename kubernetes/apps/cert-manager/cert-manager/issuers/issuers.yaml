@@ -19,6 +19,7 @@ spec:
         selector:
           dnsZones:
             - roxedus.com
+            - rostvik.site
 ---
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
@@ -40,3 +41,4 @@ spec:
         selector:
           dnsZones:
             - roxedus.com
+            - rostvik.site
