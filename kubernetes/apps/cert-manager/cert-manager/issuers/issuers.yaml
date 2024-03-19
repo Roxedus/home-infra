@@ -15,7 +15,7 @@ spec:
             email: si0972+cloudflare@gmail.com
             apiTokenSecretRef:
               name: cloudflare-api-token
-              key: CLOUDFLARE_API_KEY
+              key: api-token
         selector:
           dnsZones:
             - roxedus.com
@@ -37,7 +37,7 @@ spec:
             email: si0972+cloudflare@gmail.com
             apiTokenSecretRef:
               name: cloudflare-api-token
-              key: CLOUDFLARE_API_KEY
+              key: api-token
         selector:
           dnsZones:
             - roxedus.com
