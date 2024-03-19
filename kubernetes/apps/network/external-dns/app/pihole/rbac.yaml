@@ -4,13 +4,13 @@ kind: ClusterRole
 metadata:
   name: external-dns-pihole
 rules:
-  - apiGroups: [] # yamllint disable-line rule:quoted-strings
+  - apiGroups: [""] # yamllint disable-line rule:quoted-strings
     resources: [services, endpoints, pods]
     verbs: [get, watch, list]
   - apiGroups: [extensions, networking.k8s.io]
     resources: [ingresses]
     verbs: [get, watch, list]
-  - apiGroups: [] # yamllint disable-line rule:quoted-strings
+  - apiGroups: [""] # yamllint disable-line rule:quoted-strings
     resources: [nodes]
     verbs: [list, watch]
 ---
