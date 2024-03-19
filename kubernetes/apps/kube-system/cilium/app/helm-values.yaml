@@ -17,7 +17,7 @@ hubble:
   relay:
     enabled: true
   ui:
-    enabled: true
+    enabled: false
     rollOutPods: true
     service:
       type: LoadBalancer
