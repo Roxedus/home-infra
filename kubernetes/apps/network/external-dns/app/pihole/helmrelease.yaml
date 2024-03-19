@@ -1,9 +1,8 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2beta2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: &app external-dns-pihole
+  name: &app external-dns-pihole-1
 spec:
   interval: 30m
   chart:
@@ -24,7 +23,7 @@ spec:
       retries: 3
   values:
     controllers:
-      external-dns-pihole:
+      external-dns-pihole-1:
         strategy: Recreate
         annotations:
           reloader.stakater.com/auto: "true"
@@ -100,7 +99,7 @@ spec:
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: &app external-dns-pihole
+  name: &app external-dns-pihole-2
 spec:
   interval: 30m
   chart:
@@ -121,7 +120,7 @@ spec:
       retries: 3
   values:
     controllers:
-      external-dns-pihole:
+      external-dns-pihole-2:
         strategy: Recreate
         annotations:
           reloader.stakater.com/auto: "true"
