@@ -9,7 +9,11 @@ dnsmasq_hosts:
     - ip: 10.0.0.15
       host: server.{{ dnsmasq_local_domain }}
     - ip: 10.0.0.16
-      host: .{{ dnsmasq_local_domain }}
+      host: dash.{{ dnsmasq_local_domain }}
+    - ip: 10.0.0.16
+      host: grafana.{{ dnsmasq_local_domain }}
+    - ip: 10.0.0.16
+      host: healthchecks.{{ dnsmasq_local_domain }}
     - ip: 10.0.0.29
       host: code.roxedus.dev
     - ip: 10.0.0.29
@@ -30,10 +34,6 @@ dnsmasq_hosts:
       host: pihole2.{{ dnsmasq_local_domain }}
     - ip: 10.0.0.35
       host: pve.{{ dnsmasq_local_domain }}
-    - ip: 10.0.2.40
-      host: roxedus.com
-    - ip: 10.0.2.40
-      host: .roxedus.com
 
   srv:
     - service: VLMCS
