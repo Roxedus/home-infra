@@ -42,8 +42,7 @@ spec:
               - --registry=noop
               - --policy=upsert-only
               - --provider=pihole
-              - --pihole-server=http://10.0.0.31
-              - --pihole-server=http://10.0.0.32
+              - --pihole-server=http://10.0.0.31,http://10.0.0.32
               - --domain-filter=kube.rostvik.site
               - --interval=1m
               - --log-format=text
