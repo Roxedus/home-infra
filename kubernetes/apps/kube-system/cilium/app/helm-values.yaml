@@ -17,10 +17,16 @@ hubble:
   relay:
     enabled: true
   ui:
-    enabled: false
+    enabled: true
     rollOutPods: true
-    service:
-      type: LoadBalancer
+    ingress:
+      enabled: true
+      className: internal
+      hosts:
+        - &host hubble.kube.rostvik.site
+      tls:
+        - hosts:
+            - *host
 externalIPs.enabled: true
 loadBalancer.algorithm: maglev
 # routingMode: native
