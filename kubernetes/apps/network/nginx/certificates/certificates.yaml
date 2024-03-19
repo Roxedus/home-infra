@@ -6,7 +6,7 @@ metadata:
 spec:
   secretName: rostvik-site-tls
   issuerRef:
-    name: letsencrypt-staging
+    name: letsencrypt-production
     kind: ClusterIssuer
   commonName: kube.rostvik.site
   dnsNames:
