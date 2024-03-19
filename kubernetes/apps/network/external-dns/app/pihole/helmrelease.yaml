@@ -78,7 +78,7 @@ spec:
             runAsNonRoot: true
     serviceAccount:
       create: true
-      name: *app
+      name: external-dns-pihole
     service:
       app:
         controller: *app
@@ -175,7 +175,7 @@ spec:
             runAsNonRoot: true
     serviceAccount:
       create: true
-      name: *app
+      name: external-dns-pihole
     service:
       app:
         controller: *app
