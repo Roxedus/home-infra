@@ -1,0 +1,7 @@
+tunnel: "{{ secret_cloudflare.tunnel_id }}"
+credentials-file: /etc/cloudflared/{{ secret_cloudflare.tunnel_id }}.json
+
+ingress:
+  - hostname: vdi.{{ main_domain }}
+    service: https://vdi.{{ main_domain }}:8443
+  - service: http_status:404

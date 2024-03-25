@@ -1,11 +1,14 @@
 - name: Create traefik directory
   become: true
   ansible.builtin.file:
-    path: "{{ edge_docker_appdata_path }}/traefik/config"
+    path: "{{ edge_docker_appdata_path }}/traefik/{{ item }}"
     state: directory
     mode: "{{ edge_docker_dir_mode }}"
     owner: "{{ edge_docker_user }}"
     group: "{{ edge_docker_group }}"
+  loop:
+    - cloudflared
+    - config
 
 - name: Set up Traefik
   ansible.builtin.include_role:
@@ -35,3 +38,24 @@
     owner: "{{ edge_docker_user }}"
     group: "{{ edge_docker_group }}"
   notify: Restart traefik after config change
+
+- name: Cloudflared conf
+  ansible.builtin.template:
+    src: traefik/cloudflared.yml.j2
+    dest: "{{ edge_docker_appdata_path }}/traefik/cloudflared/config.yml"
+    mode: "{{ edge_docker_file_mode }}"
+    owner: "{{ edge_docker_user }}"
+    group: "{{ edge_docker_group }}"
+  become: true
+  notify: Restart cloudflared after config change
+
+- name: Place MoTD
+  ansible.builtin.copy:
+    content: |
+      {{ secret_cloudflare.tunnel_cred }}
+    mode: "{{ edge_docker_file_mode }}"
+    owner: "{{ edge_docker_user }}"
+    group: "{{ edge_docker_group }}"
+    dest: "{{ edge_docker_appdata_path }}/traefik/cloudflared/{{ secret_cloudflare.tunnel_id }}.json"
+  become: true
+  notify: Restart cloudflared after config change

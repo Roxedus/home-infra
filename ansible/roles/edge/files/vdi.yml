@@ -12,10 +12,8 @@ services:
       CUSTOM_USER: Roxedus
       PASSWORD: "{{ main_password }}"
     shm_size: 1gb
-    ports:
-      - 3320:3000
     labels:
-      traefik.enable: "false"
+      traefik.enable: "true"
       traefik.http.routers.webcord-vdi.rule: Host(`vdi.{{ main_domain }}`) && PathPrefix(`/webcord`)
   element:
     image: docker.io/roxedus/playground:element
@@ -28,8 +26,6 @@ services:
       CUSTOM_USER: Roxedus
       PASSWORD: "{{ main_password }}"
     shm_size: 1gb
-    ports:
-      - 3321:3000
     labels:
-      traefik.enable: "false"
+      traefik.enable: "true"
       traefik.http.routers.element-vdi.rule: Host(`vdi.{{ main_domain }}`) && PathPrefix(`/element`)

@@ -1,3 +1,9 @@
+- name: Restart cloudflared after config change
+  register: cloudflared_restart
+  changed_when: cloudflared_restart.rc == 0
+  ansible.builtin.command:
+    cmd: docker restart cloudflared
+
 - name: Restart traefik after config change
   register: traefik_restart
   changed_when: traefik_restart.rc == 0

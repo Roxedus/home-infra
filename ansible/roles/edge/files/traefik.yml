@@ -14,10 +14,13 @@ services:
       - 80:8080
       - 443:8443
     networks:
-      - default
-      - proxy
+      default:
+        aliases:
+          - vdi.{{ main_domain }}
+      proxy:
     volumes:
       - "{{ edge_docker_appdata_path }}/{{ compose_generator_service }}/config:/etc/traefik"
+
   dockerproxy-traefik:
     image: tecnativa/docker-socket-proxy
     container_name: dockerproxy-traefik
@@ -29,7 +32,19 @@ services:
     networks:
       - proxy
     environment:
-      - CONTAINERS=1
+      CONTAINERS: "1"
+      LOG_LEVEL: warning
+
+  cloudflared:
+    image: cloudflare/cloudflared:2024.3.0@sha256:8acfc9e4e65e0d1e26686177a3a0c4baa3b0330c0fc6adc899c2b673bc938e77
+    container_name: cloudflared
+    user: "{{ compose_generator_runas }}"
+    read_only: "true"
+    environment:
+      NO_AUTOUPDATE: "true"
+    volumes:
+      - "{{ edge_docker_appdata_path }}/{{ compose_generator_service }}/[service_name]:/etc/cloudflared:ro"
+    command: tunnel run {{ secret_cloudflare.tunnel_id }}
 
 networks:
   default: "{{ compose_generator_globals.networks.default }}"
