@@ -38,3 +38,4 @@ spec:
         memory: 128Mi # unchangable
         cpu: 100m # unchangable
       limits: {}
+    crds.enabled: true
