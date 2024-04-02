@@ -79,8 +79,8 @@ spec:
             memory: 256Mi
       crashCollector:
         disable: false
-      mon:
-        count: 3
+      # mon:
+      #   count: 3
       dashboard:
         enabled: true
         urlPrefix: /
