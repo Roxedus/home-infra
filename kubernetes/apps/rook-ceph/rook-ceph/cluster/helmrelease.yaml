@@ -96,7 +96,7 @@ spec:
               - name: loop1
           - name: node*
             devices:
-              - name: ubuntu--vg-ceph--data
+              - name: /dev/mapper/ubuntu--vg-ceph--data
       placement:
         mgr: &placement
           # nodeAffinity:
