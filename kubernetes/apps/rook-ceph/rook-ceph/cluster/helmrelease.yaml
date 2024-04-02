@@ -36,7 +36,7 @@ spec:
       dashboard:
         ingressClassName: internal
         host:
-          name: &host kube.rostvik.site
+          name: &host rook.kube.rostvik.site
           path: /
         tls:
           - hosts: [*host]
@@ -92,11 +92,11 @@ spec:
           osdsPerDevice: "1"
         nodes:
           - name: controlplane
-            config:
-              metadataDevice: loop1
+            devices:
+              - name: loop1
           - name: node*
-            config:
-              metadataDevice: ubuntu--vg-ceph--data
+            devices:
+              - name: ubuntu--vg-ceph--data
       placement:
         mgr: &placement
           # nodeAffinity:
