@@ -67,4 +67,11 @@ spec:
       snapshotDataIntegrityCronjob: 0 8 */7 * *
       upgradeChecker: false
       v2DataEngine: false
-      taintToleration: node-role.kubernetes.io/control-plane=effect:NoSchedule
+
+    longhornManager:
+      tolerations: &tolerations
+        - effect: NoSchedule
+          key: node-role.kubernetes.io/control-plane
+          operator: Exists
+    longhornDriver:
+      tolerations: *tolerations
