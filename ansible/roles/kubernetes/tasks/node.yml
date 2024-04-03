@@ -225,6 +225,15 @@
     state: present
     allow_downgrade: true
 
+- name: Start and enable services
+  become: true
+  ansible.builtin.systemd_service:
+    name: "{{ item }}"
+    state: started
+    enabled: true
+  with_items:
+    - iscsid
+
 - name: Hold kubernetes version
   become: true
   ansible.builtin.dpkg_selections:
