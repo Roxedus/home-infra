@@ -68,6 +68,8 @@ spec:
       upgradeChecker: false
       v2DataEngine: false
 
+    csi.snapshotterReplicaCount: 0
+
     longhornManager:
       tolerations: &tolerations
         - effect: NoSchedule
