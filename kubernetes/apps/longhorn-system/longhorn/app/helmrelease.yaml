@@ -46,7 +46,7 @@ spec:
     #     enabled: true
 
     defaultSettings:
-      backupTarget: nfs://10.0.0.29:/mnt/user/NAS/Backups/kubernetes/longhorn
+      backupTarget: nfs://10.0.0.30:/mnt/user/NAS/Backups/kubernetes/longhorn
       orphanAutoDeletion: true
       concurrentAutomaticEngineUpgradePerNodeLimit: 3
       defaultDataPath: /var/lib/longhorn
