@@ -2,8 +2,8 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
 metadata:
-  name: rook-ceph
+  name: longhorn
   namespace: flux-system
 spec:
   interval: 2h
-  url: https://charts.rook.io/release
+  url: https://charts.longhorn.io/

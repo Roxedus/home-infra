@@ -1,0 +1,69 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: longhorn
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: longhorn
+      version: 1.6.0
+      interval: 10m
+      sourceRef:
+        kind: HelmRepository
+        name: longhorn
+        namespace: flux-system
+
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+
+  values:
+    ingress:
+      enabled: true
+      ingressClassName: internal
+      host: longhorn.kube.rostvik.site
+      tls: true
+      secureBackends: true
+      tlsSecret: longhorn-tls
+      path: /
+
+    persistence:
+      defaultClass: true
+      defaultClassReplicaCount: 3
+      reclaimPolicy: Retain
+      recurringJobSelector:
+        enable: false
+
+    preUpgradeChecker.jobEnabled: false
+
+    # metrics:
+    #   serviceMonitor:
+    #     enabled: true
+
+    defaultSettings:
+      backupTarget: nfs://10.0.0.29:/mnt/user/NAS/Backups/kubernetes/longhorn
+      orphanAutoDeletion: true
+      concurrentAutomaticEngineUpgradePerNodeLimit: 3
+      defaultDataPath: /var/lib/longhorn
+      defaultDataLocality: best-effort
+      defaultLonghornStaticStorageClass: longhorn
+      storageMinimalAvailablePercentage: 0
+      storageReservedPercentageForDefaultDisk: 0
+      nodeDownPodDeletionPolicy: delete-both-statefulset-and-deployment-pod
+      allowRecurringJobWhileVolumeDetached: false
+      autoCleanupSystemGeneratedSnapshot: true
+      autoDeletePodWhenVolumeDetachedUnexpectedly: true
+      disableSchedulingOnCordonedNode: true
+      defaultReplicaCount: 3
+      engineReplicaTimeout: 8
+      failedBackupTTL: 1440
+      restoreVolumeRecurringJobs: true
+      snapshotDataIntegrityImmediateCheckAfterSnapshotCreation: false
+      snapshotDataIntegrityCronjob: 0 8 */7 * *
+      upgradeChecker: false
+      v2DataEngine: false
