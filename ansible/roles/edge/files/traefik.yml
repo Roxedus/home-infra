@@ -22,7 +22,7 @@ services:
       - "{{ edge_docker_appdata_path }}/{{ compose_generator_service }}/config:/etc/traefik"
 
   dockerproxy-traefik:
-    image: tecnativa/docker-socket-proxy
+    image: ghcr.io/linuxserver/socket-proxy:1.24.0
     container_name: dockerproxy-traefik
     read_only: "true"
     tmpfs:
