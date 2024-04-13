@@ -36,6 +36,12 @@
         "yamllint",
         "adrienverge/yamllint"
       ]
+    },
+    {
+      "matchPackageNames": [
+        "ghcr.io/linuxserver/socket-proxy"
+      ],
+      "allowedVersions": "<2.0.0"
     }
   ]
 }
