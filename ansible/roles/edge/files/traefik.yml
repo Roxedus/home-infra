@@ -4,7 +4,7 @@ services:
   traefik:
     container_name: traefik
     user: "{{ compose_generator_runas }}"
-    image: traefik:v2.11.0
+    image: traefik:2.11.2
     read_only: "true"
     environment:
       TZ: "{{ compose_generator_timezone }}"
