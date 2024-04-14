@@ -47,7 +47,7 @@ services:
       - loki
 
   promtail:
-    image: grafana/promtail:2.9.7
+    image: grafana/promtail:3.0.0
     container_name: promtail
     read_only: "true"
     tmpfs:
