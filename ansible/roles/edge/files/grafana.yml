@@ -28,7 +28,7 @@ services:
       - host.docker.internal:host-gateway
 
   loki:
-    image: grafana/loki:2.9.5
+    image: grafana/loki:2.9.7
     container_name: loki
     user: "{{ compose_generator_runas }}"
     read_only: "true"
