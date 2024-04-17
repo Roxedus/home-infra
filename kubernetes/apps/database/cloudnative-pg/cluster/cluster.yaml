@@ -12,7 +12,7 @@ spec:
     storageClass: openebs-hostpath
   superuserSecret:
     name: cloudnative-pg-secret
-  enableSuperuserAccess: false
+  enableSuperuserAccess: true
   postgresql:
     parameters:
       # https://pgtune.leopard.in.ua/
