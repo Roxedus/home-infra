@@ -1,0 +1,62 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: postgres
+spec:
+  instances: 3
+  imageName: ghcr.io/cloudnative-pg/postgresql:16.2-10
+  primaryUpdateStrategy: unsupervised
+  storage:
+    size: 20Gi
+    storageClass: openebs-hostpath
+  superuserSecret:
+    name: cloudnative-pg-secret
+  enableSuperuserAccess: true
+  postgresql:
+    parameters:
+      # https://pgtune.leopard.in.ua/
+      # DB Version: "16"
+      # OS Type: linux
+      # DB Type: web
+      # Total Memory (RAM): 6 GB
+      # CPUs num: "4"
+      # Connections num: "100"
+      # Data Storage: ssd
+
+      max_connections: "100"
+      shared_buffers: 1536MB
+      effective_cache_size: 4608MB
+      maintenance_work_mem: 384MB
+      checkpoint_completion_target: 0.9
+      wal_buffers: 16MB
+      default_statistics_target: "100"
+      random_page_cost: 1.1
+      effective_io_concurrency: "200"
+      work_mem: 7864kB
+      huge_pages: off
+      min_wal_size: 1GB
+      max_wal_size: 4GB
+      max_worker_processes: "4"
+      max_parallel_workers_per_gather: "2"
+      max_parallel_workers: "4"
+      max_parallel_maintenance_workers: "2"
+
+  nodeMaintenanceWindow:
+    inProgress: false
+    reusePVC: true
+  resources:
+    requests:
+      cpu: 500m
+    limits:
+      memory: 4Gi
+  monitoring:
+    enablePodMonitor: false
+    # # Ref: https://github.com/cloudnative-pg/cloudnative-pg/issues/2501
+    # podMonitorMetricRelabelings:
+    #   - {
+    #       sourceLabels: ["cluster"],
+    #       targetLabel: cnpg_cluster,
+    #       action: replace,
+    #     }
+    #   - { regex: cluster, action: labeldrop }
