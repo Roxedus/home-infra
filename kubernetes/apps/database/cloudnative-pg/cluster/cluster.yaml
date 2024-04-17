@@ -51,12 +51,11 @@ spec:
     limits:
       memory: 4Gi
   monitoring:
-    enablePodMonitor: false
-    # # Ref: https://github.com/cloudnative-pg/cloudnative-pg/issues/2501
-    # podMonitorMetricRelabelings:
-    #   - {
-    #       sourceLabels: ["cluster"],
-    #       targetLabel: cnpg_cluster,
-    #       action: replace,
-    #     }
-    #   - { regex: cluster, action: labeldrop }
+    enablePodMonitor: true
+    # Ref: https://github.com/cloudnative-pg/cloudnative-pg/issues/2501
+    podMonitorMetricRelabelings:
+      - sourceLabels: [cluster]
+        targetLabel: cnpg_cluster
+        action: replace
+      - regex: cluster
+        action: labeldrop

@@ -24,3 +24,6 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: spegel-helm-values
+  values:
+    serviceMonitor:
+      enabled: true

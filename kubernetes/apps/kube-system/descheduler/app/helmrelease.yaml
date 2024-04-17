@@ -58,5 +58,7 @@ spec:
                 - RemovePodsViolatingNodeTaints
     service:
       enabled: true
+    serviceMonitor:
+      enabled: true
     leaderElection:
       enabled: true
