@@ -101,6 +101,7 @@ spec:
     serviceMonitor:
       pihole-1: &serviceMonitor
         serviceName: *controller-1
+        enabled: true
         endpoints:
           - port: http
             scheme: http
