@@ -41,9 +41,9 @@ spec:
 
     preUpgradeChecker.jobEnabled: false
 
-    # metrics:
-    #   serviceMonitor:
-    #     enabled: true
+    metrics:
+      serviceMonitor:
+        enabled: true
 
     defaultSettings:
       backupTarget: nfs://10.0.0.30:/mnt/user/NAS/Backups/kubernetes/longhorn

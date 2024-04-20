@@ -31,5 +31,5 @@ spec:
       tag: 0.8.0
     restic:
       <<: *image
-    # metrics:
-    #   disableAuth: true
+    metrics:
+      disableAuth: true

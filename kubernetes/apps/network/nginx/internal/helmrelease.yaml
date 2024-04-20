@@ -65,10 +65,10 @@ spec:
         use-forwarded-headers: "true"
       metrics:
         enabled: true
-        # serviceMonitor:
-        #   enabled: true
-        #   namespaceSelector:
-        #     any: true
+        serviceMonitor:
+          enabled: true
+          namespaceSelector:
+            any: true
       extraArgs:
         default-ssl-certificate: network/rostvik-site-tls
       terminationGracePeriodSeconds: 120
