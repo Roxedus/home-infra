@@ -23,7 +23,7 @@ spec:
       retries: 3
   values:
     controllers:
-      pihole-1: &controller
+      external-dns-pihole-1: &controller
         strategy: Recreate
         annotations:
           reloader.stakater.com/auto: "true"
@@ -78,7 +78,7 @@ spec:
             runAsUser: 568
             runAsGroup: 568
             runAsNonRoot: true
-      pihole-2:
+      external-dns-pihole-2:
         <<: *controller
         containers:
           pihole-2:
