@@ -24,5 +24,8 @@ roleRef:
   name: external-dns-pihole
 subjects:
   - kind: ServiceAccount
-    name: external-dns-pihole
+    name: external-dns-pihole-1
+    namespace: network
+  - kind: ServiceAccount
+    name: external-dns-pihole-2
     namespace: network

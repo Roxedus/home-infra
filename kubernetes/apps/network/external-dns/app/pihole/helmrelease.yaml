@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: &app external-dns-pihole
+  name: &app external-dns-pihole-1
 spec:
   interval: 30m
   chart:
@@ -23,27 +23,25 @@ spec:
       retries: 3
   values:
     controllers:
-      external-dns-pihole-1: &controller
+      external-dns-pihole-1:
         strategy: Recreate
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          pihole-1: &container
+          app:
             image:
               repository: registry.k8s.io/external-dns/external-dns
               tag: v0.14.1@sha256:7bb4c52748dec4fa2df1a8df7b94355c9677c70378cfe555ee4eb9a476409f0c
-            env:
-              - name: EXTERNAL_DNS_PIHOLE_SERVER
-                value: http://10.0.0.31
             envFrom:
               - secretRef:
-                  name: *app
+                  name: external-dns-pihole
             args:
               - --source=ingress
               - --source=service
               - --registry=noop
-              #- --policy=upsert-only
+              - --policy=upsert-only
               - --provider=pihole
+              - --pihole-server=http://10.0.0.31
               - --domain-filter=kube.rostvik.site
               - --interval=1m
               - --log-format=text
@@ -78,38 +76,118 @@ spec:
             runAsUser: 568
             runAsGroup: 568
             runAsNonRoot: true
-      external-dns-pihole-2:
-        <<: *controller
-        strategy: Recreate
-        annotations:
-          reloader.stakater.com/auto: "true"
-        containers:
-          pihole-2:
-            <<: *container
-            env:
-              - name: EXTERNAL_DNS_PIHOLE_SERVER
-                value: http://10.0.0.32
     serviceAccount:
       create: true
       name: *app
     service:
-      pihole-1: &service
-        controller: &controller-1 external-dns-pihole-1
+      app:
+        controller: *app
         ports:
           http:
             port: *port
-      pihole-2:
-        <<: *service
-        controller: &controller-2 external-dns-pihole-2
-    serviceMonitor:
-      pihole-1: &serviceMonitor
-        serviceName: *controller-1
-        endpoints:
-          - port: http
-            scheme: http
-            path: /metrics
-            interval: 1m
-            scrapeTimeout: 10s
-      pihole-2:
-        <<: *serviceMonitor
-        serviceName: *controller-2
+    # serviceMonitor:
+    #   app:
+    #     serviceName: external-dns-pihole
+    #     endpoints:
+    #       - port: http
+    #         scheme: http
+    #         path: /metrics
+    #         interval: 1m
+    #         scrapeTimeout: 10s
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2beta2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: &app external-dns-pihole-2
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 3.1.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    controllers:
+      external-dns-pihole-2:
+        strategy: Recreate
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: registry.k8s.io/external-dns/external-dns
+              tag: v0.14.1@sha256:7bb4c52748dec4fa2df1a8df7b94355c9677c70378cfe555ee4eb9a476409f0c
+            envFrom:
+              - secretRef:
+                  name: external-dns-pihole
+            args:
+              - --source=ingress
+              - --source=service
+              - --registry=noop
+              - --policy=upsert-only
+              - --provider=pihole
+              - --pihole-server=http://10.0.0.32
+              - --domain-filter=kube.rostvik.site
+              - --interval=1m
+              - --log-format=text
+              - --log-level=info
+              - --metrics-address=:7979
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /healthz
+                    port: &port 7979
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
+            resources:
+              requests:
+                cpu: 10m
+              limits:
+                memory: 64Mi
+        pod:
+          securityContext:
+            runAsUser: 568
+            runAsGroup: 568
+            runAsNonRoot: true
+    serviceAccount:
+      create: true
+      name: *app
+    service:
+      app:
+        controller: *app
+        ports:
+          http:
+            port: *port
+    # serviceMonitor:
+    #   app:
+    #     serviceName: external-dns-pihole
+    #     endpoints:
+    #       - port: http
+    #         scheme: http
+    #         path: /metrics
+    #         interval: 1m
+    #         scrapeTimeout: 10s
