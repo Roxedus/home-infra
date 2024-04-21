@@ -92,7 +92,7 @@ spec:
     service:
       pihole-1: &service
         controller: &controller-1 external-dns-pihole-1
-        nameOverride: *controller-1
+        nameOverride: pihole-1
         ports:
           http:
             port: *port
