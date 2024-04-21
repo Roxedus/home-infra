@@ -91,16 +91,16 @@ spec:
       name: *app
     service:
       pihole-1: &service
-        controller: &controller-1 pihole-1
+        controller: pihole-1
         ports:
           http:
             port: *port
       pihole-2:
         <<: *service
-        controller: &controller-2 pihole-2
+        controller: pihole-2
     serviceMonitor:
       pihole-1: &serviceMonitor
-        serviceName: *controller-1
+        serviceName: external-dns-pihole-pihole-1
         enabled: true
         endpoints:
           - port: http
@@ -110,4 +110,4 @@ spec:
             scrapeTimeout: 10s
       pihole-2:
         <<: *serviceMonitor
-        serviceName: *controller-2
+        serviceName: external-dns-pihole-pihole-2
