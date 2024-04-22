@@ -79,9 +79,8 @@ spec:
       ipDualStack: &stack
         enabled: false
         ipFamilies: [IPv4]
-      endpoints:
-        &cp []
-        #- 10.0.2.5
+      endpoints: &cp #[]
+        - 10.0.2.5
     kubeEtcd:
       enabled: true
       ipDualStack: *stack
