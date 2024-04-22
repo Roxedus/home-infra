@@ -76,8 +76,9 @@ spec:
             regex: (apiserver_response_sizes_bucket|apiserver_watch_events_sizes_bucket)
     kubeControllerManager:
       enabled: true
-      endpoints: &cp
-        - 10.0.2.5
+      endpoints:
+        &cp []
+        #- 10.0.2.5
     kubeEtcd:
       enabled: true
       endpoints: *cp
