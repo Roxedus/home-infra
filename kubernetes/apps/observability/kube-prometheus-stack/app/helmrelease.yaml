@@ -76,14 +76,19 @@ spec:
             regex: (apiserver_response_sizes_bucket|apiserver_watch_events_sizes_bucket)
     kubeControllerManager:
       enabled: true
+      ipDualStack: &stack
+        enabled: false
+        ipFamilies: [IPv4]
       endpoints:
         &cp []
         #- 10.0.2.5
     kubeEtcd:
       enabled: true
+      ipDualStack: *stack
       endpoints: *cp
     kubeScheduler:
       enabled: true
+      ipDualStack: *stack
       endpoints: *cp
     kubeProxy:
       enabled: false
