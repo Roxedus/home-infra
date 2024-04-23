@@ -79,6 +79,7 @@ spec:
       ipDualStack: &stack
         enabled: false
         ipFamilies: [IPv4]
+        ipFamilyPolicy: SingleStack
       endpoints:
         &cp []
         #- 10.0.2.5
