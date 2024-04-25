@@ -5,3 +5,4 @@ resources:
   - ./namespace.yaml
   - ./external-dns/ks.yaml
   - ./nginx/ks.yaml
+  - ./maddy/ks.yaml
