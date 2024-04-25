@@ -79,13 +79,6 @@ spec:
                 enabled: false
               startup:
                 enabled: false
-    defaultPodOptions:
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 65534
-        runAsGroup: 65534
-        seccompProfile:
-          type: RuntimeDefault
     service:
       app:
         controller: *app
