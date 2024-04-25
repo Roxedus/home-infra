@@ -68,7 +68,7 @@ spec:
       upgradeChecker: false
       v2DataEngine: false
 
-    csi.snapshotterReplicaCount: 0
+    #csi.snapshotterReplicaCount: 0
 
     longhornManager:
       tolerations: &tolerations
