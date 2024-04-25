@@ -34,7 +34,7 @@ spec:
 
     persistence:
       defaultClass: true
-      defaultClassReplicaCount: 3
+      defaultClassReplicaCount: 32
       reclaimPolicy: Retain
       recurringJobSelector:
         enable: false
