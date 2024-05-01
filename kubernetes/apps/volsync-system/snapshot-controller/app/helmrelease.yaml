@@ -26,6 +26,17 @@ spec:
       retries: 3
   values:
     controller:
+      volumeSnapshotClasses:
+        # https://github.com/joryirving/home-ops/blob/b768ca29ef34c6643bc83ca8cea0f06596dbc045/kubernetes/pi/apps/storage/snapshot-controller/app/helmrelease.yaml#L29
+        - name: longhorn-snapclass
+          annotations:
+            snapshot.storage.kubernetes.io/is-default-class: "true"
+          driver: driver.longhorn.io
+          deletionPolicy: Delete
+          parameters:
+            # needed for successful VolumeSnapshots
+            # see: https://github.com/longhorn/longhorn/issues/2534#issuecomment-1010508714
+            type: snap
       serviceMonitor:
         create: true
     webhook:
