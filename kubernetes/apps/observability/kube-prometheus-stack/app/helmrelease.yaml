@@ -185,6 +185,10 @@ spec:
       enabled: false
       forceDeployDashboards: true
       sidecar:
+        datasources:
+          enabled: true
+          alertmanager:
+            enabled: true
         dashboards:
           annotations:
             grafana_folder: Kubernetes
