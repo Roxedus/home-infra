@@ -31,26 +31,26 @@ spec:
     crds:
       enabled: true
     cleanPrometheusOperatorObjectNames: true
-    # alertmanager:
-    #   ingress:
-    #     enabled: true
-    #     pathType: Prefix
-    #     ingressClassName: internal
-    #     hosts:
-    #       - &host alertmanager.devbu.io
-    #     tls:
-    #       - hosts: [*host]
-    #   alertmanagerSpec:
-    #     replicas: 2
-    #     useExistingSecret: true
-    #     configSecret: alertmanager-secret
-    #     storage:
-    #       volumeClaimTemplate:
-    #         spec:
-    #           storageClassName: openebs-hostpath
-    #           resources:
-    #             requests:
-    #               storage: 1Gi
+    alertmanager:
+      ingress:
+        enabled: true
+        pathType: Prefix
+        ingressClassName: internal
+        hosts:
+          - &host alertmanager.kube.rostvik.site
+        tls:
+          - hosts: [*host]
+      alertmanagerSpec:
+        replicas: 2
+        useExistingSecret: true
+        configSecret: alertmanager-secret
+        storage:
+          volumeClaimTemplate:
+            spec:
+              storageClassName: openebs-hostpath
+              resources:
+                requests:
+                  storage: 1Gi
     kubelet:
       enabled: true
       serviceMonitor:
