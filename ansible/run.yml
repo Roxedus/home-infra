@@ -311,8 +311,8 @@
       when: ansible_distribution == 'Ubuntu'
       become: true
       ansible.builtin.file:
-        owner: 120
-        group: 115
+        owner: 115
+        group: 120
         mode: 0755
         path: /var/log/journal/remote/
         state: directory
