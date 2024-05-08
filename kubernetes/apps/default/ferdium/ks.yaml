@@ -38,8 +38,8 @@ spec:
     name: flux-system
   postBuild:
     substitute:
-      app: ferdium
-      cacheCapacity: 5Gi
+      APP: ferdium
+      VOLSYNC_CACHE_CAPACITY: 5Gi
       VOLSYNC_UID: &kubeguy "769"
       VOLSYNC_GID: *kubeguy
       CLAIM: ferdium-data
