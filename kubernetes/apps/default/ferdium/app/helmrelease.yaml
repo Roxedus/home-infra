@@ -105,5 +105,5 @@ spec:
             app:
               - subPath: data
                 path: /data
-              - subPath: recipes
-                path: /app/recipes
+              # - subPath: recipes
+              #   path: /app/recipes
