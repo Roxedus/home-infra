@@ -40,7 +40,7 @@ spec:
     substitute:
       app: ferdium
       cacheCapacity: 5Gi
-      VOLSYNC_UID: &kubeguy 769
+      VOLSYNC_UID: &kubeguy "769"
       VOLSYNC_GID: *kubeguy
       CLAIM: ferdium-data
   wait: true
