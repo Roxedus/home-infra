@@ -23,7 +23,7 @@ jobs:
     outputs:
       check_files: ${{ steps.vars.outputs.check_files }}
     steps:
-      - uses: actions/checkout@v4.1.4
+      - uses: actions/checkout@v4.1.5
         with:
           fetch-depth: 0
 
@@ -48,7 +48,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [meta]
     steps:
-      - uses: actions/checkout@v4.1.4
+      - uses: actions/checkout@v4.1.5
 
       - uses: actions/cache@v4
         with:
@@ -82,7 +82,7 @@ jobs:
       statuses: write
     needs: [yaml, meta]
     steps:
-      - uses: actions/checkout@v4.1.4
+      - uses: actions/checkout@v4.1.5
 
       - name: Run kics Scan
         uses: Checkmarx/kics-github-action@da9de25a20c267f753e6a135af32338bc5c571f0
@@ -109,7 +109,7 @@ jobs:
       statuses: write
     needs: [yaml, meta]
     steps:
-      - uses: actions/checkout@v4.1.4
+      - uses: actions/checkout@v4.1.5
 
       - uses: actions/cache@v4
         with:
