@@ -1,0 +1,9 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cluster-vars
+  namespace: flux-system
+data:
+  CLUSTER_DOMAIN: rostvik.site
+  CLUSTER_CLOUDFLARE_TUNNEL_ID: bd9a2cb2-0fff-40b6-8cd9-3ee3f6457c8f

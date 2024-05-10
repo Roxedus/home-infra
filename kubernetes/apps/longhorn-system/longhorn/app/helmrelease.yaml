@@ -26,7 +26,7 @@ spec:
     ingress:
       enabled: true
       ingressClassName: internal
-      host: longhorn.kube.rostvik.site
+      host: longhorn.kube.${CLUSTER_DOMAIN}
       tls: true
       secureBackends: true
       tlsSecret: longhorn-tls
