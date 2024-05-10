@@ -43,6 +43,7 @@ spec:
       - --cloudflare-proxied
       - --crd-source-apiversion=externaldns.k8s.io/v1alpha1
       - --crd-source-kind=DNSEndpoint
+      - --zone-id-filter=${CLUSTER_CLOUDFLARE_ZONE}
     policy: sync
     sources: [crd, ingress]
     txtOwnerId: default
