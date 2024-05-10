@@ -37,7 +37,7 @@ spec:
         pathType: Prefix
         ingressClassName: internal
         hosts:
-          - &host alertmanager.kube.rostvik.site
+          - &host alertmanager.kube.${CLUSTER_DOMAIN}
         tls:
           - hosts: [*host]
       alertmanagerSpec:
@@ -99,7 +99,7 @@ spec:
         ingressClassName: internal
         pathType: Prefix
         hosts:
-          - &host prometheus.kube.rostvik.site
+          - &host prometheus.kube.${CLUSTER_DOMAIN}
         tls:
           - hosts: [*host]
       # thanosService:

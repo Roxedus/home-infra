@@ -26,7 +26,7 @@ hubble:
       enabled: true
       className: internal
       hosts:
-        - &host hubble.kube.rostvik.site
+        - &host hubble.kube.${CLUSTER_DOMAIN}
       tls:
         - hosts:
             - *host

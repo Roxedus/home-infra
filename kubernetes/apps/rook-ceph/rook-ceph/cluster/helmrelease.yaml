@@ -36,7 +36,7 @@ spec:
       dashboard:
         ingressClassName: internal
         host:
-          name: &host rook.kube.rostvik.site
+          name: &host rook.kube.${CLUSTER_DOMAIN}
           path: /
         tls:
           - hosts: [*host]

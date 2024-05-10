@@ -43,7 +43,7 @@ spec:
               repository: ghcr.io/ferdium/ferdium-server
               tag: 2.0.6@sha256:f617d1008b6182188b9ae9caed7969ffa0dd84332423870d03ae5b6e8623c6cd
             env:
-              APP_UR: https://ferdium.kube.rostvik.site
+              APP_UR: https://ferdium.kube.${CLUSTER_DOMAIN}
               CONNECT_WITH_FRANZ: false
               DATA_DIR: /data
               DB_CONNECTION: pg
@@ -54,7 +54,7 @@ spec:
               IS_REGISTRATION_ENABLED: true
               JWT_USE_PEM: true
               MAIL_CONNECTION: smtp
-              MAIL_SENDER: ferdium@rostvik.site
+              MAIL_SENDER: ferdium@${CLUSTER_DOMAIN}
               MAIL_SSL: false
               NODE_ENV: production
               SMTP_HOST: maddy.network.svc.cluster.local
@@ -89,7 +89,7 @@ spec:
       app:
         className: internal
         hosts:
-          - host: ferdium.kube.rostvik.site
+          - host: ferdium.kube.${CLUSTER_DOMAIN}
             paths:
               - path: /
                 service:

@@ -8,7 +8,7 @@ spec:
   issuerRef:
     name: letsencrypt-production
     kind: ClusterIssuer
-  commonName: kube.rostvik.site
+  commonName: kube.${CLUSTER_DOMAIN}
   dnsNames:
-    - kube.rostvik.site
-    - "*.kube.rostvik.site"
+    - kube.${CLUSTER_DOMAIN}
+    - "*.kube.${CLUSTER_DOMAIN}"

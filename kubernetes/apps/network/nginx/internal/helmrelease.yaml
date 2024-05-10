@@ -27,7 +27,7 @@ spec:
       replicaCount: 2
       service:
         annotations:
-          external-dns.alpha.kubernetes.io/hostname: kube.rostvik.site
+          external-dns.alpha.kubernetes.io/hostname: kube.${CLUSTER_DOMAIN}
           io.cilium/lb-ipam-ips: 10.0.2.40
       ingressClassResource:
         name: internal
