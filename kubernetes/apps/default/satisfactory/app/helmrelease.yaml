@@ -38,7 +38,6 @@ spec:
               AUTOSAVENUM: 15
               MAXTICKRATE: 120 # default is 30
               SKIPUPDATE: true
-              DEBUG: true
             resources:
               requests:
                 memory: 4Gi
