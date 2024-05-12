@@ -1,0 +1,102 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2beta2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: &app satisfactory
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 3.1.0
+      sourceRef:
+        name: bjw-s
+        kind: HelmRepository
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    controllers:
+      satisfactory:
+        type: statefulset
+        containers:
+          app:
+            image:
+              repository: ghcr.io/wolveix/satisfactory-server
+              tag: v1.6.2@sha256:75849098573f7c4be01a97de66d141d5d95735c6da3dfe4add2428ca6543a03b
+            env:
+              ROOTLESS: true
+              AUTOPAUSE: false
+              AUTOSAVENUM: 15
+              MAXTICKRATE: 120 # default is 30
+              SKIPUPDATE: true
+            resources:
+              requests:
+                memory: 4Gi
+              limits:
+                memory: 8Gi
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
+            probes:
+              liveness:
+                enabled: false
+              readiness:
+                enabled: false
+              startup:
+                enabled: false
+    service:
+      app:
+        controller: *app
+        enabled: true
+        type: LoadBalancer
+        annotations:
+          io.cilium/lb-ipam-ips: 10.0.2.46
+        ports:
+          query:
+            enabled: true
+            port: 15777
+            protocol: UDP
+          beacon:
+            enabled: true
+            port: 15000
+            protocol: UDP
+          game:
+            enabled: true
+            primary: true
+            port: 7777
+            protocol: UDP
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 568
+        runAsGroup: 568
+        fsGroup: 568
+        fsGroupChangePolicy: OnRootMismatch
+    persistence:
+      data:
+        accessMode: ReadWriteOnce
+        storageClass: longhorn
+        size: 50Gi
+        advancedMounts:
+          satisfactory:
+            data:
+              - path: /config
+      gamefiles:
+        accessMode: ReadWriteOnce
+        storageClass: longhorn
+        size: 10Gi
+        advancedMounts:
+          satisfactory:
+            gamefiles:
+              - path: /config/gamefiles
