@@ -82,7 +82,9 @@ spec:
         runAsNonRoot: true
         runAsUser: 568
         runAsGroup: 568
-        fsGroup: 6
+        fsGroup: 568
+        supplementalGroups:
+          - 6
         fsGroupChangePolicy: OnRootMismatch
     persistence:
       data:
