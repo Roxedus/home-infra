@@ -38,6 +38,8 @@ spec:
       APP: satisfactory
       VOLSYNC_CACHE_CAPACITY: 25Gi
       CLAIM: satisfactory-data
+      VOLSYNC_UID: &UID "1000"
+      VOLSYNC_GID: *UID
   wait: true
   interval: 30m
   retryInterval: 1m
