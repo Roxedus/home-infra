@@ -36,7 +36,7 @@ spec:
   postBuild:
     substitute:
       APP: satisfactory
-      VOLSYNC_CACHE_CAPACITY: 50Gi
+      VOLSYNC_CACHE_CAPACITY: 25Gi
       CLAIM: satisfactory-data
   wait: true
   interval: 30m

@@ -88,7 +88,7 @@ spec:
       data:
         accessMode: ReadWriteOnce
         storageClass: longhorn
-        size: 50Gi
+        size: 25Gi
         advancedMounts:
           satisfactory:
             data:
