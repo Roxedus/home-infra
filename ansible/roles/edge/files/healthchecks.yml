@@ -1,6 +1,6 @@
 services:
   healthchecks:
-    image: lscr.io/linuxserver/healthchecks:latest@sha256:280b0160489c3d5e4fff6420c11d6cc855ddd6a5b66a5e9a11ac4e22b8f4309e
+    image: lscr.io/linuxserver/healthchecks:latest@sha256:d26cb58b69e4e92b8c210b3ea5cc297b2d84fa2853604f2ef5d0006f9014ada1
     container_name: healthchecks
     environment:
       APPRISE_ENABLED: "True"
