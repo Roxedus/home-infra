@@ -39,25 +39,25 @@ spec:
             envFrom:
               - secretRef:
                   name: searxng-secret
-            probes:
-              liveness: &probes
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /stats
-                    port: &port 8080
-                  initialDelaySeconds: 0
-                  periodSeconds: 10
-                  timeoutSeconds: 1
-                  failureThreshold: 3
-              readiness: *probes
+            # probes:
+            #   liveness: &probes
+            #     enabled: true
+            #     custom: true
+            #     spec:
+            #       httpGet:
+            #         path: /stats
+            #         port: &port 8080
+            #       initialDelaySeconds: 0
+            #       periodSeconds: 10
+            #       timeoutSeconds: 1
+            #       failureThreshold: 3
+            #   readiness: *probes
             securityContext:
-              # allowPrivilegeEscalation: false
+              allowPrivilegeEscalation: false
               # readOnlyRootFilesystem: true
-              # capabilities:
-              #   drop:
-              #     - ALL
+              capabilities:
+                drop:
+                  - ALL
             resources:
               requests:
                 cpu: 10m
@@ -76,7 +76,7 @@ spec:
         controller: app
         ports:
           http:
-            port: *port
+            port: &port 8080
     persistence:
       config:
         type: configMap
