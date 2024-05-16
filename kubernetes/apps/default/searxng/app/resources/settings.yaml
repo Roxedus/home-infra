@@ -7,6 +7,9 @@ server:
 search:
   autocomplete: google
 
+general:
+  instance_name: RostSearch
+
 ui:
   static_use_hash: true
   default_theme: simple
@@ -16,5 +19,11 @@ ui:
   results_on_new_tab: true
 
 enabled_plugins:
-  - Calculator plugin
+  - Hash plugin
+  - Self Informations
+  - Tracker URL remover
+  - Hostname replace
   - Open Access DOI rewrite
+# hostname_replace:
+#   # twitter --> nitter
+#   '(www\.)?twitter\.com$': "nitter.net"
