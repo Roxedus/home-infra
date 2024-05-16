@@ -85,10 +85,6 @@ spec:
           - path: /etc/searxng/settings.yml
             subPath: settings.yml
             readOnly: true
-      etc:
-        type: emptyDir
-        globalMounts:
-          - path: /etc/searxng
     ingress:
       app:
         className: external
