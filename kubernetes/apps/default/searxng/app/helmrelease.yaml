@@ -69,11 +69,6 @@ spec:
               limits:
                 memory: 3Gi
     defaultPodOptions:
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 769
-        runAsGroup: 769
-        fsGroupChangePolicy: OnRootMismatch
       topologySpreadConstraints:
         - maxSkew: 1
           topologyKey: kubernetes.io/hostname
