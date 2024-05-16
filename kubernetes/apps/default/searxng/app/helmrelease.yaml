@@ -54,10 +54,7 @@ spec:
               readiness: *probes
             securityContext:
               allowPrivilegeEscalation: false
-              # readOnlyRootFilesystem: true
-              capabilities:
-                drop:
-                  - ALL
+              readOnlyRootFilesystem: true
             resources:
               requests:
                 cpu: 10m
@@ -84,6 +81,10 @@ spec:
         globalMounts:
           - path: /etc/searxng/settings.yml
             readOnly: true
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /etc/searxng
     ingress:
       app:
         className: external
