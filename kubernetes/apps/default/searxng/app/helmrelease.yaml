@@ -81,12 +81,11 @@ spec:
         name: searxng-configmap
         globalMounts:
           - path: /etc/searxng
-            subPath: settings.yml
             readOnly: true
-      tmp:
-        type: emptyDir
-        globalMounts:
-          - path: /etc/searxng
+      # tmp:
+      #   type: emptyDir
+      #   globalMounts:
+      #     - path: /etc/searxng
     ingress:
       app:
         className: external
