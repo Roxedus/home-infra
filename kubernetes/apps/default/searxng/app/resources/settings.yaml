@@ -1,0 +1,20 @@
+---
+use_default_settings: true
+
+server:
+  limiter: false
+
+search:
+  autocomplete: google
+
+ui:
+  static_use_hash: true
+  default_theme: simple
+  theme_args:
+    simple_style: dark
+  infinite_scroll: true
+  results_on_new_tab: true
+
+enabled_plugins:
+  - Calculator plugin
+  - Open Access DOI rewrite
