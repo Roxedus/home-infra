@@ -3,6 +3,7 @@ use_default_settings: true
 
 server:
   limiter: false
+  image_proxy: true
 
 search:
   autocomplete: google
