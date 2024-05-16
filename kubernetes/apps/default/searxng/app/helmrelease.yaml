@@ -76,11 +76,12 @@ spec:
           http:
             port: *port
     persistence:
-      settings.yml:
+      app:
         type: configMap
         name: searxng-configmap
         globalMounts:
           - path: /etc/searxng
+            subPath: settings.yml
             readOnly: true
       # tmp:
       #   type: emptyDir
