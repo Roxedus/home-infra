@@ -55,6 +55,7 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
+              capabilities: {}
             resources:
               requests:
                 cpu: 10m
