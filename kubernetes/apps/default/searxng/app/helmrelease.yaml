@@ -87,8 +87,10 @@ spec:
     ingress:
       app:
         className: external
+        annotations:
+          external-dns.alpha.kubernetes.io/target: pub.${CLUSTER_DOMAIN}
         hosts:
-          - host: search.pub.${CLUSTER_DOMAIN}
+          - host: search.${CLUSTER_DOMAIN}
             paths:
               - path: /
                 service:
