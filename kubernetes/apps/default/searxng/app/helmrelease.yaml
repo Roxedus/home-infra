@@ -55,9 +55,9 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               # readOnlyRootFilesystem: true
-              capabilities:
-                drop:
-                  - ALL
+              # capabilities:
+              #   drop:
+              #     - ALL
             resources:
               requests:
                 cpu: 10m
@@ -83,7 +83,6 @@ spec:
         name: searxng-configmap
         globalMounts:
           - path: /etc/searxng/settings.yml
-            subPath: settings.yml
             readOnly: true
     ingress:
       app:
