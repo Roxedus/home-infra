@@ -19,11 +19,13 @@ ui:
   results_on_new_tab: true
 
 enabled_plugins:
+  - Basic Calculator
   - Hash plugin
-  - Self Informations
-  - Tracker URL remover
   - Hostname replace
   - Open Access DOI rewrite
+  - Self Informations
+  - Tracker URL remover
+  - Unit converter plugin
 # hostname_replace:
 #   # twitter --> nitter
 #   '(www\.)?twitter\.com$': "nitter.net"
