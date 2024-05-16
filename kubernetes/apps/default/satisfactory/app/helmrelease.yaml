@@ -91,7 +91,7 @@ spec:
         size: 25Gi
         advancedMounts:
           satisfactory:
-            data:
+            app:
               - path: /config
       gamefiles:
         accessMode: ReadWriteOnce
@@ -99,5 +99,5 @@ spec:
         size: 10Gi
         advancedMounts:
           satisfactory:
-            gamefiles:
+            app:
               - path: /config/gamefiles
