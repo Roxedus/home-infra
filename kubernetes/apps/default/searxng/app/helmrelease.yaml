@@ -35,7 +35,7 @@ spec:
               repository: searxng/searxng
               tag: 2024.5.16-2f2d93b29
             env:
-              BASE_URL: https://searxng.pub.${CLUSTER_DOMAIN}
+              BASE_URL: https://search.pub.${CLUSTER_DOMAIN}
             probes:
               liveness: &probes
                 enabled: true
@@ -76,7 +76,7 @@ spec:
               app.kubernetes.io/name: *app
     service:
       app:
-        controller: searxng
+        controller: app
         ports:
           http:
             port: *port
@@ -92,7 +92,7 @@ spec:
       app:
         className: external
         hosts:
-          - host: searxng.pub.${CLUSTER_DOMAIN}
+          - host: search.pub.${CLUSTER_DOMAIN}
             paths:
               - path: /
                 service:
