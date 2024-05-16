@@ -82,8 +82,7 @@ spec:
         type: configMap
         name: searxng-configmap
         globalMounts:
-          - path: /etc/searxng
-            subPath: settings.yml
+          - path: /etc/searxng/settings.yml
             readOnly: true
       etc:
         type: emptyDir
