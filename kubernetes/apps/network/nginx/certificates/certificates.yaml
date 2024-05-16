@@ -10,5 +10,8 @@ spec:
     kind: ClusterIssuer
   commonName: kube.${CLUSTER_DOMAIN}
   dnsNames:
-    - kube.${CLUSTER_DOMAIN}
     - "*.kube.${CLUSTER_DOMAIN}"
+    - "*.pub.${CLUSTER_DOMAIN}"
+    - ${CLUSTER_DOMAIN}
+    - kube.${CLUSTER_DOMAIN}
+    - pub.${CLUSTER_DOMAIN}
