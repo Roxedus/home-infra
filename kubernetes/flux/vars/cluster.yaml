@@ -6,4 +6,4 @@ metadata:
   namespace: flux-system
 data:
   CLUSTER_DOMAIN: rostvik.site
-  CLUSTER_CLOUDFLARE_TUNNEL_ID: bd9a2cb2-0fff-40b6-8cd9-3ee3f6457c8f
+  CLUSTER_CLOUDFLARE_TUNNEL_ID: 718b2336-fd40-43ac-ab39-99cfb87a8be7
