@@ -89,7 +89,7 @@ spec:
         advancedMounts:
           app:
             app:
-              - path: /etc/searxng/settings.yml
+              - path: /etc/searxng
                 readOnly: true
       tmp:
         type: emptyDir
