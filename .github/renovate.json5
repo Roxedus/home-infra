@@ -21,7 +21,8 @@
     ]
   },
   "ignorePaths": [
-    "kubernetes/flux/flux-system/**"
+    "kubernetes/flux/flux-system/**",
+    "ansible/roles/edge/files/**"
   ],
   "pre-commit": {
     "enabled": true
