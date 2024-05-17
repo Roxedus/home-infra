@@ -103,170 +103,170 @@
     - role: geerlingguy.security
       become: true
       when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
-    - role: prometheus.prometheus.node_exporter
-      become: true
-      when: prom_node_exporter
+    # - role: prometheus.prometheus.node_exporter
+    #   become: true
+    #   when: prom_node_exporter
     - role: netplan
       when: netplan_addresses or netplan_custom
 
-  tasks:
-    - name: Install systemd-journal-upload
-      become: true
-      when: ansible_facts.service_mgr == "systemd" and inventory_hostname not in ['edge']
-      ansible.builtin.apt:
-        name: systemd-journal-remote
-        state: present
+# tasks:
+#   - name: Install systemd-journal-upload
+#     become: true
+#     when: ansible_facts.service_mgr == "systemd" and inventory_hostname not in ['edge']
+#     ansible.builtin.apt:
+#       name: systemd-journal-remote
+#       state: present
 
-    - name: Create systemd-journal-upload config directory
-      when: ansible_facts.service_mgr == "systemd" and inventory_hostname not in ['edge']
-      become: true
-      ansible.builtin.file:
-        owner: root
-        group: root
-        mode: 0755
-        path: /etc/systemd/journal-upload.conf.d/
-        state: directory
+#   - name: Create systemd-journal-upload config directory
+#     when: ansible_facts.service_mgr == "systemd" and inventory_hostname not in ['edge']
+#     become: true
+#     ansible.builtin.file:
+#       owner: root
+#       group: root
+#       mode: 0755
+#       path: /etc/systemd/journal-upload.conf.d/
+#       state: directory
 
-    - name: Create systemd-journal-remote override
-      become: true
-      when: ansible_facts.service_mgr == "systemd" and inventory_hostname not in ['edge']
-      ansible.builtin.copy:
-        owner: root
-        group: root
-        mode: 0644
-        content: |
-          # Ansible managed
-          [Upload]
-          URL=http://10.0.0.16:19532
-        dest: /etc/systemd/journal-upload.conf.d/url.conf
-      notify:
-        - Restart systemd-journal-upload
+#   - name: Create systemd-journal-remote override
+#     become: true
+#     when: ansible_facts.service_mgr == "systemd" and inventory_hostname not in ['edge']
+#     ansible.builtin.copy:
+#       owner: root
+#       group: root
+#       mode: 0644
+#       content: |
+#         # Ansible managed
+#         [Upload]
+#         URL=http://10.0.0.16:19532
+#       dest: /etc/systemd/journal-upload.conf.d/url.conf
+#     notify:
+#       - Restart systemd-journal-upload
 
-    - name: Make sure systemd-journal-upload is running
-      become: true
-      when: ansible_facts.service_mgr == "systemd" and inventory_hostname not in ['edge']
-      ansible.builtin.systemd_service:
-        state: started
-        name: systemd-journal-upload
-        enabled: true
-        masked: false
-      notify:
-        - Restart systemd-journal-upload
+#   - name: Make sure systemd-journal-upload is running
+#     become: true
+#     when: ansible_facts.service_mgr == "systemd" and inventory_hostname not in ['edge']
+#     ansible.builtin.systemd_service:
+#       state: started
+#       name: systemd-journal-upload
+#       enabled: true
+#       masked: false
+#     notify:
+#       - Restart systemd-journal-upload
 
-    - name: Create healthcheck for host
-      when: ansible_facts.service_mgr == "systemd"
-      delegate_to: 127.0.0.1
-      register: local_healthcheck
-      community.healthchecksio.checks:
-        state: present
-        management_api_base_url: "{{ healthchecks_management_url }}/api/v3"
-        management_api_token: "{{ healthchecks_api }}"
-        name: "{{ inventory_hostname | title }} uptime check"
-        channels: "{{ healthchecks_integration }}"
-        unique:
-          - name
-        tags:
-          - ansible
-          - "{{ inventory_hostname | title }}"
-        desc: Ansible host automated uptime check
-        schedule: "{{ healthcheck_schedule_minute }} * * * *"
-        tz: "{{ ntp_timezone }}"
-        grace: 360
+#   - name: Create healthcheck for host
+#     when: ansible_facts.service_mgr == "systemd"
+#     delegate_to: 127.0.0.1
+#     register: local_healthcheck
+#     community.healthchecksio.checks:
+#       state: present
+#       management_api_base_url: "{{ healthchecks_management_url }}/api/v3"
+#       management_api_token: "{{ healthchecks_api }}"
+#       name: "{{ inventory_hostname | title }} uptime check"
+#       channels: "{{ healthchecks_integration }}"
+#       unique:
+#         - name
+#       tags:
+#         - ansible
+#         - "{{ inventory_hostname | title }}"
+#       desc: Ansible host automated uptime check
+#       schedule: "{{ healthcheck_schedule_minute }} * * * *"
+#       tz: "{{ ntp_timezone }}"
+#       grace: 360
 
-    - name: Create systemd pause healthcheck on shutdown
-      when: ansible_facts.service_mgr == "systemd"
-      become: true
-      ansible.builtin.copy:
-        owner: root
-        group: root
-        mode: 0644
-        # yamllint disable rule:line-length
-        content: |
-          # Ansible managed
-          [Unit]
-          Description=Pause healthcheck on shutdown
-          DefaultDependencies=no
-          After=final.target
+#   - name: Create systemd pause healthcheck on shutdown
+#     when: ansible_facts.service_mgr == "systemd"
+#     become: true
+#     ansible.builtin.copy:
+#       owner: root
+#       group: root
+#       mode: 0644
+# yamllint disable rule:line-length
+#       content: |
+#         # Ansible managed
+#         [Unit]
+#         Description=Pause healthcheck on shutdown
+#         DefaultDependencies=no
+#         After=final.target
 
-          [Service]
-          Type=oneshot
-          ExecStart=/usr/bin/curl -sSm 10 --retry 1 -X POST --header "X-Api-Key: {{ healthchecks_api }}" --data "" {{ healthchecks_management_url }}/api/v3/checks/{{ local_healthcheck.uuid }}/pause
+#         [Service]
+#         Type=oneshot
+#         ExecStart=/usr/bin/curl -sSm 10 --retry 1 -X POST --header "X-Api-Key: {{ healthchecks_api }}" --data "" {{ healthchecks_management_url }}/api/v3/checks/{{ local_healthcheck.uuid }}/pause
 
-          [Install]
-          WantedBy=final.target
-        # yamllint enable rule:line-length
-        dest: /etc/systemd/system/healthcheck-shutdown.service
-      notify:
-        - Enable healthcheck pause service
+#         [Install]
+#         WantedBy=final.target
+# yamllint enable rule:line-length
+#       dest: /etc/systemd/system/healthcheck-shutdown.service
+#     notify:
+#       - Enable healthcheck pause service
 
-    - name: Create systemd service for healthcheck
-      when: ansible_facts.service_mgr == "systemd"
-      become: true
-      ansible.builtin.copy:
-        owner: root
-        group: root
-        mode: 0644
-        content: |
-          # Ansible managed
-          [Unit]
-          Description=Runs curl to ping healthchecks
-          Wants=healthcheck.timer
+#   - name: Create systemd service for healthcheck
+#     when: ansible_facts.service_mgr == "systemd"
+#     become: true
+#     ansible.builtin.copy:
+#       owner: root
+#       group: root
+#       mode: 0644
+#       content: |
+#         # Ansible managed
+#         [Unit]
+#         Description=Runs curl to ping healthchecks
+#         Wants=healthcheck.timer
 
-          [Service]
-          Type=oneshot
-          ExecStart=/usr/bin/curl -sSm 10 --retry 5 {{ healthchecks_management_url }}/ping/{{ local_healthcheck.uuid }}
+#         [Service]
+#         Type=oneshot
+#         ExecStart=/usr/bin/curl -sSm 10 --retry 5 {{ healthchecks_management_url }}/ping/{{ local_healthcheck.uuid }}
 
-          [Install]
-          WantedBy=multi-user.target
-        dest: /etc/systemd/system/healthcheck.service
-      notify:
-        - Restart healthcheck timer
+#         [Install]
+#         WantedBy=multi-user.target
+#       dest: /etc/systemd/system/healthcheck.service
+#     notify:
+#       - Restart healthcheck timer
 
-    - name: Create systemd timer for healthcheck
-      when: ansible_facts.service_mgr == "systemd"
-      become: true
-      ansible.builtin.copy:
-        owner: root
-        group: root
-        mode: 0644
-        content: |
-          # Ansible managed
-          [Unit]
-          Description=Schedules healthcheck
-          Requires=healthcheck.service
+#   - name: Create systemd timer for healthcheck
+#     when: ansible_facts.service_mgr == "systemd"
+#     become: true
+#     ansible.builtin.copy:
+#       owner: root
+#       group: root
+#       mode: 0644
+#       content: |
+#         # Ansible managed
+#         [Unit]
+#         Description=Schedules healthcheck
+#         Requires=healthcheck.service
 
-          [Timer]
-          Unit=healthcheck.service
-          OnCalendar=*-*-* *:{{ healthcheck_schedule_minute }}:00
+#         [Timer]
+#         Unit=healthcheck.service
+#         OnCalendar=*-*-* *:{{ healthcheck_schedule_minute }}:00
 
-          [Install]
-          WantedBy=timers.target
-        dest: /etc/systemd/system/healthcheck.timer
-      notify:
-        - Restart healthcheck timer
+#         [Install]
+#         WantedBy=timers.target
+#       dest: /etc/systemd/system/healthcheck.timer
+#     notify:
+#       - Restart healthcheck timer
 
-  handlers:
-    - name: Restart systemd-journal-upload
-      become: true
-      ansible.builtin.systemd_service:
-        name: systemd-journal-upload
-        state: started
+# handlers:
+#   - name: Restart systemd-journal-upload
+#     become: true
+#     ansible.builtin.systemd_service:
+#       name: systemd-journal-upload
+#       state: started
 
-    - name: Restart healthcheck timer
-      become: true
-      ansible.builtin.systemd_service:
-        name: healthcheck.timer
-        state: started
-        enabled: true
-        daemon_reload: true
+#   - name: Restart healthcheck timer
+#     become: true
+#     ansible.builtin.systemd_service:
+#       name: healthcheck.timer
+#       state: started
+#       enabled: true
+#       daemon_reload: true
 
-    - name: Enable healthcheck pause service
-      become: true
-      ansible.builtin.systemd_service:
-        name: healthcheck-shutdown.service
-        enabled: true
-        state: started
-        daemon_reload: true
+#   - name: Enable healthcheck pause service
+#     become: true
+#     ansible.builtin.systemd_service:
+#       name: healthcheck-shutdown.service
+#       enabled: true
+#       state: started
+#       daemon_reload: true
 
 - name: Install docker
   hosts:
