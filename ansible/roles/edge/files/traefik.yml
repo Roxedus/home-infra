@@ -36,7 +36,7 @@ services:
       LOG_LEVEL: warning
 
   cloudflared:
-    image: cloudflare/cloudflared:2024.4.1@sha256:fcfafd14a658837c49a794671d5bec2c9e4227730abdc29db7c066f4381acba4
+    image: cloudflare/cloudflared:2024.5.0@sha256:5d5f70a59d5e124d4a1a747769e0d27431861877860ca31deaad41b09726ca71
     container_name: cloudflared
     user: "{{ compose_generator_runas }}"
     read_only: "true"
