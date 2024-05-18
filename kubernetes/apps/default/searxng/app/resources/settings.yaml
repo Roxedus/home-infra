@@ -2,8 +2,11 @@
 use_default_settings: true
 
 server:
-  limiter: false
+  limiter: true
   image_proxy: true
+
+redis:
+  url: dragonfly.database.svc.cluster.local:6379?db=10
 
 search:
   autocomplete: google
