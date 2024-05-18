@@ -7,10 +7,10 @@ rules:
   - apiGroups: [coordination.k8s.io]
     resources: [leases]
     verbs: [get, list, watch, create, update, patch, delete]
-  - apiGroups: [""]
+  - apiGroups: [""] # yamllint disable-line rule:quoted-strings
     resources: [events]
     verbs: [create, patch]
-  - apiGroups: []
+  - apiGroups: [""] # yamllint disable-line rule:quoted-strings
     resources: [pods, services]
     verbs: [create, delete, get, list, patch, update, watch]
   - apiGroups: [apps]
