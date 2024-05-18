@@ -6,7 +6,7 @@ server:
   image_proxy: true
 
 redis:
-  url: dragonfly.database.svc.cluster.local:6379?db=10
+  url: redis://dragonfly.database.svc.cluster.local:6379?db=10
 
 search:
   autocomplete: google
