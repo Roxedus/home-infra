@@ -75,22 +75,20 @@ spec:
                 drop:
                   - ALL
     service:
-      main:
+      redlib:
         controller: *app
         ports:
           http:
             port: *port
     ingress:
-      main:
+      redlib:
         enabled: true
         className: external
         hosts:
-          - host: &host "{{ .Release.Name }}.${CLUSTER_DOMAIN}"
+          - host: "{{ .Release.Name }}.${CLUSTER_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
                 service:
-                  identifier: main
+                  identifier: app
                   port: http
-        tls:
-          - hosts: [*host]
