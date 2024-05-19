@@ -84,8 +84,10 @@ spec:
       app:
         enabled: true
         className: external
+        annotations:
+          external-dns.alpha.kubernetes.io/target: &host "{{ .Release.Name }}.${CLUSTER_DOMAIN}"
         hosts:
-          - host: "{{ .Release.Name }}.${CLUSTER_DOMAIN}"
+          - host: *host
             paths:
               - path: /
                 pathType: Prefix
