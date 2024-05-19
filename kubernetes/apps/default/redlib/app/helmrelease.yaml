@@ -27,8 +27,8 @@ spec:
   values:
     defaultPodOptions:
       securityContext:
-        runAsUser: 769
-        runAsGroup: 769
+        runAsUser: 65534
+        runAsGroup: 65534
         runAsNonRoot: true
     controllers:
       redlib:
