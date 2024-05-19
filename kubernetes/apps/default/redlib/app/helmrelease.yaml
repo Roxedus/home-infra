@@ -31,7 +31,7 @@ spec:
         runAsGroup: 65534
         runAsNonRoot: true
     controllers:
-      app:
+      redlib:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
