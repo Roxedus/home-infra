@@ -30,6 +30,6 @@ enabled_plugins:
   - Self Informations
   - Tracker URL remover
   - Unit converter plugin
-# hostname_replace:
-#   # twitter --> nitter
-#   '(www\.)?twitter\.com$': "nitter.net"
+
+hostname_replace:
+  (www\.)?reddit\.com$: redlib.rostvik.site

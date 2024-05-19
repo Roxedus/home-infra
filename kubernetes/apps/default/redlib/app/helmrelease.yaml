@@ -83,9 +83,9 @@ spec:
     ingress:
       main:
         enabled: true
-        className: internal
+        className: external
         hosts:
-          - host: &host "{{ .Release.Name }}.kube.${CLUSTER_DOMAIN}"
+          - host: &host "{{ .Release.Name }}.${CLUSTER_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
