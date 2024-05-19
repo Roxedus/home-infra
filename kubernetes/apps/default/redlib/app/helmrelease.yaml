@@ -85,9 +85,9 @@ spec:
         enabled: true
         className: external
         annotations:
-          external-dns.alpha.kubernetes.io/target: &host "{{ .Release.Name }}.${CLUSTER_DOMAIN}"
+          external-dns.alpha.kubernetes.io/target: pub.${CLUSTER_DOMAIN}
         hosts:
-          - host: *host
+          - host: "{{ .Release.Name }}.${CLUSTER_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
