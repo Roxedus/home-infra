@@ -31,7 +31,7 @@ spec:
         runAsGroup: 65534
         runAsNonRoot: true
     controllers:
-      redlib:
+      app:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
@@ -75,13 +75,13 @@ spec:
                 drop:
                   - ALL
     service:
-      redlib:
+      app:
         controller: *app
         ports:
           http:
             port: *port
     ingress:
-      redlib:
+      app:
         enabled: true
         className: external
         hosts:
