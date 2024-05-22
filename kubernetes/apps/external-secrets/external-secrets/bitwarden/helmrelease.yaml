@@ -37,7 +37,7 @@ spec:
           app:
             image:
               repository: ghcr.io/roxedus/bw
-              tag: 2024.4.1@sha256:0049bca31ff506e4723d0639f8d3ac5d3c431b5315b9100c757d752ebf27c69f
+              tag: 2024.4.1@sha256:a7322072d8ddff4d063003a61171b26f5f31653241517d53daaa37a7457bc88a
             envFrom:
               - secretRef:
                   name: bitwarden-secret
@@ -53,7 +53,7 @@ spec:
                     command:
                       - sh
                       - -c
-                      - curl -X POST -s http://127.0.0.1:8087/sync | jq -e '.success == true'
+                      - /healthcheck.sh
                   timeoutSeconds: 5
               readiness:
                 enabled: false
