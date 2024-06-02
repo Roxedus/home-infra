@@ -7,7 +7,8 @@ metadata:
 spec:
   sourcePVC: ${CLAIM:=${APP}}
   trigger:
-    schedule: 0 0 * * *
+    manual: my-manual-id-1
+    #schedule: 0 0 * * *
   restic:
     copyMethod: ${VOLSYNC_COPYMETHOD:=Snapshot}
     pruneIntervalDays: 7
