@@ -25,6 +25,7 @@ ansible/.galaxy_collections
 
 ### Terraform ###
 **/.terraform/*
+**/.terraform.lock.hcl
 *.tfstate
 *.tfstate.*
 *.tfvars
