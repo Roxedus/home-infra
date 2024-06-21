@@ -89,7 +89,7 @@ _push_state:
 _packer:= "cd " + packer_dir + "&& docker run --rm --privileged -v /dev:/dev -v ${PWD}:/build mkaczanowski/packer-builder-arm:1.0.9"
 
 # Initializes the local folder with a venv and packages
-git-init: _init-venv && _pip-install _pre-commit-install _galaxy-install _init-venv _init-terraform
+git-init: _init-venv && _pip-install _pre-commit-install _galaxy-install _init-terraform
   cd {{ansible_dir}} && {{python_dir}}/pip install wheel
   cd {{ansible_dir}} && {{python_dir}}/pip install --upgrade pip
 
