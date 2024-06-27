@@ -48,6 +48,15 @@
         "ghcr.io/linuxserver/socket-proxy"
       ],
       "allowedVersions": "<2.0.0"
+    },
+    {
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackagePatterns": [
+        "searxng/searxng"
+      ],
+      "versioning": "loose"
     }
   ],
   "customManagers": [
