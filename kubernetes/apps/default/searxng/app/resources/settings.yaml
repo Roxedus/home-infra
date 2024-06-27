@@ -31,5 +31,17 @@ enabled_plugins:
   - Tracker URL remover
   - Unit converter plugin
 
-hostname_replace:
-  (www\.)?reddit\.com$: redlib.rostvik.site
+hostnames:
+  high_priority:
+    - (.*)\/blog\/(.*)
+    - (.*\.)?wikipedia.org$
+    - (.*\.)?github.com$
+    - (.*\.)?reddit.com$
+    - (.*\.)?linuxserver.io$
+    - (.*\.)?docker.com$
+    - (.*\.)?archlinux.org$
+    - (.*\.)?stackoverflow.com$
+    - (.*\.)?askubuntu.com$
+    - (.*\.)?superuser.com$
+  replace:
+    (www\.)?reddit\.com$: redlib.rostvik.site
