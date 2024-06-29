@@ -17,7 +17,7 @@ jobs:
         uses: actions/checkout@v4.1.7
 
       - name: Setup Flux CLI
-        uses: fluxcd/flux2/action@dbda8fbdb8b58ed1ee69343025a6091eae0d1828 # v0.41.2
+        uses: fluxcd/flux2/action@896e0fa46d5107a05e953dd0a5261d78a145ec8c # v2.3.0
 
       - name: Check for updates
         id: update
