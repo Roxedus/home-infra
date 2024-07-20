@@ -35,6 +35,3 @@ pass_ip = [
 # Activate passlist of (hardcoded) IPs from the SearXNG organization,
 # e.g. `check.searx.space`.
 pass_searxng_org = false
-
-[botdetection.get_real_ip]
-request = X-Forwarded-For
