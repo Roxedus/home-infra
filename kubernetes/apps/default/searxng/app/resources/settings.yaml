@@ -4,12 +4,13 @@ use_default_settings: true
 server:
   limiter: true
   image_proxy: true
+  method: GET # https://github.com/searxng/searxng/pull/3619
 
 redis:
   url: redis://dragonfly.database.svc.cluster.local:6379?db=10
 
 search:
-  autocomplete: google
+  autocomplete: duckduckgo
 
 general:
   instance_name: RostSearch
