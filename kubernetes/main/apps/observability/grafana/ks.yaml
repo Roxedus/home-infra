@@ -13,7 +13,7 @@ spec:
   dependsOn:
     - name: cloudnative-pg-cluster
     - name: external-secrets-stores
-  path: ./kubernetes/main/main/observability/grafana/app
+  path: ./kubernetes/main/apps/observability/grafana/app
   prune: true
   sourceRef:
     kind: GitRepository

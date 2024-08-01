@@ -10,7 +10,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./kubernetes/main/main/default/ferdium/app
+  path: ./kubernetes/main/apps/default/ferdium/app
   dependsOn:
     - name: cloudnative-pg-cluster
     - name: external-secrets-stores
