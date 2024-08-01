@@ -10,7 +10,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./kubernetes/apps/main/default/satisfactory/app
+  path: ./kubernetes/main/main/default/satisfactory/app
   prune: true
   sourceRef:
     kind: GitRepository
@@ -28,7 +28,7 @@ metadata:
   namespace: flux-system
 spec:
   targetNamespace: default
-  path: ./kubernetes/kustomize/volsync
+  path: ./kubernetes/main/kustomize/volsync
   dependsOn:
     - name: satisfactory
   prune: true

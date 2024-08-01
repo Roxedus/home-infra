@@ -9,7 +9,7 @@ spec:
     secretRef:
       name: sops-age
   interval: 10m0s
-  path: ./kubernetes/apps/main
+  path: ./kubernetes/main/main
   prune: true
   sourceRef:
     kind: GitRepository

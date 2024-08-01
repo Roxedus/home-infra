@@ -10,7 +10,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./kubernetes/apps/main/default/redlib/app
+  path: ./kubernetes/main/main/default/redlib/app
   prune: true
   sourceRef:
     kind: GitRepository
