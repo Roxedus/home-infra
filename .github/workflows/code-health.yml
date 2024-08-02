@@ -38,7 +38,9 @@ jobs:
       - name: Create Meta variables
         id: vars
         run: |
-          if [[ ${GITHUB_REF//refs\/heads\//} =~ ^renovate/.* ]]; then
+          if [[ "${{ steps.changed-files.outputs.all_changed_files }}" == "" ]]; then
+            echo "check_files=." >> $GITHUB_OUTPUT
+          elif [[ ${GITHUB_REF//refs\/heads\//} =~ ^renovate/.* ]]; then
             echo "check_files=${{ steps.changed-files.outputs.all_changed_files }}" >> $GITHUB_OUTPUT
           else
             echo "check_files=." >> $GITHUB_OUTPUT
