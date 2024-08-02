@@ -32,6 +32,7 @@ jobs:
         # kics-scan ignore-line
         uses: tj-actions/changed-files@v44.5.7
         with:
+          files_ignore: ansible/requirements.txt,ansible/requirements.yml
           files_ignore_separator: ","
 
       - name: Create Meta variables
