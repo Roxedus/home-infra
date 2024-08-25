@@ -26,6 +26,10 @@ spec:
     fullnameOverride: nginx-internal
     controller:
       replicaCount: 2
+      updateStrategy:
+        type: RollingUpdate
+        rollingUpdate:
+          maxUnavailable: 0
       service:
         annotations:
           external-dns.alpha.kubernetes.io/hostname: kube.${CLUSTER_DOMAIN}

@@ -30,6 +30,8 @@ spec:
       cloudflared:
         replicas: 2
         strategy: RollingUpdate
+        rollingUpdate:
+          unavailable: 0
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
@@ -82,7 +84,7 @@ spec:
         seccompProfile:
           type: RuntimeDefault
       topologySpreadConstraints:
-        - maxSkew: 2
+        - maxSkew: 1
           topologyKey: kubernetes.io/hostname
           whenUnsatisfiable: DoNotSchedule
           labelSelector:
