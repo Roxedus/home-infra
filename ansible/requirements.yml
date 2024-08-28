@@ -4,7 +4,7 @@ roles:
   - name: geerlingguy.docker
     version: 7.3.0
   - name: geerlingguy.nfs
-    version: 2.0.0
+    version: 2.1.0
   - name: geerlingguy.ntp
     version: 2.5.0
   - name: geerlingguy.pip
