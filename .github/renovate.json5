@@ -56,7 +56,8 @@
       "matchPackagePatterns": [
         "searxng/searxng"
       ],
-      "versioning": "loose"
+      "versioning": "loose",
+      "automerge": true
     }
   ],
   "customManagers": [
