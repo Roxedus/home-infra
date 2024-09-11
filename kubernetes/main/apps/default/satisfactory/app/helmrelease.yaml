@@ -31,11 +31,11 @@ spec:
           app:
             image:
               repository: ghcr.io/wolveix/satisfactory-server
-              tag: v1.6.2@sha256:75849098573f7c4be01a97de66d141d5d95735c6da3dfe4add2428ca6543a03b
+              tag: v1.7.3@sha256:ba9a54267219ab9146107debe153629b5dedc0b7d5eadaee0d2e2c223cf7582f
             env:
               ROOTLESS: true
-              AUTOPAUSE: false
-              AUTOSAVENUM: 15
+              #AUTOPAUSE: false
+              #AUTOSAVENUM: 15
               MAXTICKRATE: 120 # default is 30
               SKIPUPDATE: true
             resources:
@@ -64,19 +64,14 @@ spec:
         annotations:
           io.cilium/lb-ipam-ips: 10.0.2.46
         ports:
-          query:
+          game-udp:
             enabled: true
-            port: 15777
-            protocol: UDP
-          beacon:
-            enabled: true
-            port: 15000
-            protocol: UDP
-          game:
-            enabled: true
-            primary: true
             port: 7777
             protocol: UDP
+          game-tcp:
+            enabled: true
+            port: 7777
+            protocol: TCP
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
