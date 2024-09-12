@@ -31,7 +31,7 @@ spec:
           app:
             image:
               repository: ghcr.io/wolveix/satisfactory-server
-              tag: v1.7.3@sha256:ba9a54267219ab9146107debe153629b5dedc0b7d5eadaee0d2e2c223cf7582f
+              tag: v1.7.4@sha256:9d669378af8106c3d7ebc7ff61484657253f0c128b9f1cccb0782553676beddf
             env:
               ROOTLESS: true
               #AUTOPAUSE: false
