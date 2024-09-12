@@ -37,7 +37,7 @@ spec:
               #AUTOPAUSE: false
               #AUTOSAVENUM: 15
               MAXTICKRATE: 120 # default is 30
-              SKIPUPDATE: true
+              #SKIPUPDATE: true
             resources:
               requests:
                 memory: 4Gi
