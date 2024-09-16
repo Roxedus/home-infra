@@ -30,7 +30,7 @@ jobs:
       - name: Get changed files
         id: changed-files
         # kics-scan ignore-line
-        uses: tj-actions/changed-files@v45.0.1
+        uses: tj-actions/changed-files@v45.0.2
         with:
           files_ignore: ansible/requirements.txt,ansible/requirements.yml
           files_ignore_separator: ","
