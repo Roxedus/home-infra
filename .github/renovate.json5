@@ -58,6 +58,24 @@
       ],
       "versioning": "loose",
       "automerge": true
+    },
+    {
+      "description": [
+        "Flux Group"
+      ],
+      "groupName": "Flux",
+      "matchPackagePatterns": [
+        "fluxcd"
+      ],
+      "matchDatasources": [
+        "docker",
+        "github-tags"
+      ],
+      "versioning": "semver",
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      },
+      "separateMinorPatch": true
     }
   ],
   "customManagers": [
