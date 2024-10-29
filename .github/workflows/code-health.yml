@@ -23,7 +23,7 @@ jobs:
     outputs:
       check_files: ${{ steps.vars.outputs.check_files }}
     steps:
-      - uses: actions/checkout@v4.2.0
+      - uses: actions/checkout@v4.2.2
         with:
           fetch-depth: 0
 
@@ -51,7 +51,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [meta]
     steps:
-      - uses: actions/checkout@v4.2.0
+      - uses: actions/checkout@v4.2.2
 
       - uses: actions/cache@v4
         with:
@@ -85,7 +85,7 @@ jobs:
       statuses: write
     needs: [yaml, meta]
     steps:
-      - uses: actions/checkout@v4.2.0
+      - uses: actions/checkout@v4.2.2
 
       - name: Run kics Scan
         uses: Checkmarx/kics-github-action@94469746ec2c43de89a42fb9d2a80070f5d25b16
@@ -96,7 +96,7 @@ jobs:
           output_formats: sarif
 
       - name: Upload SARIF file
-        uses: github/codeql-action/upload-sarif@76aafb9ddb97a6ddcfec59a3d4eb65744aba0255
+        uses: github/codeql-action/upload-sarif@dfc2731f082f0ca9546aa1d6b3cf455cc07b916e
         with:
           sarif_file: results.sarif
           category: kics
@@ -112,7 +112,7 @@ jobs:
       statuses: write
     needs: [yaml, meta]
     steps:
-      - uses: actions/checkout@v4.2.0
+      - uses: actions/checkout@v4.2.2
 
       - uses: actions/cache@v4
         with:
@@ -142,7 +142,7 @@ jobs:
 
       - name: Upload SARIF file
         if: "!cancelled()"
-        uses: github/codeql-action/upload-sarif@76aafb9ddb97a6ddcfec59a3d4eb65744aba0255
+        uses: github/codeql-action/upload-sarif@dfc2731f082f0ca9546aa1d6b3cf455cc07b916e
         with:
           checkout_path: ${{ github.workspace }}/ansible
           sarif_file: ansible.sarif
