@@ -101,6 +101,7 @@ spec:
           app:
             app:
               - path: /etc/searxng
+              - path: /tmp
     ingress:
       app:
         className: external
