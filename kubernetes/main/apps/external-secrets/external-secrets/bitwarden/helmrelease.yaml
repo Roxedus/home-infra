@@ -37,7 +37,7 @@ spec:
           app:
             image:
               repository: ghcr.io/roxedus/bw
-              tag: 2024.9.0@sha256:15f242f095775f2ea2b5040d3fafa70ab75ea78cc1ddecd6e874a5801a1b75cd
+              tag: 2024.11.1@sha256:28ab201d63ff25605a4157848fdb6c727ddb1500b047f89aa1befbcd6fd57dda
             envFrom:
               - secretRef:
                   name: bitwarden-secret
