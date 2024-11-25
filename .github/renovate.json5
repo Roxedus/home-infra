@@ -1,131 +1,140 @@
 {
-  $schema: 'https://docs.renovatebot.com/renovate-schema.json',
-  extends: [
-    'config:recommended',
-    'github>bjw-s/renovate-config:semantic-commits',
-    'github>bjw-s/renovate-config:automerge-github-actions',
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    "github>bjw-s/renovate-config:semantic-commits",
+    "github>bjw-s/renovate-config:automerge-github-actions"
   ],
-  'docker-compose': {
-    fileMatch: [
-      '^ansible/roles/edge/files/.*\\.ya?ml$',
-    ],
+  "docker-compose": {
+    "fileMatch": [
+      "^ansible/roles/edge/files/.*\\.ya?ml$"
+    ]
   },
-  flux: {
-    fileMatch: [
-      'kubernetes/*/.+\\.ya?ml$',
-    ],
+  "flux": {
+    "fileMatch": [
+      "kubernetes/*/.+\\.ya?ml$"
+    ]
   },
-  'helm-values': {
-    fileMatch: [
-      'kubernetes/*/.+\\.ya?ml$',
-    ],
+  "helm-values": {
+    "fileMatch": [
+      "kubernetes/*/.+\\.ya?ml$"
+    ]
   },
-  ignorePaths: [
-    'kubernetes/flux/flux-system/**',
-    'ansible/roles/edge/files/**',
+  "ignorePaths": [
+    "kubernetes/flux/flux-system/**",
+    "ansible/roles/edge/files/**"
   ],
-  'pre-commit': {
-    enabled: true,
+  "pre-commit": {
+    "enabled": true
   },
-  packageRules: [
+  "packageRules": [
     {
-      matchFileNames: [
-        'kubernetes/flux/flux-system/**',
+      "matchFileNames": [
+        "kubernetes/flux/flux-system/**"
       ],
-      matchUpdateTypes: [
-        'patch',
+      "matchUpdateTypes": [
+        "patch"
       ],
-      automerge: true,
+      "automerge": true
     },
     {
-      matchPackageNames: [
-        'yamllint',
-        'adrienverge/yamllint',
-      ],
+      "matchPackageNames": [
+        "yamllint",
+        "adrienverge/yamllint"
+      ]
     },
     {
-      matchPackageNames: [
-        'ghcr.io/linuxserver/socket-proxy',
+      "matchPackageNames": [
+        "ghcr.io/linuxserver/socket-proxy"
       ],
-      allowedVersions: '<2.0.0',
+      "allowedVersions": "<2.0.0"
     },
     {
-      matchDatasources: [
-        'docker',
+      "matchDatasources": [
+        "docker"
       ],
-      versioning: 'loose',
-      automerge: true,
-      matchPackageNames: [
-        '/searxng/searxng/',
-      ],
+      "versioning": "loose",
+      "automerge": true,
+      "matchPackageNames": [
+        "/searxng/searxng/",
+      ]
     },
     {
-      description: [
-        'Flux Group',
+      "matchDatasources": [
+        "docker"
       ],
-      groupName: 'Flux',
-      matchDatasources: [
-        'docker',
-        'github-tags',
+      "automerge": true,
+      "matchPackageNames": [
+        "/quay.io/redlib/redlib/"
+      ]
+    },
+    {
+      "description": [
+        "Flux Group"
       ],
-      versioning: 'semver',
-      group: {
-        commitMessageTopic: '{{{groupName}}} group',
+      "groupName": "Flux",
+      "matchDatasources": [
+        "docker",
+        "github-tags"
+      ],
+      "versioning": "semver",
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
       },
-      separateMinorPatch: true,
-      matchPackageNames: [
-        '/fluxcd/',
-      ],
-    },
+      "separateMinorPatch": true,
+      "matchPackageNames": [
+        "/fluxcd/"
+      ]
+    }
   ],
-  customManagers: [
+  "customManagers": [
     {
-      customType: 'regex',
-      fileMatch: [
-        '\\.yml$',
+      "customType": "regex",
+      "fileMatch": [
+        "\\.yml$"
       ],
-      matchStrings: [
-        '#\\s+renovate:\\s+depName="(?<depName>.*)"\\n\\s+gnetId:\\s+(?<packageName>.*?)\\n\\s+revision:\\s+(?<currentValue>.*)',
+      "matchStrings": [
+        "#\\s+renovate:\\s+depName='(?<depName>.*)'\\n\\s+gnetId:\\s+(?<packageName>.*?)\\n\\s+revision:\\s+(?<currentValue>.*)",
       ],
-      versioningTemplate: 'regex:^(?<major>\\d+)$',
-      datasourceTemplate: 'custom.grafana-dashboards',
+      "versioningTemplate": "regex:^(?<major>\\d+)$",
+      "datasourceTemplate": "custom.grafana-dashboards"
     },
     {
-      customType: 'regex',
-      description: [
-        'Process custom dependencies',
+      "customType": "regex",
+      "description": [
+        "Process custom dependencies"
       ],
-      fileMatch: [
-        '\\.yml$',
+      "fileMatch": [
+        "\\.yml$"
       ],
-      matchStrings: [
-        'datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( repository=(?<registryUrl>\\S+))?\\n.+: (&\\S+\\s)?(?<currentValue>\\S+)',
-        'datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)\\n.+/(?<currentValue>(v|\\d)[^/]+)',
+      "matchStrings": [
+        "datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( repository=(?<registryUrl>\\S+))?\\n.+: (&\\S+\\s)?(?<currentValue>\\S+)",
+        "datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)\\n.+/(?<currentValue>(v|\\d)[^/]+)"
       ],
-      datasourceTemplate: '{{#if datasource}}{{{datasource}}}{{else}}github-releases{{/if}}',
+      "datasourceTemplate": "{{#if datasource}}{{{datasource}}}{{else}}github-releases{{/if}}"
     },
     {
-      customType: 'regex',
-      description: [
-        'Process CloudnativePG Postgresql version',
+      "customType": "regex",
+      "description": [
+        "Process CloudnativePG Postgresql version"
       ],
-      fileMatch: [
-        '(^|/)kubernetes/.+\\.ya?ml(?:\\.j2)?$',
+      "fileMatch": [
+        "(^|/)kubernetes/.+\\.ya?ml(?:\\.j2)?$"
       ],
-      matchStrings: [
-        'imageName: (?<depName>\\S+):(?<currentValue>.*\\-.*)',
+      "matchStrings": [
+        "imageName: (?<depName>\\S+):(?<currentValue>.*\\-.*)"
       ],
-      datasourceTemplate: 'docker',
-      versioningTemplate: 'redhat',
-    },
+      "datasourceTemplate": "docker",
+      "versioningTemplate": "redhat"
+    }
   ],
-  customDatasources: {
-    'grafana-dashboards': {
-      defaultRegistryUrlTemplate: 'https://grafana.com/api/dashboards/{{packageName}}',
-      format: 'json',
-      transformTemplates: [
-        '{"releases":[{"version": $string(revision)}]}',
-      ],
-    },
-  },
+  "customDatasources": {
+    "grafana-dashboards": {
+      "defaultRegistryUrlTemplate": "https://grafana.com/api/dashboards/{{packageName}}",
+      "format": "json",
+      "transformTemplates": [
+        "{'releases':[{'version': $string(revision)}]}"
+      ]
+    }
+  }
 }
