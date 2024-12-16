@@ -14,7 +14,7 @@ roles:
   - name: geerlingguy.containerd
     version: 1.3.1
   - name: bodsch.snapd
-    version: 1.3.1
+    version: 1.4.0
 collections:
   - name: prometheus.prometheus
     version: 0.23.0
