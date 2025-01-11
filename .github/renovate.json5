@@ -2,7 +2,6 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:recommended",
-    "github>bjw-s/renovate-config:semantic-commits",
     "github>bjw-s/renovate-config:automerge-github-actions"
   ],
   "docker-compose": {
