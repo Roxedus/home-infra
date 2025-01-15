@@ -96,7 +96,7 @@ jobs:
           output_formats: sarif
 
       - name: Upload SARIF file
-        uses: github/codeql-action/upload-sarif@3b4f4d94c0591488e786754af4206d57afb25431
+        uses: github/codeql-action/upload-sarif@93da9f25abe6f581e48ccd6baad84025ff6a738b
         with:
           sarif_file: results.sarif
           category: kics
@@ -142,7 +142,7 @@ jobs:
 
       - name: Upload SARIF file
         if: "!cancelled()"
-        uses: github/codeql-action/upload-sarif@3b4f4d94c0591488e786754af4206d57afb25431
+        uses: github/codeql-action/upload-sarif@93da9f25abe6f581e48ccd6baad84025ff6a738b
         with:
           checkout_path: ${{ github.workspace }}/ansible
           sarif_file: ansible.sarif
