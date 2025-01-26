@@ -24,6 +24,8 @@ dnsmasq_hosts:
       host: "{{ secret_wan_domain | default('wan') }}"
     - ip: 10.0.0.29
       host: .{{ secret_wan_domain | default('wan') }}
+    - ip: 10.0.0.29
+      host: git.roxedus.dev
     - ip: 10.0.0.30
       host: "{{ secret_unraid_uuid | default('dummy') }}.myunraid.net"
     - ip: 10.0.0.30
