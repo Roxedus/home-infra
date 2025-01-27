@@ -6,7 +6,7 @@ roles:
   - name: geerlingguy.nfs
     version: 2.1.0
   - name: geerlingguy.ntp
-    version: 2.6.0
+    version: 2.7.0
   - name: geerlingguy.pip
     version: 3.1.0
   - name: geerlingguy.security
