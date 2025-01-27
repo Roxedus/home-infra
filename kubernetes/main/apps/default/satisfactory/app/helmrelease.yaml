@@ -26,7 +26,7 @@ spec:
     controllers:
       satisfactory:
         type: statefulset
-        replicas: 1
+        replicas: 0
         containers:
           app:
             image:
