@@ -13,6 +13,8 @@ source ansible/.venv/bin/activate
 
 cd $prefix
 
+yq -i '.mock_roles = [load("requirements.yml").roles[].name]' .ansible-lint
+
 sed -i 's/vault_password_file/#vault_password_file/g' ansible.cfg
 
 ansible-lint --nocolor -p

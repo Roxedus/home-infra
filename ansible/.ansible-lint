@@ -2,6 +2,13 @@ exclude_paths:
   - .galaxy_collections
   - .galaxy_roles
   - .venv
-
 skip_list:
   - yaml
+mock_roles:
+  - geerlingguy.docker
+  - geerlingguy.nfs
+  - geerlingguy.ntp
+  - geerlingguy.pip
+  - geerlingguy.security
+  - geerlingguy.containerd
+  - bodsch.snapd
