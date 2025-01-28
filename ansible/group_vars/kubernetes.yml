@@ -1,5 +1,5 @@
-kubernetes_release: 1.29
-kubernetes_apt: "{{ kubernetes_release }}.2-1.1"
+kubernetes_release: 1.32
+kubernetes_apt: "{{ kubernetes_release }}.1-1.1"
 
 containerd_config_default_write: false
 containerd_config_cgroup_driver_systemd: true
