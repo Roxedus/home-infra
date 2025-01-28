@@ -114,6 +114,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4.2.2
 
+      - name: Set up Python
+        uses: actions/setup-python@v5.4.0
+        with:
+          python-version: 3.11
+
       - uses: actions/cache@v4
         with:
           path: ~/.cache/pip
@@ -138,7 +143,7 @@ jobs:
 
       - name: Run Ansible-Lint
         working-directory: ansible/
-        run: ansible-lint -p --nocolor --sarif-file ../ansible.sarif || true
+        run: ansible-lint -p --nocolor --sarif-file ../ansible.sarif
 
       - name: Upload SARIF file
         if: "!cancelled()"
