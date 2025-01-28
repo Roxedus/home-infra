@@ -140,6 +140,7 @@ jobs:
           pip install $(grep ansible requirements.txt)
           pip install $(grep ansible-lint requirements.txt)
           sed -i 's/vault_password_file/#vault_password_file/g' ansible.cfg
+          rm requirements.yml
 
       - name: Run Ansible-Lint
         working-directory: ansible/
