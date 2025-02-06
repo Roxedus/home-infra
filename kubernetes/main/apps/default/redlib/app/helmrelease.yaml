@@ -38,7 +38,7 @@ spec:
           app:
             image:
               repository: quay.io/redlib/redlib
-              tag: latest@sha256:7d5a089ec6a6672dfdf2415e4dc9e68600aab7bb9cb30ec1024c1644bce4a78e
+              tag: latest@sha256:431fb3ac4784ef1cdbd8d884c713651250aa019a099f6e2bb30ed24fb6581e88
             env:
               REDLIB_DEFAULT_SHOW_NSFW: on
               REDLIB_DEFAULT_WIDE: on
