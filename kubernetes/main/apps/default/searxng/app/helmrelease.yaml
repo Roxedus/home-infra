@@ -33,7 +33,7 @@ spec:
           app:
             image:
               repository: searxng/searxng
-              tag: 2025.1.31-eea4d4fd1
+              tag: 2025.2.3-4ab7984ed
             env:
               BASE_URL: https://search.pub.${CLUSTER_DOMAIN}
             envFrom:
