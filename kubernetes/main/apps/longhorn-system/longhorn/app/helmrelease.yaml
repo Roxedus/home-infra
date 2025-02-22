@@ -70,7 +70,7 @@ spec:
       v2DataEngine: false
       taintToleration: node-role.kubernetes.io/control-plane:NoSchedule
 
-    #csi.snapshotterReplicaCount: 0
+    # csi.snapshotterReplicaCount: 0
 
     longhornManager:
       tolerations: &tolerations

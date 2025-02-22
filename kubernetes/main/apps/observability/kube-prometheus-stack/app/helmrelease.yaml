@@ -83,7 +83,7 @@ spec:
         ipFamilyPolicy: SingleStack
       endpoints:
         &cp []
-        #- 10.0.2.5
+        # - 10.0.2.5
     kubeEtcd:
       enabled: true
       ipDualStack: *stack
@@ -103,14 +103,7 @@ spec:
           - &host prometheus.kube.${CLUSTER_DOMAIN}
         tls:
           - hosts: [*host]
-      # thanosService:
-      #   enabled: true
-      # thanosServiceMonitor:
-      #   enabled: true
       prometheusSpec:
-        # podMetadata:
-        #   annotations:
-        #     secret.reloader.stakater.com/reload: &secret thanos-objstore-config
         replicas: 2
         replicaExternalLabelName: __replica__
         scrapeInterval: 1m # Must match interval in Grafana Helm chart

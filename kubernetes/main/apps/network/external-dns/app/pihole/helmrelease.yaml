@@ -43,7 +43,6 @@ spec:
               - --source=ingress
               - --source=service
               - --registry=noop
-              #- --policy=upsert-only
               - --provider=pihole
               - --domain-filter=kube.${CLUSTER_DOMAIN}
               - --interval=1m

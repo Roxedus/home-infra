@@ -34,10 +34,10 @@ spec:
               tag: v1.9.5@sha256:88507d728a683714a4fac54d881a8f80db418509bc7db7bad660deda64b72247
             env:
               ROOTLESS: true
-              #AUTOPAUSE: false
-              #AUTOSAVENUM: 15
+              # AUTOPAUSE: false
+              # AUTOSAVENUM: 15
               MAXTICKRATE: 120 # default is 30
-              #SKIPUPDATE: true
+              # SKIPUPDATE: true
             resources:
               requests:
                 memory: 4Gi
