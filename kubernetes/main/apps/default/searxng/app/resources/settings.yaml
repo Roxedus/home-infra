@@ -46,3 +46,5 @@ hostnames:
     - (.*\.)?superuser.com$
   replace:
     (www\.)?reddit\.com$: redlib.rostvik.site
+  remove:
+    - (.*\.)?access.redhat.com$
