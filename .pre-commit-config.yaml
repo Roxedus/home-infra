@@ -19,7 +19,7 @@ repos:
         entry: .pre-commit/ansible-lint.sh
 
   - repo: https://github.com/adrienverge/yamllint.git
-    rev: v1.36.2
+    rev: v1.37.0
     hooks:
       - id: yamllint
         types: [file, yaml]
