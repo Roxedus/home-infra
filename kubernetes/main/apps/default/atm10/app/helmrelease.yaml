@@ -27,7 +27,6 @@ spec:
   values:
     image:
       repository: itzg/minecraft-server
-      tag: java17-graalvm
       pullPolicy: IfNotPresent
     resources:
       requests:
