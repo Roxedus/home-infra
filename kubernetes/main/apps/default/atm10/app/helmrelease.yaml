@@ -1,0 +1,115 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: atm10
+spec:
+  interval: 30m
+  timeout: 15m
+  chart:
+    spec:
+      chart: minecraft
+      version: 4.26.0
+      sourceRef:
+        kind: HelmRepository
+        name: itzg-minecraft
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    image:
+      repository: itzg/minecraft-server
+      tag: java17-graalvm
+      pullPolicy: IfNotPresent
+    resources:
+      requests:
+        memory: 10Gi
+        cpu: 4
+      # limits:
+      #  memory: 10Gi
+    podSecurityContext:
+      runAsUser: 1000
+      runAsGroup: 1000
+      runAsNonRoot: true
+      fsGroup: 1000
+    livenessProbe:
+      initialDelaySeconds: 30
+      periodSeconds: 5
+      failureThreshold: 45
+      successThreshold: 1
+      timeoutSeconds: 1
+    readinessProbe:
+      initialDelaySeconds: 60
+      periodSeconds: 5
+      failureThreshold: 45
+      successThreshold: 1
+      timeoutSeconds: 1
+    startupProbe:
+      enabled: true
+      failureThreshold: 30
+      periodSeconds: 10
+
+    minecraftServer:
+      eula: true
+      ops: roxedus
+      version: 1.20.1
+      type: AUTO_CURSEFORGE
+      # forgeVersion: "47.3.29"
+      spawnProtection: 0
+      memory: 10G
+      gameMode: survival
+      maxTickTime: -1
+      difficulty: normal
+      pvp: true
+      motd: Welcome to All the Mods 10!
+      woldSaveName: atm10
+      autoCurseForge:
+        apiKey:
+          existingSecret: atm10-secret
+          secretKey: CF_API_KEY
+        pageUrl: https://www.curseforge.com/minecraft/modpacks/all-the-mods-10/files/6313628
+      serviceType: LoadBalancer
+      servicePort: 25595
+      loadBalancerIP: 10.0.2.46
+      extraPorts:
+    extraEnv:
+      ALLOW_FLIGHT: true
+      GUI: false
+      STOP_SERVER_ANNOUNCE_DELAY: 60
+    # mcbackup:
+    #   enabled: true
+    #   initialDelay: 5m
+    #   backupInterval: 24h
+    #   pauseIfNoPlayers: true
+    #   pruneBackupsDays: 3
+    #   backupMethod: rclone
+    #   rcloneRemote: zodiark
+    #   rcloneDestDir: ./atm9
+    #   rcloneConfig: |
+    #     [zodiark]
+    #     type = ftp
+    #     host = zodiark.parsec.sh
+    #     user = anonymous
+    #     pass = gIXs6-hO5MLIuYg0s3DvfL0P4_-ZbETioA
+    #     port = 21
+    #   resources:
+    #     requests:
+    #       memory: 500Mi
+    #       cpu: 500m
+    #     limits:
+    #       memory: 2Gi
+    persistence:
+      dataDir:
+        enabled: true
+        existingClaim: atm10
+        readOnly: false
+        globalMounts:
+          - path: /data

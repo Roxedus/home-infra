@@ -1,0 +1,48 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app atm10
+  namespace: flux-system
+spec:
+  targetNamespace: default
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+  path: ./kubernetes/main/apps/default/atm10/app
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  wait: true
+  interval: 30m
+  retryInterval: 1m
+  timeout: 5m
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: atm10-volsync
+  namespace: flux-system
+spec:
+  targetNamespace: default
+  path: ./kubernetes/main/kustomize/volsync
+  dependsOn:
+    - name: atm10
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  postBuild:
+    substitute:
+      APP: atm10
+      VOLSYNC_CACHE_CAPACITY: 25Gi
+      CLAIM: atm10-data
+      VOLSYNC_UID: &UID "1000"
+      VOLSYNC_GID: *UID
+  wait: true
+  interval: 30m
+  retryInterval: 1m
+  timeout: 5m
