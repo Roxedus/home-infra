@@ -35,6 +35,8 @@ spec:
         cpu: 4
       # limits:
       #  memory: 10Gi
+    podAnnotations:
+      reloader.stakater.com/auto: "true"
     podSecurityContext:
       runAsUser: 1000
       runAsGroup: 1000
