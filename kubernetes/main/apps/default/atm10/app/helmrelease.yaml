@@ -63,7 +63,6 @@ spec:
       ops: roxedus
       version: 1.20.1
       type: AUTO_CURSEFORGE
-      # forgeVersion: "47.3.29"
       spawnProtection: 0
       memory: 10G
       gameMode: survival
@@ -85,28 +84,19 @@ spec:
       ALLOW_FLIGHT: true
       GUI: false
       STOP_SERVER_ANNOUNCE_DELAY: 60
-    # mcbackup:
-    #   enabled: true
-    #   initialDelay: 5m
-    #   backupInterval: 24h
-    #   pauseIfNoPlayers: true
-    #   pruneBackupsDays: 3
-    #   backupMethod: rclone
-    #   rcloneRemote: zodiark
-    #   rcloneDestDir: ./atm9
-    #   rcloneConfig: |
-    #     [zodiark]
-    #     type = ftp
-    #     host = zodiark.parsec.sh
-    #     user = anonymous
-    #     pass = gIXs6-hO5MLIuYg0s3DvfL0P4_-ZbETioA
-    #     port = 21
-    #   resources:
-    #     requests:
-    #       memory: 500Mi
-    #       cpu: 500m
-    #     limits:
-    #       memory: 2Gi
+    rcon:
+      enabled: true
+    mcbackup:
+      enabled: true
+      initialDelay: 5m
+      backupInterval: 24h
+      pauseIfNoPlayers: true
+      pruneBackupsDays: 3
+      backupMethod: restic
+      envFrom:
+        - secretRef:
+          name: atm10-secret
+
     persistence:
       dataDir:
         enabled: true
