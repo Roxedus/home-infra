@@ -77,8 +77,7 @@ spec:
           secretKey: CF_API_KEY
         slug: all-the-mods-10
         fileId: "6313628"
-        includeMods:
-          - ae2-things-forge:5637783
+        forceSynchronize: true
         #pageUrl: https://www.curseforge.com/minecraft/modpacks/all-the-mods-10/files/6313628
       serviceType: LoadBalancer
       servicePort: 25595
@@ -90,6 +89,8 @@ spec:
       ALLOW_FLIGHT: true
       GUI: false
       STOP_SERVER_ANNOUNCE_DELAY: 60
+      CURSEFORGE_FILES: |
+        ae2-things-forge:5637783
 
     mcbackup:
       enabled: true
