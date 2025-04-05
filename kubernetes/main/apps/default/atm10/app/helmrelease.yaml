@@ -95,8 +95,7 @@ spec:
       pruneBackupsDays: 3
       backupMethod: restic
       envFrom:
-        - secretRef:
-          name: atm10-secret
+        secretRef: atm10-secret
 
     persistence:
       dataDir:
