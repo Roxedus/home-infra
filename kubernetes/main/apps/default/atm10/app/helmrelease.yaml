@@ -80,12 +80,13 @@ spec:
       servicePort: 25595
       loadBalancerIP: 10.0.2.46
       extraPorts:
+      rcon:
+        enabled: true
     extraEnv:
       ALLOW_FLIGHT: true
       GUI: false
       STOP_SERVER_ANNOUNCE_DELAY: 60
-    rcon:
-      enabled: true
+
     mcbackup:
       enabled: true
       initialDelay: 5m
