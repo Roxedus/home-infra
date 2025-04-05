@@ -75,7 +75,11 @@ spec:
         apiKey:
           existingSecret: atm10-secret
           secretKey: CF_API_KEY
-        pageUrl: https://www.curseforge.com/minecraft/modpacks/all-the-mods-10/files/6313628
+        slug: all-the-mods-10
+        fileId: 6313628
+        includeMods: |
+          ae2-things-forge:5637783
+        #pageUrl: https://www.curseforge.com/minecraft/modpacks/all-the-mods-10/files/6313628
       serviceType: LoadBalancer
       servicePort: 25595
       loadBalancerIP: 10.0.2.46
