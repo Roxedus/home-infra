@@ -76,7 +76,7 @@ spec:
           existingSecret: atm10-secret
           secretKey: CF_API_KEY
         slug: all-the-mods-10
-        fileId: "6378501"
+        fileId: "6420479"
         #excludeMods: simple-backups
         #forceSynchronize: true
         #pageUrl: https://www.curseforge.com/minecraft/modpacks/all-the-mods-10/files/6313628
