@@ -77,7 +77,7 @@ spec:
           secretKey: CF_API_KEY
         slug: all-the-mods-10
         fileId: "6420479"
-        #excludeMods: simple-backups
+        excludeMods: simple-backups # https://github.com/ChaoticTrials/SimpleBackups/issues/45
         #forceSynchronize: true
         #pageUrl: https://www.curseforge.com/minecraft/modpacks/all-the-mods-10/files/6313628
       serviceType: LoadBalancer
