@@ -42,7 +42,7 @@ spec:
           app:
             image:
               repository: ghcr.io/ferdium/ferdium-server
-              tag: 2.0.10@sha256:c517bb24cccf0913a7878a94d64f94e7ab787be7f500a74f968c26dd768fc5bb
+              tag: 2.0.10@sha256:2af65f3a79302b60a0f5079d6796388fa3b4840d3344968b69000c76f99fe46f
             env:
               APP_UR: https://ferdium.kube.${CLUSTER_DOMAIN}
               CONNECT_WITH_FRANZ: false
