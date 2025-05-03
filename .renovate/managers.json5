@@ -1,0 +1,24 @@
+{
+  "docker-compose": {
+    "fileMatch": [
+      "^ansible/roles/edge/files/.*\\.ya?ml$"
+    ]
+  },
+  "flux": {
+    "fileMatch": [
+      "kubernetes/*/.+\\.ya?ml$"
+    ]
+  },
+  "helm-values": {
+    "fileMatch": [
+      "kubernetes/*/.+\\.ya?ml$"
+    ]
+  },
+  "ignorePaths": [
+    "kubernetes/flux/flux-system/**",
+    "ansible/roles/edge/files/**"
+  ],
+  "pre-commit": {
+    "enabled": true
+  }
+}

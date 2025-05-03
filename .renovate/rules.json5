@@ -1,0 +1,56 @@
+{
+  "packageRules": [
+    {
+      "matchFileNames": [
+        "kubernetes/flux/flux-system/**"
+      ],
+      "matchUpdateTypes": [
+        "patch"
+      ],
+      "automerge": true
+    },
+    {
+      "matchPackageNames": [
+        "yamllint",
+        "adrienverge/yamllint"
+      ]
+    },
+    {
+      "matchDatasources": [
+        "docker"
+      ],
+      "versioning": "loose",
+      "automerge": true,
+      "matchPackageNames": [
+        "/searxng/searxng/",
+      ]
+    },
+    {
+      "matchDatasources": [
+        "docker"
+      ],
+      "automerge": true,
+      "matchPackageNames": [
+        "/quay.io/redlib/redlib/"
+      ]
+    },
+    {
+      "description": [
+        "Flux Group"
+      ],
+      "groupName": "Flux",
+      "matchDatasources": [
+        "docker",
+        "github-tags"
+      ],
+      "versioning": "semver",
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      },
+      "separateMinorPatch": true,
+      "matchPackageNames": [
+        "/fluxcd/"
+      ]
+    }
+  ]
+}

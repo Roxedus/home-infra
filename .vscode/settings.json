@@ -1,7 +1,13 @@
 {
   "yaml.schemas": {
+    "Kubernetes configuration": "**/k*/**.yml",
     "https://json.schemastore.org/github-workflow": [
       ".github/worflows/*.ya?ml"
+    ],
+    "https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json": [
+      "docker-compose.yml",
+      "docker-compose.yaml",
+      "untitled:Untitled-1"
     ],
     "https://raw.githubusercontent.com/ansible/ansible-lint/main/src/ansiblelint/schemas/ansible.json#/$defs/tasks": [
       "tasks/*.ya?ml",
@@ -13,7 +19,7 @@
     "https://raw.githubusercontent.com/ansible/ansible-lint/main/src/ansiblelint/schemas/ansible.json#/$defs/inventory": [
       "inventory.ya?ml",
       "inventory/*.ya?ml",
-      "hosts.ya?ml",
+      "hosts.ya?ml"
     ],
     "https://raw.githubusercontent.com/ansible/ansible-lint/main/src/ansiblelint/schemas/ansible.json#/$defs/requirements": [
       "requirements.ya?ml"

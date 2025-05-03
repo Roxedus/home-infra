@@ -1,0 +1,15 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    "helpers:pinGitHubActionDigestsToSemver",
+    ":semanticCommits",
+    "group:kubernetes",
+    "github>Roxedus/home-infra//.renovate/custom.json5",
+    "github>Roxedus/home-infra//.renovate/managers.json5",
+    "github>Roxedus/home-infra//.renovate/rules.json5"
+  ],
+  "suppressNotifications": [
+    "prIgnoreNotification"
+  ],
+}
