@@ -2,7 +2,7 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:recommended",
-    "helpers:pinGitHubActionDigestsToSemver",
+    "helpers:pinGitHubActionDigests",
     ":semanticCommits",
     "group:kubernetes",
     "github>Roxedus/home-infra//.renovate/custom.json5",
