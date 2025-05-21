@@ -32,10 +32,15 @@ spec:
         containers:
           app:
             image:
-              repository: searxng/searxng
-              tag: 2025.5.20-ca67f1d
+              repository: ghcr.io/searxng/searxng
+              tag: 2025.5.20-7420706@sha256:1ac3eb0c0b271391f446569554548c9f69db14e9dfc33b2414a2f4610b6c12c0
+            command:
+              - /usr/local/searxng/venv/bin/uwsgi
+              - --master
+              - /usr/local/searxng/.template/uwsgi.ini
             env:
               BASE_URL: https://search.pub.${CLUSTER_DOMAIN}
+              UWSGI_WORKERS: "1"
             envFrom:
               - secretRef:
                   name: searxng-secret
@@ -45,14 +50,16 @@ spec:
                 custom: true
                 spec:
                   httpGet:
-                    path: /stats
+                    path: /healthz
                     port: &port 8080
-                  initialDelaySeconds: 0
+                  initialDelaySeconds: 15
                   periodSeconds: 10
                   timeoutSeconds: 1
                   failureThreshold: 3
               readiness: *probes
             securityContext:
+              runAsUser: 977
+              runAsGroup: 977
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
               capabilities:
@@ -68,6 +75,9 @@ spec:
                 cpu: 10m
               limits:
                 memory: 3Gi
+    pod:
+      securityContext:
+        fsGroup: 977
     defaultPodOptions:
       topologySpreadConstraints:
         - maxSkew: 1
@@ -91,10 +101,8 @@ spec:
             app:
               - path: /etc/searxng/settings.yml
                 subPath: settings.yml
-                readOnly: true
               - path: /etc/searxng/limiter.toml
                 subPath: limiter.toml
-                readOnly: true
       tmp:
         type: emptyDir
         advancedMounts:
