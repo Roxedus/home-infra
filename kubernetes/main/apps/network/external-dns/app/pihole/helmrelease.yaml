@@ -86,6 +86,8 @@ spec:
             env:
               - name: EXTERNAL_DNS_PIHOLE_SERVER
                 value: http://10.0.0.32
+              - name: EXTERNAL_DNS_PIHOLE_API_VERSION
+                value: "6"
     serviceAccount:
       create: true
       name: *app
