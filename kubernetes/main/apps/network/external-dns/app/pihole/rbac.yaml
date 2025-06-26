@@ -5,7 +5,10 @@ metadata:
   name: external-dns-pihole
 rules:
   - apiGroups: [""] # yamllint disable-line rule:quoted-strings
-    resources: [services, endpoints, pods, endpointslices]
+    resources: [services, endpoints, pods]
+    verbs: [get, watch, list]
+  - apiGroups: [discovery.k8s.io]
+    resources: [endpointslices]
     verbs: [get, watch, list]
   - apiGroups: [extensions, networking.k8s.io]
     resources: [ingresses]
