@@ -13,3 +13,9 @@
     selection: hold
   with_items:
     - zfsutils-linux
+
+- name: Install auto snapshot
+  become: true
+  ansible.builtin.apt:
+    name: zfs-auto-snapshot
+    state: present
