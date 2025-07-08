@@ -55,7 +55,7 @@ jobs:
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
-      - uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684 # 4.2.3
+      - uses: actions/cache@4.2.3
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-${{ hashFiles('ansible/requirements.txt') }}
@@ -121,14 +121,14 @@ jobs:
         with:
           python-version: 3.11
 
-      - uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684 # 4.2.3
+      - uses: actions/cache@4.2.3
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-${{ hashFiles('ansible/requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-ansible
 
-      - uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684 # 4.2.3
+      - uses: actions/cache@4.2.3
         with:
           path: ~/.cache/ansible-compat
           key: ${{ runner.os }}-pip-${{ hashFiles('ansible/requirements.yml') }}
