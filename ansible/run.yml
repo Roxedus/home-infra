@@ -326,12 +326,12 @@
     - init
   roles:
     - role: zfs
-    #- role: storey
+    # - role: storey
 
   tasks:
     - name: Create dir for docker service ZFS override
       ansible.builtin.file:
-        path: "/etc/systemd/system/docker.service.d"
+        path: /etc/systemd/system/docker.service.d
         state: directory
         mode: 0755
 
