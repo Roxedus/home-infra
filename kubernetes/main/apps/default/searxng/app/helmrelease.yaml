@@ -33,14 +33,12 @@ spec:
           app:
             image:
               repository: ghcr.io/searxng/searxng
-              tag: 2025.6.30-39c50dc@sha256:5a9a87decb510d2bc922dbe62ce5a35226b51ec5760746ae251b7f0ff39aee71
+              tag: 2025.7.8-fe52290@sha256:72c187bcb19827837bef3cd19b0f11111ca5dde9924edd0c5f3a64e08c9a0464
             command:
-              - /usr/local/searxng/venv/bin/uwsgi
-              - --master
-              - /usr/local/searxng/.template/uwsgi.ini
+              - /usr/local/searxng/venv/bin/granian
+              - searx.webapp:app
             env:
               BASE_URL: https://search.pub.${CLUSTER_DOMAIN}
-              UWSGI_WORKERS: "1"
             envFrom:
               - secretRef:
                   name: searxng-secret
