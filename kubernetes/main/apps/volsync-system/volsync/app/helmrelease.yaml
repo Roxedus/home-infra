@@ -28,8 +28,8 @@ spec:
   values:
     manageCRDs: true
     image: &image
-      repository: ghcr.io/onedr0p/volsync
-      tag: 0.12.0
+      repository: ghcr.io/home-operations/volsync
+      tag: 0.12.01@sha256:0483e545f9d9d9bd4bc97e2f7f6eceed1b302bb42d99d506e0bcf3bc6dcc9cc2
     restic:
       <<: *image
     metrics:
