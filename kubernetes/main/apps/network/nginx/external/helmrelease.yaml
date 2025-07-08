@@ -71,7 +71,8 @@ spec:
         #   "request_length": $request_length, "duration": $request_time, "method": "$request_method", "http_referrer": "$http_referer",
         #   "http_user_agent": "$http_user_agent", "country_code": "$geoip2_city_country_code", "country_name": "$geoip2_city_country_name"}
         proxy-body-size: 0
-        proxy-buffer-size: 16k
+        proxy-buffer-size: &proxybuffer 16k
+        proxy-busy-buffers-size: *proxybuffer
         ssl-protocols: TLSv1.3 TLSv1.2
         use-geoip2: false # true - temp ratelited
         use-forwarded-headers: "true"
