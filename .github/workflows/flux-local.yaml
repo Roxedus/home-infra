@@ -39,7 +39,7 @@ jobs:
           persist-credentials: false
 
       - name: Run flux-local test
-        uses: docker://ghcr.io/allenporter/flux-local:v7.5.6
+        uses: docker://ghcr.io/allenporter/flux-local:v7.5.6@sha256:725baade5b3d01ab6b1be0fb1de0d454e4222cbe959b3bdddee1137464aa1f3e # yamllint disable-line rule:line-length
         with:
           args: >-
             test
@@ -75,7 +75,7 @@ jobs:
           ref: ${{ github.event.repository.default_branch }}
 
       - name: Run flux-local diff
-        uses: docker://ghcr.io/allenporter/flux-local:v7.5.6
+        uses: docker://ghcr.io/allenporter/flux-local:v7.5.6@sha256:725baade5b3d01ab6b1be0fb1de0d454e4222cbe959b3bdddee1137464aa1f3e # yamllint disable-line rule:line-length
         with:
           args: >-
             diff ${{ matrix.resource }}
