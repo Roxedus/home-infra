@@ -25,6 +25,7 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    replicaCount: 0
     image:
       repository: itzg/minecraft-server
       pullPolicy: IfNotPresent
