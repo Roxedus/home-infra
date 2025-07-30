@@ -17,7 +17,7 @@
         "Process custom dependencies"
       ],
       "fileMatch": [
-        "\\.yml$"
+        "\\.ya?ml$",
       ],
       "matchStrings": [
         "datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( repository=(?<registryUrl>\\S+))?\\n.+: (&\\S+\\s)?(?<currentValue>\\S+)",
