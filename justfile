@@ -94,7 +94,7 @@ git-init: _init-venv && _pip-install _pre-commit-install _galaxy-install _init-t
   cd {{ansible_dir}} && {{python_dir}}/pip install --upgrade pip
 
 # Upgrades packages, galaxy and pre-commit
-upgrade: _pip-install _pre-commit-install (_galaxy-install "--force") (_init-terraform "-upgrade")
+upgrade: _pip-install _pre-commit-install _galaxy-install (_init-terraform "-upgrade")
 
 # Just vault (encrypt/decrypt/edit)
 vault ACTION VAULT="vault/all.yaml":
