@@ -13,8 +13,15 @@ rules:
   truthy: disable
   comments:
     min-spaces-from-content: 1
+  comments-indentation: false
   quoted-strings:
     quote-type: double
     required: only-when-needed
   line-length:
     max: 160
+  braces:
+    min-spaces-inside: 0
+    max-spaces-inside: 1
+  octal-values:
+    forbid-implicit-octal: true
+    forbid-explicit-octal: true
