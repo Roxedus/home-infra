@@ -1,8 +1,8 @@
 - name: Check if homebrew directory exists
   ansible.builtin.stat:
     path: /home/linuxbrew/.linuxbrew/
-  register: linuxbrew_path
+  register: homebrew_linuxbrew_path
 
 - name: Install homebrew
-  when: not linuxbrew_path.stat.exists
+  when: not homebrew_linuxbrew_path.stat.exists
   ansible.builtin.include_tasks: install.yml

@@ -28,7 +28,7 @@
       dtparam=poe_fan_temp3=66000
 
       dtoverlay=vc4-fkms-v3d
-    mode: 0644
+    mode: "0644"
     dest: /boot/firmware/usercfg.txt
 
 - name: Create journald override directory
@@ -37,7 +37,7 @@
   ansible.builtin.file:
     owner: root
     group: root
-    mode: 0744
+    mode: "0744"
     path: /etc/systemd/journald.conf.d/
     state: directory
 
@@ -49,7 +49,7 @@
   ansible.builtin.copy:
     owner: root
     group: root
-    mode: 0644
+    mode: "0644"
     content: |
       # Ansible managed
       [Journal]

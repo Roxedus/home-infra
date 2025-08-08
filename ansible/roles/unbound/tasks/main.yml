@@ -11,7 +11,7 @@
     src: pi-hole.conf.j2
     group: root
     owner: root
-    mode: 0644
+    mode: "0644"
   notify:
     - Restart unbound service
 
@@ -38,16 +38,16 @@
 - name: Check if dnsmasq is setup
   ansible.builtin.stat:
     path: /etc/dnsmasq.d/
-  register: dnsmasq_setup
+  register: unbound_dnsmasq_setup
 
 - name: Raise edns limit
-  when: dnsmasq_setup.stat.isdir is defined and dnsmasq_setup.stat.isdir
+  when: unbound_dnsmasq_setup.stat.isdir is defined and unbound_dnsmasq_setup.stat.isdir
   become: true
   ansible.builtin.copy:
     dest: /etc/dnsmasq.d/99-edns.conf
     group: root
     owner: root
-    mode: 0644
+    mode: "0644"
     content: |
       # Ansible managed
       edns-packet-max=1232

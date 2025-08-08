@@ -1,62 +1,22 @@
-- name: Set pihole webpassword
-  become: true
-  ansible.builtin.lineinfile:
-    path: /etc/pihole/setupVars.conf
-    regexp: ^WEBPASSWORD=
-    line: WEBPASSWORD={{ pihole.password | hash("sha256") | hash("sha256") | default("") }}
+# - name: Set pihole webpassword
+#   become: true
+#   community.general.ini_file:
+#     path: /etc/pihole/setupVars.conf
+#     regexp: ^WEBPASSWORD=
+#     line: WEBPASSWORD={{ pihole.password | hash("sha256") | hash("sha256") | default("") }}
 
-- name: Set pihole theme
+- name: Set pihole settings
+  register: pihole_settings_updated
+  changed_when: pihole_settings_updated.rc != 0
   become: true
-  ansible.builtin.lineinfile:
-    path: /etc/pihole/setupVars.conf
-    regexp: ^WEBTHEME=
-    line: WEBTHEME=default-dark # default-dark default-darker default-light
-
-- name: Set pihole layout
-  become: true
-  ansible.builtin.lineinfile:
-    path: /etc/pihole/setupVars.conf
-    regexp: ^WEBUIBOXEDLAYOUT=
-    line: WEBUIBOXEDLAYOUT=boxed
-
-- name: Set pihole listen
-  become: true
-  ansible.builtin.lineinfile:
-    path: /etc/pihole/setupVars.conf
-    regexp: ^DNSMASQ_LISTENING=
-    line: DNSMASQ_LISTENING=bind
-
-- name: Set pihole fqdn forwarding
-  become: true
-  ansible.builtin.lineinfile:
-    path: /etc/pihole/setupVars.conf
-    regexp: ^DNS_FQDN_REQUIRED=
-    line: DNS_FQDN_REQUIRED=true
-
-- name: Set pihole reverse lookup
-  become: true
-  ansible.builtin.lineinfile:
-    path: /etc/pihole/setupVars.conf
-    regexp: ^DNS_BOGUS_PRIV=
-    line: DNS_BOGUS_PRIV=true
-
-- name: Set pihole iCloud relay
-  become: true
-  ansible.builtin.lineinfile:
-    path: /etc/pihole/setupVars.conf
-    regexp: ^BLOCK_ICLOUD_PR=
-    line: BLOCK_ICLOUD_PR=false
-
-- name: Set pihole upstream1 ipv4
-  become: true
-  ansible.builtin.lineinfile:
-    path: /etc/pihole/setupVars.conf
-    regexp: ^PIHOLE_DNS_1=
-    line: PIHOLE_DNS_1=127.0.0.1#5335
-
-- name: Set pihole upstream2 ipv4
-  become: true
-  ansible.builtin.lineinfile:
-    path: /etc/pihole/setupVars.conf
-    regexp: ^PIHOLE_DNS_2=
-    line: PIHOLE_DNS_2=127.0.0.1#5335
+  ansible.builtin.command:
+    cmd: pihole-FTL --config {{ item.key }} {{ item.value }}
+  with_dict:
+    dns.domainNeeded: "true"
+    dns.expandHosts: "true"
+    dns.specialDomains.iCloudPrivateRelay: "false"
+    dns.upstreams: '[\"127.0.0.1#5335\"]' # yamllint disable rule:quoted-strings
+    dns.listeningMode: BIND
+    webserver.interface.boxed: "true"
+    webserver.interface.theme: default-dark
+    misc.etc_dnsmasq_d: "true"

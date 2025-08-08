@@ -38,7 +38,7 @@
       ansible.builtin.set_fact:
         host_secure_boot: "{{ secure_boot.stdout | from_json }}"
       changed_when: false
-      when: secure_boot is defined
+      when: secure_boot.stdout is defined
 
 - name: Set up ident
   hosts: all
@@ -89,7 +89,7 @@
         line: 127.0.0.1 {{ item }}
         owner: root
         group: root
-        mode: 0644
+        mode: "0644"
       with_items:
         - localhost
         - "{{ set_hostname }}"
@@ -141,7 +141,7 @@
 #     ansible.builtin.file:
 #       owner: root
 #       group: root
-#       mode: 0755
+#       mode: "0755"
 #       path: /etc/systemd/journal-upload.conf.d/
 #       state: directory
 
@@ -151,7 +151,7 @@
 #     ansible.builtin.copy:
 #       owner: root
 #       group: root
-#       mode: 0644
+#       mode: "0644"
 #       content: |
 #         # Ansible managed
 #         [Upload]
@@ -197,7 +197,7 @@
 #     ansible.builtin.copy:
 #       owner: root
 #       group: root
-#       mode: 0644
+#       mode: "0644"
 # yamllint disable rule:line-length
 #       content: |
 #         # Ansible managed
@@ -223,7 +223,7 @@
 #     ansible.builtin.copy:
 #       owner: root
 #       group: root
-#       mode: 0644
+#       mode: "0644"
 #       content: |
 #         # Ansible managed
 #         [Unit]
@@ -246,7 +246,7 @@
 #     ansible.builtin.copy:
 #       owner: root
 #       group: root
-#       mode: 0644
+#       mode: "0644"
 #       content: |
 #         # Ansible managed
 #         [Unit]
@@ -333,14 +333,14 @@
       ansible.builtin.file:
         path: /etc/systemd/system/docker.service.d
         state: directory
-        mode: 0755
+        mode: "0755"
 
     - name: Create systemd override for Docker to wait for ZFS
       become: true
       ansible.builtin.copy:
         owner: root
         group: root
-        mode: 0644
+        mode: "0644"
         content: |
           # Ansible managed
           [Unit]
@@ -372,7 +372,7 @@
 #       ansible.builtin.file:
 #         owner: 115
 #         group: 120
-#         mode: 0755
+#         mode: "0755"
 #         path: /var/log/journal/remote/
 #         state: directory
 
@@ -382,7 +382,7 @@
 #       ansible.builtin.file:
 #         owner: root
 #         group: root
-#         mode: 0755
+#         mode: "0755"
 #         path: /etc/systemd/system/systemd-journal-remote.service.d/
 #         state: directory
 
@@ -392,7 +392,7 @@
 #       ansible.builtin.copy:
 #         owner: root
 #         group: root
-#         mode: 0644
+#         mode: "0644"
 #         content: |
 #           # Ansible managed
 #           [Service]
@@ -537,7 +537,7 @@
       ansible.builtin.copy:
         owner: root
         group: root
-        mode: 0644
+        mode: "0644"
         content: |
           # Ansible managed
         dest: /etc/apt/apt.conf.d/20apt-esm-hook.conf
@@ -575,7 +575,7 @@
           # Ansible managed
 
           neofetch
-        mode: 0755
+        mode: "0755"
         dest: /etc/update-motd.d/01-neofetch
 
     - name: Check if a reboot is needed for Debian and Ubuntu boxes
@@ -587,7 +587,7 @@
 
     - name: Sign efi binaries
       become: true
-      when: host_secure_boot
+      when: host_secure_boot is defined
       ansible.builtin.shell:
         cmd: for file in /boot/efi/*/*/linux /boot/efi/EFI/*/*.efi /boot/efi/EFI/*/*.EFI; do sudo sbctl sign -s $file; done
       changed_when: false

@@ -4,25 +4,25 @@
     cmd: |
       systemctl list-unit-files --type swap -q | grep -i swap | awk '{print $1}'
     executable: /bin/bash
-  register: swap_service
-  changed_when: swap_service.rc != 0
+  register: kubernetes_swap_service
+  changed_when: kubernetes_swap_service.rc != 0
   become: true
 
 - name: Disable SWAP units
-  when: ansible_facts.service_mgr == "systemd" and (swap_service.stdout_lines | length != 0)
+  when: ansible_facts.service_mgr == "systemd" and (kubernetes_swap_service.stdout_lines | length != 0)
   ansible.builtin.systemd:
     daemon_reexec: true
     daemon_reload: true
     name: "{{ item }}"
     enabled: False
     masked: true
-  loop: "{{ swap_service.stdout_lines }}"
+  loop: "{{ kubernetes_swap_service.stdout_lines }}"
   become: true
 
 - name: Disable SWAP
   when: ansible_memory_mb.swap.total != 0
-  register: swap_disable
-  changed_when: swap_disable.rc != 0
+  register: kubernetes_swap_disable
+  changed_when: kubernetes_swap_disable.rc != 0
   become: true
   ansible.builtin.command: swapoff -a
 
@@ -43,15 +43,15 @@
 
 - name: Kube | systemd-resolved setup
   become: True
-  register: systemd_resolved
+  register: kubernetes_systemd_resolved
   community.general.ini_file:
-    mode: 0644
+    mode: "0644"
     path: /etc/systemd/resolved.conf
     section: Resolve
     option: "{{ item.part }}"
     value: "{{ item.value }}"
     no_extra_spaces: true
-  with_items: "{{ kubernetes_systemd_resolved_ini }}"
+  with_items: "{{ kubernetes_kubernetes_systemd_resolved_ini }}"
   notify:
     - Kube | systemd-resolved changed
 
@@ -62,7 +62,7 @@
     section: Service
     option: MountFlags
     value: shared
-    mode: 0644
+    mode: "0644"
   notify:
     - Kube | docker options changed
 
@@ -74,7 +74,7 @@
     line: '      config_path = "/etc/containerd/certs.d"' # yamllint disable-line rule:quoted-strings
     state: present
     path: /etc/containerd/config.toml
-    mode: 0644
+    mode: "0644"
   notify:
     - Kube | containerd options changed
 
@@ -86,31 +86,31 @@
     line: "      discard_unpacked_layers = false"
     state: present
     path: /etc/containerd/config.toml
-    mode: 0644
+    mode: "0644"
   notify:
     - Kube | containerd options changed
 
 - name: Check if Raspberrypi
   ansible.builtin.shell: cat /sys/firmware/devicetree/base/model || /bin/true
-  register: rpi_data
+  register: kubernetes_rpi_data
   changed_when: false
 
 - name: Tweak Raspberry Pis
   when:
-    - rpi_data.stdout is defined
-    - rpi_data.stdout is match("Raspberry Pi")
+    - kubernetes_rpi_data.stdout is defined
+    - kubernetes_rpi_data.stdout is match("Raspberry Pi")
   ansible.builtin.include_tasks: tweaks_raspberry.yml
 
 - name: Check if LXC
   become: true
   ansible.builtin.shell: cat /proc/1/environ || /bin/true
-  register: lxc_data
+  register: kubernetes_lxc_data
   changed_when: false
 
 - name: Tweak LXC
   when:
-    - lxc_data.stdout is defined
-    - lxc_data.stdout is search("container=lxc")
+    - kubernetes_lxc_data.stdout is defined
+    - kubernetes_lxc_data.stdout is search("container=lxc")
   ansible.builtin.include_tasks: tweaks_lxc.yml
 
 - name: Tweak modprobe entries
@@ -120,7 +120,7 @@
     state: "{{ item.state }}"
     section: null
     path: /usr/lib/modules-load.d/kube.conf
-    mode: 0644
+    mode: "0644"
     allow_no_value: true
   loop:
     - state: present
@@ -178,7 +178,7 @@
 - name: Configure Apparmor
   become: true
   ansible.builtin.lineinfile:
-    mode: 0644
+    mode: "0644"
     path: /etc/apparmor.d/tunables/home.d/ubuntu
     line: "#@{HOMEDIRS}+="
     regexp: ^#@{HOMEDIRS}+=
@@ -188,7 +188,7 @@
   register: kubernetes_key
   become: true
   ansible.builtin.get_url:
-    mode: 0644
+    mode: "0644"
     url: https://pkgs.k8s.io/core:/stable:/v{{ kubernetes_release }}/deb/Release.key
     dest: /etc/apt/keyrings/kubernetes.gpg_armored
 
@@ -209,7 +209,7 @@
   ansible.builtin.apt_repository:
     filename: kubernetes
     repo: deb [signed-by=/usr/share/keyrings/kubernetes.gpg] https://pkgs.k8s.io/core:/stable:/v{{ kubernetes_release }}/deb/ /
-    mode: 0666
+    mode: "0666"
     update_cache: true
 
 - name: Install kubernetes packages

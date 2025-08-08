@@ -1,13 +1,13 @@
 - name: Check if OMP is installed
   ansible.builtin.stat:
     path: /usr/local/bin/oh-my-posh
-  register: omp_bin
+  register: rox_users_omp_bin
 
 - name: Check OMP version
-  when: omp_bin.stat.exists
+  when: rox_users_omp_bin.stat.exists
   ansible.builtin.command: /usr/local/bin/oh-my-posh --version
   changed_when: false
-  register: omp_ver
+  register: rox_users_omp_ver
 
 - name: Get latest release of OMP
   delegate_to: 127.0.0.1 # Run on the control node to avoid installing the GitHub module on the target
@@ -15,20 +15,20 @@
     user: JanDeDobbeleer
     repo: oh-my-posh
     action: latest_release
-  register: omp_latest
+  register: rox_users_omp_latest
 
 - name: Download OMP
-  when: not omp_bin.stat.exists or omp_latest.tag != ( "v" + omp_ver.stdout )
+  when: not rox_users_omp_bin.stat.exists or rox_users_omp_latest.tag != ( "v" + rox_users_omp_ver.stdout )
   become: true
   ansible.builtin.get_url:
-    url: https://github.com/JanDeDobbeleer/oh-my-posh/releases/download/{{ omp_latest.tag }}/posh-linux-{{ apt_arch }}
+    url: https://github.com/JanDeDobbeleer/oh-my-posh/releases/download/{{ rox_users_omp_latest.tag }}/posh-linux-{{ apt_arch }}
     dest: /usr/local/bin/oh-my-posh
-    mode: 0755
+    mode: "0755"
     force: true
 
 - name: Add OMP to bash
   ansible.builtin.lineinfile:
-    mode: 0664
+    mode: "0664"
     path: /home/{{ rox_users_user.username }}/.bashrc
     search_string: oh-my-posh
     # yamllint disable rule:line-length

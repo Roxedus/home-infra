@@ -9,7 +9,7 @@
 - name: Set ssh fact
   listen: Set host fact
   ansible.builtin.set_fact:
-    ansible_ssh_host: "{{ (netplan_addresses | first) | split('/') | first }}"
+    ansible_ssh_host: "{{ (netplan_addresses | first) | split('/') | first }}" # noqa: var-naming[no-role-prefix]
 
 - name: Reset ssh connection to allow new IP
   ansible.builtin.meta: reset_connection

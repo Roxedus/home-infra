@@ -2,7 +2,7 @@
   become: true
   ansible.builtin.file:
     path: /opt/pihole_updatelist/install.sh
-    mode: 0755
+    mode: "0755"
 
 - name: Install pihole_updatelist
   register: pihole_updatelist_inst

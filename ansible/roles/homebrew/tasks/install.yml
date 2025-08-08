@@ -8,7 +8,6 @@
 
 - name: Create folders
   become: true
-  register: chezmoi_create
   ansible.builtin.file:
     path: /home/linuxbrew/.linuxbrew/
     state: directory
@@ -20,13 +19,13 @@
   ansible.builtin.get_url:
     url: https://raw.githubusercontent.com/Homebrew/install/master/install.sh
     dest: "{{ homebrew_tmp.path }}/install.sh"
-    mode: 0700
+    mode: "0700"
   become: false
 
 - name: Install Homebrew with the installer
   ansible.builtin.command: sh -c "{{ homebrew_tmp.path }}/install.sh"
-  register: install_result
-  changed_when: install_result.rc == 0
+  register: homebrew_install_result
+  changed_when: homebrew_install_result.rc == 0
   become: false
   environment:
     NONINTERACTIVE: "true"

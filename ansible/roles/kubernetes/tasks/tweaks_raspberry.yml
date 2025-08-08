@@ -16,6 +16,6 @@
     option: gpu_mem
     value: 16
     create: true
-    mode: 0644
+    mode: "0644"
   notify:
     - Kube | boot options changed

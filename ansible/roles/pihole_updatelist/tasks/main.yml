@@ -9,21 +9,21 @@
 
 - name: Install updatelist conf
   become: true
-  register: installed_pihole_updatelist
+  register: pihole_updatelist_installed
   ansible.builtin.copy:
     src: pihole-updatelists.conf
     dest: /etc/pihole-updatelists.conf
-    mode: 0644
+    mode: "0644"
     owner: root
     group: root
 
 - name: Check if updatelist is installed
   ansible.builtin.stat:
     path: /usr/local/sbin/pihole-updatelists
-  register: updatelist_exec
+  register: pihole_updatelist_exec
 
 - name: Activate changes
-  when: updatelist_exec.stat.exists
+  when: pihole_updatelist_exec.stat.exists
   register: pihole_updatelist_act
   changed_when: pihole_updatelist_act.rc != 0
   become: true
@@ -33,7 +33,7 @@
 
 - name: Update pihole_updatelist
   become: true
-  when: updatelist_exec.stat.exists and pihole_update and installed_pihole_updatelist.changed
+  when: pihole_updatelist_exec.stat.exists and pihole_update and pihole_updatelist_installed.changed
   register: pihole_updatelist_upd
   changed_when: pihole_updatelist_upd.rc != 0
   ansible.builtin.command:

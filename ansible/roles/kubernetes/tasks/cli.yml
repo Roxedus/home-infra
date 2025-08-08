@@ -1,13 +1,13 @@
 - name: Check if Nerdctl is installed
   ansible.builtin.stat:
     path: /usr/local/bin/nerdctl
-  register: nerd_bin
+  register: kubernetes_nerd_bin
 
 - name: Check Nerdctl version
-  when: nerd_bin.stat.exists
+  when: kubernetes_nerd_bin.stat.exists
   ansible.builtin.command: /usr/local/bin/nerdctl --version
   changed_when: false
-  register: nerd_ver
+  register: kubernetes_nerd_ver
 
 - name: Get latest release of Nerdctl
   delegate_to: 127.0.0.1 # Run on the control node to avoid installing the GitHub module on the target
@@ -15,17 +15,19 @@
     user: containerd
     repo: nerdctl
     action: latest_release
-  register: nerd_rel
+  register: kubernetes_nerd_rel
 
 - name: Download Nerdctl
-  when: not nerd_bin.stat.exists or nerd_rel.tag != ( "v" + (nerd_ver.stdout | replace("nerdctl version ", "")))
+  when: not kubernetes_nerd_bin.stat.exists or kubernetes_nerd_rel.tag != ( "v" + (kubernetes_nerd_ver.stdout | replace("nerdctl version ", "")))
   become: true
   ansible.builtin.unarchive:
-    src: https://github.com/containerd/nerdctl/releases/download/{{ nerd_rel.tag }}/nerdctl-{{ nerd_rel.tag | replace("v", "") }}-linux-{{ apt_arch }}.tar.gz
+    src: |
+      https://github.com/containerd/nerdctl/releases/download/
+      {{ kubernetes_nerd_rel.tag }}/nerdctl-{{ kubernetes_nerd_rel.tag | replace("v", "") }}-linux-{{ apt_arch }}.tar.gz
     dest: /usr/local/bin
     include: nerdctl
     remote_src: true
-    mode: 0755
+    mode: "0755"
 
 - name: Download Cilium-cli
   become: true
@@ -34,7 +36,7 @@
     dest: /usr/local/bin
     include: cilium
     remote_src: true
-    mode: 0755
+    mode: "0755"
 
 - name: Download Hubble-cli
   become: true
@@ -43,12 +45,12 @@
     dest: /usr/local/bin
     include: hubble
     remote_src: true
-    mode: 0755
+    mode: "0755"
 
 - name: Add kubectl alias to bash
   when: is_controlplane is defined
   ansible.builtin.lineinfile:
-    mode: 0644
+    mode: "0644"
     path: /home/{{ kubernetes_management_user }}/.bashrc
     line: "{{ item }}"
     create: true

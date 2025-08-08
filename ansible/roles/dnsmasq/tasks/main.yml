@@ -10,27 +10,27 @@
     src: hosts.custom.j2
     group: root
     owner: root
-    mode: 0644
+    mode: "0644"
     dest: /etc/hosts.custom
 
 - name: Set up dnsmasq rules
   when: dnsmasq_setup.stat.isdir is defined and dnsmasq_setup.stat.isdir
-  register: dnsmasq
+  register: dnsmasq_dnsmasq
   become: true
   ansible.builtin.template:
     src: 02-custom.conf.j2
     group: root
     owner: root
-    mode: 0644
+    mode: "0644"
     dest: /etc/dnsmasq.d/02-custom.conf
 
 - name: Check if PiHole is installed
   ansible.builtin.stat:
     path: /usr/local/bin/pihole
-  register: pihole_bin
+  register: dnsmasq_pihole_bin
 
 - name: Restart PiHole systems
-  when: (dnsmasq.changed or dnsmasq_hosts_file.changed) and pihole_bin.stat.exists
+  when: (dnsmasq_dnsmasq.changed or dnsmasq_hosts_file.changed) and dnsmasq_pihole_bin.stat.exists
   become: true
   register: dnsmasq_pihole_restart
   changed_when: dnsmasq_pihole_restart.rc != 0

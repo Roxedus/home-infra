@@ -39,7 +39,7 @@
     owner: root
     group: root
     create: yes
-    mode: 0644
+    mode: "0644"
 
 - name: Look for Netplan conversion
   become: true
@@ -95,7 +95,7 @@
   ansible.builtin.template:
     src: 00-ansible.yaml.j2
     dest: "{{ netplan_config_file }}"
-    mode: 0600
+    mode: "0600"
     owner: root
     group: root
     validate: yq e '.' %s

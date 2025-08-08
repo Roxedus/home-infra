@@ -8,6 +8,6 @@
       fi
       mount --make-rshared /
     dest: /etc/rc.local
-    mode: 0755
+    mode: "0755"
   notify:
     - Kube | boot options changed

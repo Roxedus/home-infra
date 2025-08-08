@@ -1,6 +1,6 @@
 - name: Checkout pihole_updatelist
   when: not pihole_updatelist_clone.stat.exists
-  register: pihole_updatelist
+  register: pihole_updatelist_git
   become: true
   ansible.builtin.git: # noqa: latest
     repo: https://github.com/jacklul/pihole-updatelists.git
