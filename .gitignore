@@ -43,3 +43,4 @@ ansible/.galaxy_collections
 !.kics/rules.json
 
 .kubernetes/*
+**/.lock
