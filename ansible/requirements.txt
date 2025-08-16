@@ -1,5 +1,5 @@
 ansible-lint==25.7.0
-ansible==11.8.0
+ansible==11.9.0
 github3.py==4.0.1
 jmespath==1.0.1
 passlib==1.7.4 #; sys_platform == 'darwin'
