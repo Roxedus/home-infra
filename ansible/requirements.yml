@@ -12,7 +12,7 @@ roles:
   - name: geerlingguy.security
     version: 3.0.0
   - name: geerlingguy.containerd
-    version: 1.4.0
+    version: 1.4.1
   - name: bodsch.snapd
     version: 1.4.0
 collections:
