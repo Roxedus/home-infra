@@ -1,3 +1,15 @@
+- name: Get dependencies for pihole_updatelist
+  become: true
+  ansible.builtin.apt:
+    name:
+      - php-cgi
+      - php-cli
+      - php-curl
+      - php-intl
+      - php-sqlite3
+      - php-xml
+    state: present
+
 - name: Checkout pihole_updatelist
   when: not pihole_updatelist_clone.stat.exists
   register: pihole_updatelist_git

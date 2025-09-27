@@ -14,12 +14,16 @@ dnsmasq_hosts:
       host: grafana.{{ dnsmasq_local_domain }}
     - ip: 10.0.0.16
       host: healthchecks.{{ dnsmasq_local_domain }}
+    - ip: 10.0.0.20
+      host: pve01.{{ dnsmasq_local_domain }}
     - ip: 10.0.0.29
       host: code.roxedus.dev
     - ip: 10.0.0.29
       host: .code.roxedus.dev
     - ip: 10.0.0.29
       host: lsio.roxedus.dev
+    - ip: 10.0.0.29
+      host: vdi.roxedus.dev
     - ip: 10.0.0.29
       host: "{{ secret_wan_domain | default('wan') }}"
     - ip: 10.0.0.29

@@ -16,13 +16,13 @@
   when: pihole_bin.stat.exists
   ansible.builtin.include_tasks: configure.yml
 
-- name: Place MoTD
-  become: true
-  when: pihole_bin.stat.exists
-  ansible.builtin.copy:
-    src: motd.sh
-    mode: "0755"
-    dest: /etc/update-motd.d/02-pihole
+# - name: Place MoTD
+#   become: true
+#   when: pihole_bin.stat.exists
+#   ansible.builtin.copy:
+#     src: motd.sh
+#     mode: "0755"
+#     dest: /etc/update-motd.d/02-pihole
 
 - name: Update PiHole
   when: pihole_bin.stat.exists and pihole_update
