@@ -17,6 +17,8 @@
     password: "{{ rox_users_user.password | password_hash('sha512', rox_users_user.username) | default(omit) }}"
 
 - name: Add a Github key ssh key
+  become: true
   ansible.posix.authorized_key:
     user: "{{ rox_users_user.username }}"
     key: https://github.com/{{ rox_users_user.github }}.keys
+    manage_dir: true
