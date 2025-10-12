@@ -29,7 +29,9 @@
       register: sbctl_bin
 
     - name: Get Secure Boot state
-      when: sbctl_bin.stat.exists
+      when:
+        - ansible_distribution == 'Ubuntu'
+        - sbctl_bin.stat.exists
       ansible.builtin.command: sbctl status --json | jq .secure_boot
       register: secure_boot
       changed_when: false
@@ -38,10 +40,12 @@
       ansible.builtin.set_fact:
         host_secure_boot: "{{ secure_boot.stdout | from_json }}"
       changed_when: false
-      when: secure_boot.stdout is defined
+      when:
+        - ansible_distribution == 'Ubuntu'
+        - secure_boot.stdout is defined
 
 - name: Set up ident
-  hosts: all
+  hosts: all, !proxmox
   tags: [never, init]
 
   pre_tasks:
@@ -121,170 +125,8 @@
     - role: geerlingguy.security
       become: true
       when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
-    # - role: prometheus.prometheus.node_exporter
-    #   become: true
-    #   when: prom_node_exporter
     - role: netplan
       when: netplan_addresses or netplan_custom
-
-# tasks:
-#   - name: Install systemd-journal-upload
-#     become: true
-#     when: ansible_facts.service_mgr == "systemd" and inventory_hostname not in ['edge']
-#     ansible.builtin.apt:
-#       name: systemd-journal-remote
-#       state: present
-
-#   - name: Create systemd-journal-upload config directory
-#     when: ansible_facts.service_mgr == "systemd" and inventory_hostname not in ['edge']
-#     become: true
-#     ansible.builtin.file:
-#       owner: root
-#       group: root
-#       mode: "0755"
-#       path: /etc/systemd/journal-upload.conf.d/
-#       state: directory
-
-#   - name: Create systemd-journal-remote override
-#     become: true
-#     when: ansible_facts.service_mgr == "systemd" and inventory_hostname not in ['edge']
-#     ansible.builtin.copy:
-#       owner: root
-#       group: root
-#       mode: "0644"
-#       content: |
-#         # Ansible managed
-#         [Upload]
-#         URL=http://10.0.0.16:19532
-#       dest: /etc/systemd/journal-upload.conf.d/url.conf
-#     notify:
-#       - Restart systemd-journal-upload
-
-#   - name: Make sure systemd-journal-upload is running
-#     become: true
-#     when: ansible_facts.service_mgr == "systemd" and inventory_hostname not in ['edge']
-#     ansible.builtin.systemd_service:
-#       state: started
-#       name: systemd-journal-upload
-#       enabled: true
-#       masked: false
-#     notify:
-#       - Restart systemd-journal-upload
-
-#   - name: Create healthcheck for host
-#     when: ansible_facts.service_mgr == "systemd"
-#     delegate_to: 127.0.0.1
-#     register: local_healthcheck
-#     community.healthchecksio.checks:
-#       state: present
-#       management_api_base_url: "{{ healthchecks_management_url }}/api/v3"
-#       management_api_token: "{{ healthchecks_api }}"
-#       name: "{{ inventory_hostname | title }} uptime check"
-#       channels: "{{ healthchecks_integration }}"
-#       unique:
-#         - name
-#       tags:
-#         - ansible
-#         - "{{ inventory_hostname | title }}"
-#       desc: Ansible host automated uptime check
-#       schedule: "{{ healthcheck_schedule_minute }} * * * *"
-#       tz: "{{ ntp_timezone }}"
-#       grace: 360
-
-#   - name: Create systemd pause healthcheck on shutdown
-#     when: ansible_facts.service_mgr == "systemd"
-#     become: true
-#     ansible.builtin.copy:
-#       owner: root
-#       group: root
-#       mode: "0644"
-# yamllint disable rule:line-length
-#       content: |
-#         # Ansible managed
-#         [Unit]
-#         Description=Pause healthcheck on shutdown
-#         DefaultDependencies=no
-#         After=final.target
-
-#         [Service]
-#         Type=oneshot
-#         ExecStart=/usr/bin/curl -sSm 10 --retry 1 -X POST --header "X-Api-Key: {{ healthchecks_api }}" --data "" {{ healthchecks_management_url }}/api/v3/checks/{{ local_healthcheck.uuid }}/pause
-
-#         [Install]
-#         WantedBy=final.target
-# yamllint enable rule:line-length
-#       dest: /etc/systemd/system/healthcheck-shutdown.service
-#     notify:
-#       - Enable healthcheck pause service
-
-#   - name: Create systemd service for healthcheck
-#     when: ansible_facts.service_mgr == "systemd"
-#     become: true
-#     ansible.builtin.copy:
-#       owner: root
-#       group: root
-#       mode: "0644"
-#       content: |
-#         # Ansible managed
-#         [Unit]
-#         Description=Runs curl to ping healthchecks
-#         Wants=healthcheck.timer
-
-#         [Service]
-#         Type=oneshot
-#         ExecStart=/usr/bin/curl -sSm 10 --retry 5 {{ healthchecks_management_url }}/ping/{{ local_healthcheck.uuid }}
-
-#         [Install]
-#         WantedBy=multi-user.target
-#       dest: /etc/systemd/system/healthcheck.service
-#     notify:
-#       - Restart healthcheck timer
-
-#   - name: Create systemd timer for healthcheck
-#     when: ansible_facts.service_mgr == "systemd"
-#     become: true
-#     ansible.builtin.copy:
-#       owner: root
-#       group: root
-#       mode: "0644"
-#       content: |
-#         # Ansible managed
-#         [Unit]
-#         Description=Schedules healthcheck
-#         Requires=healthcheck.service
-
-#         [Timer]
-#         Unit=healthcheck.service
-#         OnCalendar=*-*-* *:{{ healthcheck_schedule_minute }}:00
-
-#         [Install]
-#         WantedBy=timers.target
-#       dest: /etc/systemd/system/healthcheck.timer
-#     notify:
-#       - Restart healthcheck timer
-
-# handlers:
-#   - name: Restart systemd-journal-upload
-#     become: true
-#     ansible.builtin.systemd_service:
-#       name: systemd-journal-upload
-#       state: started
-
-#   - name: Restart healthcheck timer
-#     become: true
-#     ansible.builtin.systemd_service:
-#       name: healthcheck.timer
-#       state: started
-#       enabled: true
-#       daemon_reload: true
-
-#   - name: Enable healthcheck pause service
-#     become: true
-#     ansible.builtin.systemd_service:
-#       name: healthcheck-shutdown.service
-#       enabled: true
-#       state: started
-#       daemon_reload: true
 
 - name: Install docker
   hosts:
@@ -358,101 +200,18 @@
         daemon_reload: yes
         state: restarted
 
-# - name: Provision Edge server
-#   hosts: edge
-#   tags:
-#     - monitor
-#     - update
-#     - init
-
-#   tasks:
-#     - name: Create journald remote directory
-#       when: ansible_distribution == 'Ubuntu'
-#       become: true
-#       ansible.builtin.file:
-#         owner: 115
-#         group: 120
-#         mode: "0755"
-#         path: /var/log/journal/remote/
-#         state: directory
-
-#     - name: Create systemd-journal-remote override directory
-#       when: ansible_distribution == 'Ubuntu'
-#       become: true
-#       ansible.builtin.file:
-#         owner: root
-#         group: root
-#         mode: "0755"
-#         path: /etc/systemd/system/systemd-journal-remote.service.d/
-#         state: directory
-
-#     - name: Create systemd-journal-remote override
-#       become: true
-#       when: ansible_distribution == 'Ubuntu'
-#       ansible.builtin.copy:
-#         owner: root
-#         group: root
-#         mode: "0644"
-#         content: |
-#           # Ansible managed
-#           [Service]
-#           ExecStart=
-#           ExecStart=/lib/systemd/systemd-journal-remote --listen-http=-3 --output=/var/log/journal/remote/
-#         dest: /etc/systemd/system/systemd-journal-remote.service.d/override.conf
-#       notify:
-#         - Restart systemd-journal-remote
-
-#     - name: Make sure systemd-journal-remote is running
-#       ansible.builtin.systemd_service:
-#         state: started
-#         name: systemd-journal-remote
-#         enabled: true
-#         masked: false
-#       notify:
-#         - Restart systemd-journal-remote
-
-#   roles:
-#     - role: prometheus.prometheus.prometheus
-#       vars:
-#         prometheus_scrape_configs:
-#           - job_name: prometheus
-#             metrics_path: "{{ prometheus_metrics_path }}"
-#             static_configs:
-#               - targets:
-#                   - "{{ ansible_fqdn | default(ansible_host) | default('localhost') }}:9090"
-#           - job_name: node
-#             file_sd_configs:
-#               - files:
-#                   - "{{ prometheus_config_dir }}/file_sd/node.yml"
-#           - job_name: nodes
-#             metrics_path: /metrics
-#             static_configs:
-#               - targets:
-#               # "{{ ((ansible_play_hosts_all | map('extract', hostvars, ['ansible_default_ipv4', 'address'])) | product([':9100'])) | map('join') }}"
-#                   - edge:9100
-#                   - server:9100
-#                   - pihole1:9100
-#                   - pihole2:9100
-#           - job_name: docker
-#             metrics_path: /metrics
-#             static_configs:
-#               - targets:
-
-#   handlers:
-#     - name: Restart systemd-journal-remote
-#       become: true
-#       ansible.builtin.service:
-#         name: systemd-journal-remote
-#         state: restarted
-#         enabled: true
-
-# - name: Configure Edge server
-#   hosts: edge
-#   tags:
-#     - edge
-#     - update
-#   roles:
-#     - role: edge
+- name: Provision Proxmox
+  hosts: proxmox
+  tags:
+    - proxmox
+    - update
+    - init
+  tasks:
+    - name: Install packages
+      become: true
+      ansible.builtin.apt:
+        name: "{{ package_list }}"
+        state: present
 
 - name: Provision PiHole
   hosts: pihole
@@ -568,7 +327,9 @@
 
     - name: Place MoTD
       become: true
-      when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+      when:
+        - ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+        - "'neofetch' in package_list"
       ansible.builtin.copy:
         content: |
           #!/bin/sh
