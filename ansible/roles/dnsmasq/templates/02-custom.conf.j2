@@ -4,6 +4,9 @@ addn-hosts=/etc/hosts.custom
 
 {% for alias in dnsmasq_hosts.aliases %}
 address=/{{ alias.host }}/{{ alias.ip }}
+{% if alias.void_ipv6|default(True) %}
+address=/{{ alias.host }}/#
+{% endif %}
 {% endfor %}
 
 {% for srv in dnsmasq_hosts.srv %}

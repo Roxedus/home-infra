@@ -34,7 +34,6 @@
   become: true
   register: dnsmasq_pihole_restart
   changed_when: dnsmasq_pihole_restart.rc != 0
-  ansible.builtin.command:
-    argv:
-      - pihole
-      - restartdns
+  ansible.builtin.systemd_service:
+    name: pihole-FTL
+    state: restarted
