@@ -1,4 +1,4 @@
-ansible-lint==25.12.1
+ansible-lint==25.12.2
 ansible==12.3.0
 github3.py==4.0.1
 jmespath==1.0.1
