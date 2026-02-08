@@ -4,5 +4,5 @@ github3.py==4.0.1
 jmespath==1.1.0
 passlib==1.7.4 #; sys_platform == 'darwin'
 pre-commit==4.5.1
-wheel==0.45.1
+wheel==0.46.3
 yamllint==1.38.0
