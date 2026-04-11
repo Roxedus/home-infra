@@ -33,7 +33,6 @@
   when: (dnsmasq_dnsmasq.changed or dnsmasq_hosts_file.changed) and dnsmasq_pihole_bin.stat.exists
   become: true
   register: dnsmasq_pihole_restart
-  changed_when: dnsmasq_pihole_restart.rc != 0
   ansible.builtin.systemd_service:
     name: pihole-FTL
     state: restarted
