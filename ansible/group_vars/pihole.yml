@@ -3,19 +3,26 @@ pihole_updatelist_run: True
 raspberry_forward_syslog: False
 
 dnsmasq_hosts:
+  hosts:
+    - ip: 10.0.0.15
+      host: server.{{ dnsmasq_local_domain }}
+    - ip: 10.0.0.20
+      host: pve01.{{ dnsmasq_local_domain }}
+    - ip: 10.0.0.31
+      host: pihole1.{{ dnsmasq_local_domain }}
+    - ip: 10.0.0.32
+      host: pihole2.{{ dnsmasq_local_domain }}
+    - ip: 10.0.0.35
+      host: pve.{{ dnsmasq_local_domain }}
   aliases:
     - ip: 10.0.0.1
       host: gateway.{{ dnsmasq_local_domain }}
-    - ip: 10.0.0.15
-      host: server.{{ dnsmasq_local_domain }}
     - ip: 10.0.0.16
       host: dash.{{ dnsmasq_local_domain }}
     - ip: 10.0.0.16
       host: grafana.{{ dnsmasq_local_domain }}
     - ip: 10.0.0.16
       host: healthchecks.{{ dnsmasq_local_domain }}
-    - ip: 10.0.0.20
-      host: pve01.{{ dnsmasq_local_domain }}
     - ip: 10.0.0.29
       host: code.roxedus.dev
     - ip: 10.0.0.29
@@ -34,12 +41,6 @@ dnsmasq_hosts:
       host: "{{ secret_unraid_uuid | default('dummy') }}.myunraid.net"
     - ip: 10.0.0.30
       host: .{{ secret_unraid_uuid | default('dummy') }}.myunraid.net
-    - ip: 10.0.0.31
-      host: pihole1.{{ dnsmasq_local_domain }}
-    - ip: 10.0.0.32
-      host: pihole2.{{ dnsmasq_local_domain }}
-    - ip: 10.0.0.35
-      host: pve.{{ dnsmasq_local_domain }}
 
   srv:
     - service: VLMCS
