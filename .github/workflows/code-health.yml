@@ -55,7 +55,7 @@ jobs:
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
-      - uses: actions/cache
+      - uses: actions/cache@b7e8d49f17405cc70c1c120101943203c98d3a4b
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-${{ hashFiles('ansible/requirements.txt') }}
@@ -90,7 +90,7 @@ jobs:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
       - name: Run kics Scan
-        uses: Checkmarx/kics-github-action
+        uses: Checkmarx/kics-github-action@bcd2aff52160bfe5a72608452d00326e90da7a9a
         with:
           path: ${{ needs.meta.outputs.check_files }}
           config_path: .kics/config.yml
