@@ -1,12 +1,12 @@
 - name: Include Debian unfree
   when:
     - ansible_facts.distribution == 'Debian'
-    - ansible_facts.board_name is match("ZimaBoard") or boards_intel_drivers
+    - ansible_facts.board_name is match("ZimaBoard") or boards_intel_driver_detection_found | length>0
   ansible.builtin.include_tasks: debian-unfree.yml
 
 - name: Install Intel drivers
   when:
-    - boards_intel_drivers
+    - boards_intel_driver_detection_found | length>0
   become: true
   ansible.builtin.apt:
     name:
