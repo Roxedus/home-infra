@@ -4,7 +4,7 @@
     - always
   tasks:
     - name: Get dpkg arch
-      when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+      when: ansible_facts.distribution == 'Ubuntu' or ansible_facts.distribution == 'Debian'
       ansible.builtin.command: dpkg --print-architecture
       register: _apt_arch
       changed_when: false
@@ -15,34 +15,34 @@
     - name: Stop unattended-upgr
       become: true
       when:
-        - ansible_distribution == 'Ubuntu'
+        - ansible_facts.distribution == 'Ubuntu'
         - ansible_facts.services["unattended-upgrades.service"] is defined
       register: unattended_upgr
       ansible.builtin.service:
         name: unattended-upgrades
         state: stopped
 
-    - name: Check if sbctl is installed
-      when: ansible_distribution == 'Ubuntu'
-      ansible.builtin.stat:
-        path: /usr/sbin/sbctl
-      register: sbctl_bin
+    # - name: Check if sbctl is installed
+    #   when: ansible_distribution == 'Ubuntu'
+    #   ansible.builtin.stat:
+    #     path: /usr/sbin/sbctl
+    #   register: sbctl_bin
 
-    - name: Get Secure Boot state
-      when:
-        - ansible_distribution == 'Ubuntu'
-        - sbctl_bin.stat.exists
-      ansible.builtin.command: sbctl status --json | jq .secure_boot
-      register: secure_boot
-      changed_when: false
+    # - name: Get Secure Boot state
+    #   when:
+    #     - ansible_distribution == 'Ubuntu'
+    #     - sbctl_bin.stat.exists
+    #   ansible.builtin.command: sbctl status --json | jq .secure_boot
+    #   register: secure_boot
+    #   changed_when: false
 
-    - name: Set Secure Boot state
-      ansible.builtin.set_fact:
-        host_secure_boot: "{{ secure_boot.stdout | from_json }}"
-      changed_when: false
-      when:
-        - ansible_distribution == 'Ubuntu'
-        - secure_boot.stdout is defined
+    # - name: Set Secure Boot state
+    #   ansible.builtin.set_fact:
+    #     host_secure_boot: "{{ secure_boot.stdout | from_json }}"
+    #   changed_when: false
+    #   when:
+    #     - ansible_distribution == 'Ubuntu'
+    #     - secure_boot.stdout is defined
 
 - name: Set up ident
   hosts: all, !proxmox
@@ -71,7 +71,7 @@
 
     - name: Update apt cache
       become: true
-      when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+      when: ansible_facts.distribution == 'Ubuntu' or ansible_facts.distribution == 'Debian'
       ansible.builtin.apt:
         update_cache: true
       changed_when: false
@@ -79,7 +79,7 @@
   tasks:
     - name: Install packages
       become: true
-      when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+      when: ansible_facts.distribution == 'Ubuntu' or ansible_facts.distribution == 'Debian'
       ansible.builtin.apt:
         name: "{{ package_list }}"
         state: present
@@ -121,10 +121,10 @@
       become: true
     - role: bodsch.snapd
       become: true
-      when: ansible_distribution == 'Ubuntu'
+      when: ansible_facts.distribution == 'Ubuntu'
     - role: geerlingguy.security
       become: true
-      when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+      when: ansible_facts.distribution == 'Ubuntu' or ansible_facts.distribution == 'Debian'
     - role: netplan
       when: netplan_addresses or netplan_custom
 
@@ -140,7 +140,7 @@
   roles:
     - role: geerlingguy.docker
       become: true
-      when: ansible_distribution == 'Ubuntu'
+      when: ansible_facts.distribution == 'Ubuntu'
 
 - name: Board specific setup
   hosts: all
@@ -259,7 +259,7 @@
   tasks:
     - name: Get dependencies for NFS
       become: true
-      when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+      when: ansible_facts.distribution == 'Ubuntu' or ansible_facts.distribution == 'Debian'
       ansible.builtin.apt:
         name: nfs-common
 
@@ -282,7 +282,7 @@
     # https://www.cyberciti.biz/faq/ansible-apt-update-all-packages-on-ubuntu-debian-linux/
     - name: Update packages
       become: true
-      when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+      when: ansible_facts.distribution == 'Ubuntu' or ansible_facts.distribution == 'Debian'
       ansible.builtin.apt:
         update_cache: "true"
         force_apt_get: "true"
@@ -292,7 +292,7 @@
 
     - name: Remove Ubuntu ESM apt spam
       become: true
-      when: ansible_distribution == 'Ubuntu'
+      when: ansible_facts.distribution == 'Ubuntu'
       ansible.builtin.copy:
         owner: root
         group: root
@@ -323,12 +323,12 @@
         - 91-release-upgrade
         - 92-unattended-upgrades
         - 98-reboot-required
-      when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+      when: ansible_facts.distribution == 'Ubuntu' or ansible_facts.distribution == 'Debian'
 
     - name: Place MoTD
       become: true
       when:
-        - ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+        - ansible_facts.distribution == 'Ubuntu' or ansible_facts.distribution == 'Debian'
         - "'neofetch' in package_list"
       ansible.builtin.copy:
         content: |
@@ -341,7 +341,7 @@
 
     - name: Check if a reboot is needed for Debian and Ubuntu boxes
       register: reboot_required_file
-      when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+      when: ansible_facts.distribution == 'Ubuntu' or ansible_facts.distribution == 'Debian'
       ansible.builtin.stat:
         path: /var/run/reboot-required
         get_checksum: no
@@ -356,7 +356,7 @@
     - name: Reboot the server
       become: true
       throttle: 1
-      when: reboot_required_file.stat.exists and (ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian')
+      when: reboot_required_file.stat.exists and (ansible_facts.distribution == 'Ubuntu' or ansible_facts.distribution == 'Debian')
       ansible.builtin.reboot:
         msg: Reboot initiated by Ansible due to kernel updates
         connect_timeout: 5

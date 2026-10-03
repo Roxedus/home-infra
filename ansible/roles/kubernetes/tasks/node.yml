@@ -35,7 +35,7 @@
 
 - name: Install systemd dependencies
   become: true
-  when: ansible_distribution == 'Debian'
+  when: ansible_facts.distribution == 'Debian'
   ansible.builtin.apt:
     name:
       - systemd-resolved

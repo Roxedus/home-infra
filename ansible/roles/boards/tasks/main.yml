@@ -1,6 +1,6 @@
 - name: Include Debian unfree
   when:
-    - ansible_distribution == 'Debian'
+    - ansible_facts.distribution == 'Debian'
     - ansible_facts.board_name is match("ZimaBoard") or boards_intel_drivers
   ansible.builtin.include_tasks: debian-unfree.yml
 
@@ -17,7 +17,7 @@
 
 - name: Install ZimaBoard Firmwares
   when:
-    - ansible_distribution == 'Debian'
+    - ansible_facts.distribution == 'Debian'
     - ansible_facts.board_name is match("ZimaBoard")
   become: true
   ansible.builtin.apt:

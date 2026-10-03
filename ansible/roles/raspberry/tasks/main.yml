@@ -32,7 +32,7 @@
     dest: /boot/firmware/usercfg.txt
 
 - name: Create journald override directory
-  when: ansible_distribution == 'Ubuntu'
+  when: ansible_facts.distribution == 'Ubuntu'
   become: true
   ansible.builtin.file:
     owner: root
@@ -44,7 +44,7 @@
 - name: Create journald override
   become: true
   when:
-    - ansible_distribution == 'Ubuntu'
+    - ansible_facts.distribution == 'Ubuntu'
     - not raspberry_forward_syslog
   ansible.builtin.copy:
     owner: root

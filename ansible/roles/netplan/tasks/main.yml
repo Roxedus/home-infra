@@ -1,12 +1,12 @@
 - name: Add yq repository from PPA
-  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+  when: ansible_facts.distribution == 'Ubuntu' or ansible_facts.distribution == 'Debian'
   become: true
   ansible.builtin.apt_repository:
     repo: ppa:rmescandon/yq
-    codename: "{{ 'jammy' if ansible_distribution == 'Debian' else '' }}"
+    codename: "{{ 'jammy' if ansible_facts.distribution == 'Debian' else '' }}"
 
 - name: Update apt cache
-  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+  when: ansible_facts.distribution == 'Ubuntu' or ansible_facts.distribution == 'Debian'
   become: true
   ansible.builtin.apt:
     update_cache: true
@@ -14,7 +14,7 @@
 
 - name: Install Netplan
   become: true
-  when: ansible_distribution == 'Debian'
+  when: ansible_facts.distribution == 'Debian'
   ansible.builtin.apt:
     name:
       - netplan.io
@@ -22,7 +22,7 @@
 
 - name: Install YQ and tmux
   become: true
-  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+  when: ansible_facts.distribution == 'Ubuntu' or ansible_facts.distribution == 'Debian'
   ansible.builtin.apt:
     name:
       - yq
@@ -43,14 +43,14 @@
 
 - name: Look for Netplan conversion
   become: true
-  when: ansible_distribution == 'Debian'
+  when: ansible_facts.distribution == 'Debian'
   ansible.builtin.stat:
     path: /etc/network/interfaces.netplan-converted
   register: _netplan_dir
 
 - name: Run Netplan migration
   when:
-    - ansible_distribution == 'Debian'
+    - ansible_facts.distribution == 'Debian'
     - not _netplan_dir.stat.exists
   become: true
   ansible.builtin.command:
@@ -63,7 +63,7 @@
 
 - name: Uninstall ifupdown
   when:
-    - ansible_distribution == 'Debian'
+    - ansible_facts.distribution == 'Debian'
     - not _netplan_dir.stat.exists
   become: true
   ansible.builtin.apt:
