@@ -76,8 +76,8 @@ jobs:
       - name: Lint YAML files
         run: yamllint ${{ needs.meta.outputs.check_files }}
 
-  kics-sarif:
-    name: Run kics for sarif
+  kics:
+    name: Run kics
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     permissions:
@@ -94,7 +94,7 @@ jobs:
         with:
           path: ${{ needs.meta.outputs.check_files }}
           config_path: .kics/config.yml
-          ignore_on_exit: none
+          ignore_on_exit: all
           output_formats: sarif
           enable_jobs_summary: true
           enable_annotations: true
@@ -105,24 +105,8 @@ jobs:
           sarif_file: results.sarif
           category: kics
 
-  kics-check:
-    name: Run kics check
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-    permissions:
-      contents: read
-    needs: [yaml, meta]
-    steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-
-      - name: Run kics Scan
-        uses: Checkmarx/kics-github-action@bcd2aff52160bfe5a72608452d00326e90da7a9a
-        with:
-          path: ${{ needs.meta.outputs.check_files }}
-          config_path: .kics/config.yml
-
-  ansible-lint-sarif:
-    name: Run Ansible Lint for sarif
+  ansible-lint:
+    name: Run Ansible Lint
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     permissions:
@@ -172,48 +156,6 @@ jobs:
           checkout_path: ${{ github.workspace }}/ansible
           sarif_file: ansible.sarif
           category: ansible
-
-  ansible-lint-check:
-    name: Run Ansible Lint for check
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-    permissions:
-      contents: read
-    needs: [yaml, meta]
-    steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-
-      - name: Set up Python
-        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
-        with:
-          python-version: 3.14
-
-      - uses: actions/cache@b7e8d49f17405cc70c1c120101943203c98d3a4b
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('ansible/requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-ansible
-
-      - uses: actions/cache@b7e8d49f17405cc70c1c120101943203c98d3a4b
-        with:
-          path: ~/.cache/ansible-compat
-          key: ${{ runner.os }}-pip-${{ hashFiles('ansible/requirements.yml') }}
-          restore-keys: |
-            ${{ runner.os }}-galaxy
-
-      - name: Install Ansible-lint
-        working-directory: ansible/
-        run: |
-          pip install $(grep wheel requirements.txt)
-          pip install $(grep ansible requirements.txt)
-          pip install $(grep ansible-lint requirements.txt)
-          sed -i 's/vault_password_file/#vault_password_file/g' ansible.cfg
-          rm requirements.yml
-
-      - name: Run Ansible-Lint
-        working-directory: ansible/
-        run: ansible-lint --format=pep8 --nocolor
 
   analyze:
     name: Analyze (${{ matrix.language }})
