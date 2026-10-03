@@ -131,6 +131,7 @@
 - name: Install docker
   hosts:
     # - edge
+    - satisfactory
     - hbd
     - server
     - storey
