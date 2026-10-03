@@ -76,8 +76,8 @@ jobs:
       - name: Lint YAML files
         run: yamllint ${{ needs.meta.outputs.check_files }}
 
-  kics:
-    name: Run kics
+  kics-sarif:
+    name: Run kics for sarif
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     permissions:
@@ -94,17 +94,35 @@ jobs:
         with:
           path: ${{ needs.meta.outputs.check_files }}
           config_path: .kics/config.yml
-          ignore_on_exit: results
+          ignore_on_exit: none
           output_formats: sarif
+          enable_jobs_summary: true
+          enable_annotations: true
 
       - name: Upload SARIF file
-        uses: github/codeql-action/upload-sarif@b13d724d35ff0a814e21683638ed68ed34cf53d1
+        uses: github/codeql-action/upload-sarif@2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2 # v4.38.2
         with:
           sarif_file: results.sarif
           category: kics
 
-  ansible-lint:
-    name: Run Ansible Lint
+  kics-check:
+    name: Run kics check
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    permissions:
+      contents: read
+    needs: [yaml, meta]
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Run kics Scan
+        uses: Checkmarx/kics-github-action@bcd2aff52160bfe5a72608452d00326e90da7a9a
+        with:
+          path: ${{ needs.meta.outputs.check_files }}
+          config_path: .kics/config.yml
+
+  ansible-lint-sarif:
+    name: Run Ansible Lint for sarif
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     permissions:
@@ -112,6 +130,55 @@ jobs:
       contents: read
       security-events: write
       statuses: write
+    needs: [yaml, meta]
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: 3.14
+
+      - uses: actions/cache/restore@b7e8d49f17405cc70c1c120101943203c98d3a4b
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('ansible/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-ansible
+
+      - uses: actions/cache/restore@b7e8d49f17405cc70c1c120101943203c98d3a4b
+        with:
+          path: ~/.cache/ansible-compat
+          key: ${{ runner.os }}-pip-${{ hashFiles('ansible/requirements.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-galaxy
+
+      - name: Install Ansible-lint
+        working-directory: ansible/
+        run: |
+          pip install $(grep wheel requirements.txt)
+          pip install $(grep ansible requirements.txt)
+          pip install $(grep ansible-lint requirements.txt)
+          sed -i 's/vault_password_file/#vault_password_file/g' ansible.cfg
+          rm requirements.yml
+
+      - name: Run Ansible-Lint
+        working-directory: ansible/
+        run: ansible-lint --format=pep8 --nocolor --sarif-file ../ansible.sarif || true
+
+      - name: Upload SARIF file
+        uses: github/codeql-action/upload-sarif@2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2 # v4.38.2
+        with:
+          checkout_path: ${{ github.workspace }}/ansible
+          sarif_file: ansible.sarif
+          category: ansible
+
+  ansible-lint-check:
+    name: Run Ansible Lint for check
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    permissions:
+      contents: read
     needs: [yaml, meta]
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -146,15 +213,7 @@ jobs:
 
       - name: Run Ansible-Lint
         working-directory: ansible/
-        run: ansible-lint -p --nocolor --sarif-file ../ansible.sarif
-
-      - name: Upload SARIF file
-        if: "!cancelled()"
-        uses: github/codeql-action/upload-sarif@b13d724d35ff0a814e21683638ed68ed34cf53d1
-        with:
-          checkout_path: ${{ github.workspace }}/ansible
-          sarif_file: ansible.sarif
-          category: ansible
+        run: ansible-lint --format=pep8 --nocolor
 
   analyze:
     name: Analyze (${{ matrix.language }})

@@ -17,7 +17,7 @@ yq -i '.mock_roles = [load("requirements.yml").roles[].name]' .ansible-lint
 
 sed -i 's/vault_password_file/#vault_password_file/g' ansible.cfg
 
-ANSIBLE_LINT_NODEPS=1 ansible-lint --nocolor -p
+ANSIBLE_LINT_NODEPS=1 ansible-lint --nocolor --format=pep8
 
 real_exit=$?
 
