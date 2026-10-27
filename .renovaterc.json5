@@ -10,7 +10,9 @@
     "github>Roxedus/home-infra//.renovate/rules.json5"
   ],
   "ignorePaths": [
-    "kubernetes"
+    "kubernetes",
+    "ansible/roles/edge",
+    "ansible/roles/zfs"
   ],
   "suppressNotifications": [
     "prIgnoreNotification"
