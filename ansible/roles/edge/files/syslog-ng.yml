@@ -1,6 +1,6 @@
 services:
   syslog-ng:
-    image: lscr.io/linuxserver/syslog-ng:latest@sha256:f16f911f87211d6f0629a190f4ca9f01792b73aaad5d743136baadffc66bf8c7
+    image: lscr.io/linuxserver/syslog-ng:latest@sha256:3ac726bdd58cf979ab9e97ea37f6c56d7acf1d23586f5f3b29c8834b4f9bf547
     container_name: syslog-ng
     volumes:
       - "{{ edge_docker_appdata_path }}/{{ compose_generator_service }}/config:/config"
