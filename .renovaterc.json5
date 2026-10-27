@@ -9,6 +9,9 @@
     "github>Roxedus/home-infra//.renovate/managers.json5",
     "github>Roxedus/home-infra//.renovate/rules.json5"
   ],
+  "ignorePaths": [
+    "kubernetes"
+  ],
   "suppressNotifications": [
     "prIgnoreNotification"
   ],
